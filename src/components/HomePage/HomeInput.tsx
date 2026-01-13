@@ -1,11 +1,13 @@
-import { type ComponentPropsWithoutRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { clsx } from 'clsx';
 
-type HomeInputProps = ComponentPropsWithoutRef<'input'>;
+type HomeInputProps = React.ComponentPropsWithoutRef<'input'>;
 
-const HomeInput = forwardRef<HTMLInputElement, HomeInputProps>(({ className, ...props }, ref) => {
-  return <input ref={ref} className={clsx('w-full', className)} {...props} />;
-});
+const HomeInput = forwardRef<HTMLInputElement, HomeInputProps>(
+  ({ className, ...props }, ref) => {
+    return <input ref={ref} className={clsx('w-full', className)} {...props} />;
+  }
+);
 
 HomeInput.displayName = 'HomeInput';
 
