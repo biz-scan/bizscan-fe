@@ -21,6 +21,14 @@
 
 ## 시작하기
 
+> **Note**: 이 프로젝트는 **pnpm**을 패키지 매니저로 사용합니다.
+
+### 0. pnpm 설치 (없는 경우)
+
+```bash
+npm install -g pnpm
+```
+
 ### 1. 패키지 설치
 
 ```bash
@@ -88,6 +96,9 @@ src/
 │
 ├── routes/                  # 라우팅 설정
 │   └── index.tsx           # React Router 설정
+│
+├── store/                   # Zustand 상태 관리
+│   └── useAuthStore.ts     # 인증 상태 (user, token, isAuthenticated)
 │
 ├── types/                   # TypeScript 타입 정의
 │   ├── auth.type.ts        # 인증 관련 타입
@@ -202,6 +213,11 @@ login({ email: 'test@test.com', password: '1234' });
 
 - `staleTime: 5분` - 데이터가 5분간 fresh 상태 유지
 - 에러 발생 시 Sonner 토스트로 자동 알림
+- **React Query Devtools**: 개발 환경에서 우측 하단 버튼으로 캐시 상태 확인 가능
+
+### Zustand 상태 관리
+
+`store/useAuthStore.ts`에 인증 상태 관리 예시가 구현되어 있습니다.
 
 ---
 
@@ -250,10 +266,36 @@ PR 생성 시 자동으로 체크리스트가 제공됩니다:
 
 ## 개발 컨벤션
 
+### Commit 컨벤션
+
+```
+[타입] : 커밋 메시지
+```
+
+| 타입 | 설명 |
+|------|------|
+| `[Feat]` | 새로운 기능 추가 |
+| `[Fix]` | 버그 수정 |
+| `[Refactor]` | 코드 리팩토링 (기능 변경 없음) |
+| `[Style]` | 코드 포맷팅, 세미콜론 누락 등 |
+| `[Design]` | UI/UX 디자인 변경 |
+| `[Chore]` | 빌드, 설정 파일 수정 |
+| `[Docs]` | 문서 수정 |
+| `[Test]` | 테스트 코드 추가/수정 |
+
+**예시:**
+```
+[Feat] : 로그인 페이지 구현
+[Fix] : 토큰 만료 시 리다이렉트 오류 수정
+[Refactor] : API 호출 로직 분리
+[Chore] : ESLint 설정 추가
+```
+
 ### 파일/폴더 네이밍
 
 - **컴포넌트**: PascalCase (`Button.tsx`, `HomePage.tsx`)
-- **훅**: camelCase + use 접두사 (`useLogin.ts`, `useAuthQueries.ts`)
+- **훅**: use + camelCase  (`useLogin.ts`, `useAuthQueries.ts`)
+- **zustand 스토어**: use + camelCase + Store (`useAuthStore.ts`)
 - **타입**: camelCase + .type 접미사 (`auth.type.ts`)
 - **유틸**: camelCase (`formatDate.ts`)
 
