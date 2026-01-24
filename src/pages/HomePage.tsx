@@ -5,6 +5,19 @@ import CloseIcon from '@/assets/icons/Close/state=Default.svg?react';
 import CheckIcon from '@/assets/icons/Icon/type=check.svg?react';
 import LogoIcon from '@/assets/icons/Logo/Logo.svg?react';
 import TuffyIcon from '@/assets/icons/tuffy.svg?react';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ChipFilter } from '@/components/ui/chip-filter';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import useAuthStore from '@/store/useAuthStore';
 
 export default function HomePage() {
@@ -67,6 +80,65 @@ export default function HomePage() {
             <div className="flex flex-col items-center gap-1">
               <CheckIcon width={24} height={24} />
               <span className="text-xs text-grey-normal">Check</span>
+            </div>
+          </div>
+        </div>
+
+        {/* shadcn/ui 테스트 */}
+        <div className="pt-4 border-t border-grey-light">
+          <h3 className="text-grey-normal text-p2-semibold mb-4">shadcn/ui Test</h3>
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <Button>Default Button</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="destructive">Destructive</Button>
+              <Button variant="outline">Outline</Button>
+            </div>
+
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input type="email" id="email" placeholder="Email" />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <Label htmlFor="terms">Accept terms and conditions</Label>
+            </div>
+
+            <RadioGroup defaultValue="option-one">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-one" id="option-one" />
+                <Label htmlFor="option-one">Option One</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-two" id="option-two" />
+                <Label htmlFor="option-two">Option Two</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
+
+        {/* Chip Filter & Dropdown 테스트 */}
+        <div className="pt-4 border-t border-grey-light">
+          <h3 className="text-grey-normal text-p2-semibold mb-4">Chip & Dropdown Test</h3>
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <ChipFilter active>Active Chip</ChipFilter>
+              <ChipFilter>Default Chip</ChipFilter>
+              <ChipFilter>Filter 1</ChipFilter>
+            </div>
+
+            <div className="w-full max-w-sm">
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select an option" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Option 1</SelectItem>
+                  <SelectItem value="2">Option 2</SelectItem>
+                  <SelectItem value="3">Option 3</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
