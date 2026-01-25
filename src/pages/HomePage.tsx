@@ -38,10 +38,10 @@ export default function HomePage() {
             <Input type="email" id="email" placeholder="Email" />
             <Input type="password" id="email" placeholder="비밀번호" />
           </div>
-
+          {/* 체크박스 */}
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <Label htmlFor="terms">Accept terms and conditions</Label>
+            <Checkbox variant="default" size="sm" />
+            <Checkbox variant="default" size="default" />
           </div>
 
           <RadioGroup defaultValue="option-one">
