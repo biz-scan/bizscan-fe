@@ -1,4 +1,8 @@
 @theme {
+  /* Base Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
   /* Blue Palette */
   --color-blue-light: #e6edfc;
   --color-blue-light-hover: #d9e5fb;

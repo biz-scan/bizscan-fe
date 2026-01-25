@@ -8,38 +8,16 @@
   font-weight: 400;
 
   color-scheme: light;
-  color: var(--color-grey-darker);
-  background-color: white;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --radius: var(--radius-md);
-  --background: white;
-  --foreground: var(--color-grey-darker);
-  --card: white;
-  --card-foreground: var(--color-grey-darker);
-  --popover: white;
-  --popover-foreground: var(--color-grey-darker);
-  --primary: var(--color-blue-normal);
-  --primary-foreground: white;
-  --secondary: var(--color-blue-light);
-  --secondary-foreground: var(--color-blue-dark);
-  --muted: var(--color-grey-light);
-  --muted-foreground: var(--color-grey-normal);
-  --accent: var(--color-blue-light);
-  --accent-foreground: var(--color-blue-dark);
-  --destructive: var(--color-error);
-  --destructive-foreground: white;
-  --border: var(--color-grey-light-active);
-  --input: var(--color-grey-light-active);
-  --ring: var(--color-blue-normal);
-  --chart-1: var(--color-blue-normal);
-  --chart-2: var(--color-blue-dark);
-  --chart-3: var(--color-grey-normal);
-  --chart-4: var(--color-blue-light-active);
-  --chart-5: var(--color-grey-dark);
+}
+
+body {
+  color: var(--color-grey-darker);
+  background-color: white;
 }
 
 @layer base {
@@ -75,87 +53,45 @@
 }
 
 @layer utilities {
-  .text-lead-semibold {
+  .typo-lead-semibold {
     font-size: var(--font-size-lead);
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
 
-  .text-p1-bold {
+  .typo-p1-bold {
     font-size: var(--font-size-p1);
     font-weight: 700;
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
 
-  .text-p1-semibold {
+  .typo-p1-semibold {
     font-size: var(--font-size-p1);
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
 
-  .text-p1-regular {
+  .typo-p1-regular {
     font-size: var(--font-size-p1);
     font-weight: 400;
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
 
-  .text-p2-semibold {
+  .typo-p2-semibold {
     font-size: var(--font-size-p2);
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
 
-  .text-p2-medium {
+  .typo-p2-medium {
     font-size: var(--font-size-p2);
     font-weight: 500;
     line-height: 1.4;
     letter-spacing: -0.025em;
-  }
-}
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
