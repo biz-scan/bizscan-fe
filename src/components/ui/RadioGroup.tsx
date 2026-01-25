@@ -24,15 +24,22 @@ function RadioGroupItem({
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        'border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
+        // 기본 스타일 (26px)
+        'size-6.5 shrink-0 rounded-full border border-blue-normal bg-transparent',
+        // 선택됐을 때
+        'data-[state=checked]:border-blue-normal',
+        // disabled
+        'disabled:cursor-not-allowed disabled:opacity-50',
         className
       )}
       {...props}
     >
       <RadioGroupPrimitive.Indicator
         data-slot="radio-group-indicator"
-        className="relative flex items-center justify-center after:bg-primary after:absolute after:top-1/2 after:left-1/2 after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:content-['']"
-      />
+        className="flex items-center justify-center"
+      >
+        <span className="size-4 rounded-full bg-blue-normal" />
+      </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );
 }
