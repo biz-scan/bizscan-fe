@@ -1,17 +1,97 @@
 @import 'tailwindcss';
 @import './styles/theme.css';
+@import 'tw-animate-css';
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-sans);
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: var(--color-grey-darker);
+  background-color: white;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 800;
+  }
+  h2 {
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+  }
+  h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+  }
+  h4 {
+    font-size: var(--font-size-h4);
+    font-weight: 700;
+  }
+  h5 {
+    font-size: var(--font-size-h5);
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .typo-lead-semibold {
+    font-size: var(--font-size-lead);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .typo-p1-bold {
+    font-size: var(--font-size-p1);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .typo-p1-semibold {
+    font-size: var(--font-size-p1);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .typo-p1-regular {
+    font-size: var(--font-size-p1);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .typo-p2-semibold {
+    font-size: var(--font-size-p2);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .typo-p2-medium {
+    font-size: var(--font-size-p2);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
 }

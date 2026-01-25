@@ -1,28 +1,55 @@
 @theme {
-  /* Colors */
-  --color-primary: #3b82f6;
-  --color-secondary: #64748b;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
+  /* Base Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
 
-  /* Font sizes */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
+  /* Blue Palette */
+  --color-blue-light: #e6edfc;
+  --color-blue-light-hover: #d9e5fb;
+  --color-blue-light-active: #b1c8f6;
+  --color-blue-normal: #024fe2;
+  --color-blue-normal-hover: #0247cb;
+  --color-blue-normal-active: #023fb5;
+  --color-blue-dark: #023baa;
+  --color-blue-dark-hover: #012f88;
+  --color-blue-dark-active: #012466;
+  --color-blue-darker: #011c4f;
 
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* Grey Palette */
+  --color-grey-light: #f4f4f4;
+  --color-grey-light-hover: #eeeeee;
+  --color-grey-light-active: #dbdbdb;
+  --color-grey-normal: #8c8c8c;
+  --color-grey-normal-hover: #7e7e7e;
+  --color-grey-normal-active: #707070;
+  --color-grey-dark: #696969;
+  --color-grey-dark-hover: #545454;
+  --color-grey-dark-active: #3f3f3f;
+  --color-grey-darker: #313131;
 
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
+  /* Error Color */
+  --color-error: #ff3434;
+
+  /* Gradients */
+  --background-image-gra2: linear-gradient(to bottom, #024fe2 0%, #5a8de1 100%);
+  --background-image-gra1: linear-gradient(to bottom, #d9e5f3 0%, #99baf2 100%);
+
+  /* Typography */
+  --font-family-sans:
+    'Pretendard', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --font-size-h1: 3rem; /* 48px */
+  --font-size-h2: 2.5rem; /* 40px */
+  --font-size-h3: 2rem; /* 32px */
+  --font-size-h4: 1.75rem; /* 28px */
+  --font-size-h5: 1.5rem; /* 24px */
+  --font-size-lead: 1.5rem; /* 24px */
+  --font-size-p1: 1.25rem; /* 20px */
+  --font-size-p2: 1rem; /* 16px */
+
+  /* Shadows */
+  --shadow-normal: 0 4px 20px 0 rgba(49, 49, 49, 0.08);
+  --shadow-header: 0 4px 20px 0 rgba(49, 49, 49, 0.04);
 }
