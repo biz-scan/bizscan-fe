@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import Button from '@/components/Button';
+import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hooks/mutations/useAuthMutations';
 import type { LoginRequest } from '@/types/auth.type';
 
