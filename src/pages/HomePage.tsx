@@ -43,7 +43,7 @@ export default function HomePage() {
             <Checkbox variant="default" size="sm" />
             <Checkbox variant="default" size="default" />
           </div>
-
+          {/* 라디오 그룹 */}
           <RadioGroup defaultValue="option-one">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="option-one" id="option-one" />
@@ -55,17 +55,15 @@ export default function HomePage() {
             </div>
           </RadioGroup>
         </div>
+        <div className="flex gap-2">
+          <ChipFilter active>Active Chip</ChipFilter>
+          <ChipFilter>Default Chip</ChipFilter>
+          <ChipFilter>Filter 1</ChipFilter>
+        </div>
 
-        {/* Chip Filter & Dropdown 테스트 */}
         <div className="pt-4 border-t border-grey-light">
           <h3 className="text-grey-normal text-p2-semibold mb-4">Chip & Dropdown Test</h3>
           <div className="space-y-4">
-            <div className="flex gap-2">
-              <ChipFilter active>Active Chip</ChipFilter>
-              <ChipFilter>Default Chip</ChipFilter>
-              <ChipFilter>Filter 1</ChipFilter>
-            </div>
-
             <div className="w-full max-w-sm">
               <Select>
                 <SelectTrigger>

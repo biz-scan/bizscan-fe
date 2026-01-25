@@ -4,12 +4,13 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const chipFilterVariants = cva(
-  'inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer select-none border',
+  'inline-flex items-center justify-center rounded-full px-4 py-1.5 typo-p2-semibold font-medium transition-colors cursor-pointer select-none border',
   {
     variants: {
       active: {
-        true: 'bg-blue-normal text-white border-blue-normal',
-        false: 'bg-white text-grey-normal border-grey-light hover:bg-grey-light',
+        true: 'bg-blue-normal text-grey-light ',
+        false:
+          'bg-transparent text-blue-normal border-blue-light-active hover:text-blue-light-active',
       },
     },
     defaultVariants: {
