@@ -72,42 +72,15 @@ export default function HomePage() {
             <SelectItem value="3">Option 3</SelectItem>
           </SelectContent>
         </Select>
-        <div className="pt-4 border-t border-grey-light">
-          <h3 className="text-grey-normal text-p2-semibold mb-4">Chip & Dropdown Test</h3>
-          <div className="space-y-4">
-            <div className="w-full max-w-sm" />
-          </div>
-        </div>
 
-        {/* Single Selection (Segmented Control) 테스트 */}
-        <div className="pt-4 border-t border-grey-light">
-          <h3 className="text-grey-normal text-p2-semibold mb-4">Single Selection Test</h3>
-          <div className="space-y-4">
-            <ToggleGroup type="single" variant="outline" defaultValue="one">
-              <ToggleGroupItem value="one">Option 1</ToggleGroupItem>
-              <ToggleGroupItem value="two">Option 2</ToggleGroupItem>
-              <ToggleGroupItem value="three">Option 3</ToggleGroupItem>
-              <ToggleGroupItem value="four">Option 4</ToggleGroupItem>
-            </ToggleGroup>
+        {/* 토글 그룹 */}
 
-            <ToggleGroup
-              type="single"
-              variant="default"
-              defaultValue="one"
-              className="bg-grey-light p-1 rounded-lg"
-            >
-              <ToggleGroupItem value="one" className="rounded-md data-[state=on]:shadow-sm">
-                Choice A
-              </ToggleGroupItem>
-              <ToggleGroupItem value="two" className="rounded-md data-[state=on]:shadow-sm">
-                Choice B
-              </ToggleGroupItem>
-              <ToggleGroupItem value="three" className="rounded-md data-[state=on]:shadow-sm">
-                Choice C
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-        </div>
+        <ToggleGroup type="single" defaultValue="one">
+          <ToggleGroupItem value="one">Option 1</ToggleGroupItem>
+          <ToggleGroupItem value="two">Option 2</ToggleGroupItem>
+          <ToggleGroupItem value="three">Option 3</ToggleGroupItem>
+          <ToggleGroupItem value="four">Option 4</ToggleGroupItem>
+        </ToggleGroup>
       </div>
     </div>
   );

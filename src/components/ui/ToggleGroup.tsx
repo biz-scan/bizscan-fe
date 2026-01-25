@@ -1,49 +1,20 @@
-'use client';
-
 import * as React from 'react';
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group';
-import { type VariantProps } from 'class-variance-authority';
 
-import { toggleVariants } from '@/components/ui/Toggle';
 import { cn } from '@/lib/utils';
-
-const ToggleGroupContext = React.createContext<
-  VariantProps<typeof toggleVariants> & {
-    spacing?: number;
-  }
->({
-  size: 'default',
-  variant: 'default',
-  spacing: 0,
-});
 
 function ToggleGroup({
   className,
-  variant,
-  size,
-  spacing = 0,
   children,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants> & {
-    spacing?: number;
-  }) {
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Root>) {
   return (
     <ToggleGroupPrimitive.Root
       data-slot="toggle-group"
-      data-variant={variant}
-      data-size={size}
-      data-spacing={spacing}
-      style={{ '--gap': spacing } as React.CSSProperties}
-      className={cn(
-        'group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs',
-        className
-      )}
+      className={cn('flex items-center gap-3', className)} // 12px gap
       {...props}
     >
-      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>
-        {children}
-      </ToggleGroupContext.Provider>
+      {children}
     </ToggleGroupPrimitive.Root>
   );
 }
@@ -51,25 +22,21 @@ function ToggleGroup({
 function ToggleGroupItem({
   className,
   children,
-  variant,
-  size,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>) {
-  const context = React.useContext(ToggleGroupContext);
-
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Item>) {
   return (
     <ToggleGroupPrimitive.Item
-      data-slot="toggle-group-item"
-      data-variant={context.variant || variant}
-      data-size={context.size || size}
-      data-spacing={context.spacing}
+      data-slot="toggle-item"
       className={cn(
-        toggleVariants({
-          variant: context.variant || variant,
-          size: context.size || size,
-        }),
-        'w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10',
-        'data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l',
+        // 기본 스타일
+        'inline-flex items-center justify-center gap-2 rounded-md px-4 py-2',
+        'bg-blue-light text-blue-normal typo-p2-semibold',
+        // hover
+        'hover:bg-blue-light-hover',
+        // 켜졌을 때
+        'data-[state=on]:bg-blue-normal data-[state=on]:text-grey-light',
+        // disabled
+        'disabled:pointer-events-none disabled:opacity-50',
         className
       )}
       {...props}
