@@ -54,28 +54,28 @@ export default function HomePage() {
               <Label htmlFor="option-two">Option Two</Label>
             </div>
           </RadioGroup>
+          {/* 칩 필터 */}
+          <div className="flex gap-2">
+            <ChipFilter active>Active Chip</ChipFilter>
+            <ChipFilter>Default Chip</ChipFilter>
+            <ChipFilter>Filter 1</ChipFilter>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <ChipFilter active>Active Chip</ChipFilter>
-          <ChipFilter>Default Chip</ChipFilter>
-          <ChipFilter>Filter 1</ChipFilter>
-        </div>
-
+        {/* 드롭다운 */}
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">Option 1</SelectItem>
+            <SelectItem value="2">Option 2</SelectItem>
+            <SelectItem value="3">Option 3</SelectItem>
+          </SelectContent>
+        </Select>
         <div className="pt-4 border-t border-grey-light">
           <h3 className="text-grey-normal text-p2-semibold mb-4">Chip & Dropdown Test</h3>
           <div className="space-y-4">
-            <div className="w-full max-w-sm">
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Option 1</SelectItem>
-                  <SelectItem value="2">Option 2</SelectItem>
-                  <SelectItem value="3">Option 3</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <div className="w-full max-w-sm" />
           </div>
         </div>
 
