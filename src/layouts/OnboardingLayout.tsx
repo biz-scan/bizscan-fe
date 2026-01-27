@@ -1,15 +1,16 @@
 import { Outlet } from 'react-router-dom';
 
-import { Header } from '@/components/layout';
+import { Footer, Header } from '@/components/layout';
 
 export default function OnboardingLayout() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="mx-auto max-w-2xl px-6 py-8">
+      <main className="flex flex-1 overflow-auto">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
