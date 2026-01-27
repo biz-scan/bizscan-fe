@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Logo from '@/assets/icons/Logo/Logo.svg?react';
 import { Button } from '@/components/ui/Button';
@@ -8,6 +8,7 @@ import HeaderConfirmDialog from './HeaderConfirmDialog';
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
 
   if (location.pathname === '/login' || location.pathname === '/register') {
@@ -36,8 +37,12 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex gap-3">
-          <Button variant="white">회원가입</Button>
-          <Button variant="default">로그인</Button>
+          <Button variant="white" onClick={() => navigate('/auth?mode=register')}>
+            회원가입
+          </Button>
+          <Button variant="default" onClick={() => navigate('/auth?mode=login')}>
+            로그인
+          </Button>
         </div>
       )}
     </header>
