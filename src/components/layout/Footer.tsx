@@ -1,13 +1,12 @@
-import BizScanLogo from '@/assets/icons/Logo/Logo.svg';
+import BizScanLogo from '@/assets/icons/Logo/Logo.svg?react';
 
 export default function Footer() {
   return (
     <footer className="w-full bg-grey-light-hover">
       <div className="mx-auto w-full max-w-[1348px] py-10 text-p2 text-grey-dark">
-
         <div className="grid grid-cols-2 gap-y-6">
           <div className="flex flex-col gap-4 typo-p2-medium">
-            <img src={BizScanLogo} alt="BizScan" className="h-10 w-auto -ml-63" />
+            <BizScanLogo className="h-10 w-fit" />
             <p>데이터에서 실행으로, 내 가게 성공 레시피</p>
           </div>
 
