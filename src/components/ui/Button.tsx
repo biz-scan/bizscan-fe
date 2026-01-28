@@ -19,7 +19,7 @@ const buttonVariants = cva(
           'border border-grey-normal text-grey-normal active:text-blue-light-active active:border-blue-light-active',
         // 텍스트버튼
         blueLight:
-          'bg-blue-light-active text-grey-ligth hover:bg-blue-light-hover active:bg-blue-light',
+          'bg-blue-light-active text-grey-light hover:bg-blue-light-hover active:bg-blue-light',
       },
       size: {
         default: 'h-12 px-4.5 py-4.5',

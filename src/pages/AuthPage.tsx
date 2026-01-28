@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 type AuthTab = 'login' | 'signup';
 
 export default function AuthPage() {
   const [tab, setTab] = useState<AuthTab>('login');
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const mode = searchParams.get('mode'); // 'register' | 'login'
+  console.log(mode);
+  //setSearchParams({ mode: mode === 'login' ? 'register' : 'login' });
   return (
     <div className="max-w-md mx-auto">
       <div className="flex border-b mb-6">
