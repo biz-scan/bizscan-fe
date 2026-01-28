@@ -1,64 +1,39 @@
 import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
 
-interface IconProps {
-  isActive: boolean;
-}
-
-const DashboardIcon = ({ isActive }: IconProps) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-    <path
-      d="M3 21V10.4007C3 10.0679 3.07371 9.7529 3.22114 9.45564C3.36857 9.15838 3.57171 8.91355 3.83057 8.72116L10.7541 3.41989C11.1167 3.13996 11.5307 3 11.9961 3C12.4616 3 12.8781 3.13996 13.2459 3.41989L20.1694 8.71986C20.4291 8.91225 20.6323 9.15751 20.7789 9.45564C20.9263 9.7529 21 10.0679 21 10.4007V21C21 21.3484 20.8719 21.6522 20.6156 21.9113C20.3593 22.1704 20.0589 22.3 19.7143 22.3H15.3634C15.0686 22.3 14.8217 22.1995 14.6229 21.9984C14.424 21.7965 14.3246 21.5469 14.3246 21.2496V15.0501C14.3246 14.7528 14.2251 14.5037 14.0263 14.3026C13.8266 14.1007 13.5797 13.9997 13.2857 13.9997H10.7143C10.4203 13.9997 10.1739 14.1007 9.975 14.3026C9.77529 14.5037 9.67543 14.7528 9.67543 15.0501V21.2509C9.67543 21.5482 9.576 21.7973 9.37714 21.9984C9.17829 22.1995 8.93186 22.3 8.63786 22.3H4.28571C3.94114 22.3 3.64071 22.1704 3.38443 21.9113C3.12814 21.6522 3 21.3484 3 21Z"
-      fill={isActive ? '#E6EDFC' : '#0247CB'}
-    />
-  </svg>
-);
-
-const AnalysisIcon = ({ isActive }: IconProps) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-    <path
-      d="M23 21C23 21.5523 22.5523 22 22 22H2C1.44772 22 1 21.5523 1 21V3C1 2.44772 1.44772 2 2 2H2.2C2.75228 2 3.2 2.44772 3.2 3V19.5778C3.2 19.6882 3.28954 19.7778 3.4 19.7778H5.2C5.31046 19.7778 5.4 19.6882 5.4 19.5778V10.7778C5.4 10.2255 5.84772 9.77778 6.4 9.77778H8.8C9.35228 9.77778 9.8 10.2255 9.8 10.7778V19.5778C9.8 19.6882 9.88954 19.7778 10 19.7778H11.8C11.9105 19.7778 12 19.6882 12 19.5778V6.33333C12 5.78105 12.4477 5.33333 13 5.33333H15.4C15.9523 5.33333 16.4 5.78105 16.4 6.33333V19.5778C16.4 19.6882 16.4895 19.7778 16.6 19.7778H18.4C18.5105 19.7778 18.6 19.6882 18.6 19.5778V15.2222C18.6 14.6699 19.0477 14.2222 19.6 14.2222H22C22.5523 14.2222 23 14.6699 23 15.2222V21Z"
-      fill={isActive ? '#E6EDFC' : '#0247CB'}
-    />
-  </svg>
-);
-
-const NoteIcon = ({ isActive }: IconProps) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-    <path
-      d="M6 22C5.45 22 4.97933 21.8043 4.588 21.413C4.19667 21.0217 4.00067 20.5507 4 20V4C4 3.45 4.196 2.97933 4.588 2.588C4.98 2.19667 5.45067 2.00067 6 2H13.175C13.4417 2 13.696 2.05 13.938 2.15C14.18 2.25 14.3923 2.39167 14.575 2.575L19.425 7.425C19.6083 7.60833 19.75 7.821 19.85 8.063C19.95 8.305 20 8.559 20 8.825V20C20 20.55 19.8043 21.021 19.413 21.413C19.0217 21.805 18.5507 22.0007 18 22H6ZM13 8V4H6V20H18V9H14C13.7167 9 13.4793 8.904 13.288 8.712C13.0967 8.52 13.0007 8.28267 13 8Z"
-      fill={isActive ? '#E6EDFC' : '#0247CB'}
-    />
-  </svg>
-);
-
-const SettingIcon = ({ isActive }: IconProps) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M13.984 2.542C14.071 2.711 14.093 2.928 14.136 3.362C14.218 4.182 14.259 4.592 14.431 4.818C14.5382 4.95832 14.6806 5.06777 14.8437 5.13522C15.0069 5.20266 15.185 5.2257 15.36 5.202C15.64 5.165 15.96 4.904 16.598 4.382C16.935 4.105 17.104 3.967 17.285 3.909C17.5155 3.83534 17.7649 3.84777 17.987 3.944C18.162 4.02 18.317 4.174 18.624 4.482L19.518 5.376C19.826 5.684 19.98 5.838 20.056 6.013C20.1522 6.23506 20.1647 6.48447 20.091 6.715C20.033 6.896 19.895 7.065 19.619 7.402C19.096 8.041 18.835 8.36 18.797 8.641C18.7736 8.8159 18.7969 8.99387 18.8645 9.15686C18.9321 9.31985 19.0417 9.46204 19.182 9.569C19.407 9.741 19.818 9.782 20.639 9.864C21.072 9.907 21.289 9.929 21.459 10.016C21.6735 10.1272 21.8404 10.3123 21.929 10.537C22 10.714 22 10.932 22 11.368V12.632C22 13.068 22 13.286 21.93 13.462C21.8411 13.6874 21.6734 13.8729 21.458 13.984C21.289 14.071 21.072 14.093 20.638 14.136C19.818 14.218 19.408 14.259 19.182 14.431C19.0417 14.5382 18.9322 14.6806 18.8648 14.8437C18.7973 15.0069 18.7743 15.185 18.798 15.36C18.836 15.64 19.097 15.96 19.619 16.598C19.895 16.935 20.033 17.103 20.091 17.285C20.1647 17.5155 20.1522 17.7649 20.056 17.987C19.98 18.162 19.826 18.316 19.518 18.624L18.624 19.517C18.316 19.826 18.162 19.98 17.987 20.055C17.7649 20.1512 17.5155 20.1637 17.285 20.09C17.104 20.032 16.935 19.894 16.598 19.618C15.959 19.096 15.64 18.835 15.36 18.798C15.185 18.7743 15.0069 18.7973 14.8437 18.8648C14.6806 18.9322 14.5382 19.0417 14.431 19.182C14.259 19.407 14.218 19.817 14.136 20.638C14.093 21.072 14.071 21.289 13.984 21.458C13.8732 21.6732 13.6881 21.8409 13.463 21.93C13.286 22 13.068 22 12.632 22H11.368C10.932 22 10.714 22 10.538 21.93C10.3126 21.8411 10.1271 21.6734 10.016 21.458C9.929 21.289 9.907 21.072 9.864 20.638C9.782 19.818 9.741 19.408 9.569 19.182C9.46192 19.0418 9.31968 18.9325 9.1567 18.8651C8.99372 18.7976 8.81581 18.7745 8.641 18.798C8.36 18.835 8.041 19.096 7.402 19.618C7.065 19.895 6.896 20.033 6.715 20.091C6.48447 20.1647 6.23506 20.1522 6.013 20.056C5.838 19.98 5.683 19.826 5.376 19.518L4.482 18.624C4.174 18.316 4.02 18.162 3.944 17.987C3.84777 17.7649 3.83534 17.5155 3.909 17.285C3.967 17.104 4.105 16.935 4.381 16.598C4.904 15.959 5.165 15.64 5.202 15.359C5.22552 15.1842 5.20239 15.0063 5.13495 14.8433C5.06751 14.6803 4.95816 14.5381 4.818 14.431C4.593 14.259 4.182 14.218 3.361 14.136C2.928 14.093 2.711 14.071 2.541 13.984C2.32655 13.8728 2.1596 13.6877 2.071 13.463C2 13.286 2 13.068 2 12.632V11.368C2 10.932 2 10.714 2.07 10.538C2.15889 10.3126 2.32661 10.1271 2.542 10.016C2.711 9.929 2.928 9.907 3.362 9.864C4.182 9.782 4.593 9.741 4.818 9.569C4.95834 9.46204 5.06788 9.31985 5.1355 9.15686C5.20312 8.99387 5.22641 8.8159 5.203 8.641C5.165 8.36 4.903 8.041 4.381 7.401C4.105 7.064 3.967 6.896 3.909 6.714C3.83534 6.48347 3.84777 6.23406 3.944 6.012C4.02 5.838 4.174 5.683 4.482 5.375L5.376 4.482C5.684 4.174 5.838 4.019 6.013 3.944C6.23506 3.84777 6.48447 3.83534 6.715 3.909C6.896 3.967 7.065 4.105 7.402 4.381C8.041 4.903 8.36 5.164 8.64 5.202C8.81521 5.22578 8.9936 5.20267 9.15697 5.13504C9.32034 5.06741 9.46286 4.95766 9.57 4.817C9.74 4.592 9.782 4.182 9.864 3.361C9.907 2.928 9.929 2.711 10.016 2.541C10.127 2.32617 10.3121 2.15884 10.537 2.07C10.714 2 10.932 2 11.368 2H12.632C13.068 2 13.286 2 13.462 2.07C13.6874 2.15889 13.8729 2.32661 13.984 2.542ZM12 16C13.0609 16 14.0783 15.5786 14.8284 14.8284C15.5786 14.0783 16 13.0609 16 12C16 10.9391 15.5786 9.92172 14.8284 9.17157C14.0783 8.42143 13.0609 8 12 8C10.9391 8 9.92172 8.42143 9.17157 9.17157C8.42143 9.92172 8 10.9391 8 12C8 13.0609 8.42143 14.0783 9.17157 14.8284C9.92172 15.5786 10.9391 16 12 16Z"
-      fill={isActive ? '#E6EDFC' : '#0247CB'}
-    />
-  </svg>
-);
-
-const ProfileIcon = ({ isActive }: IconProps) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-    <path
-      d="M12 12C10.625 12 9.44792 11.5104 8.46875 10.5312C7.48958 9.55208 7 8.375 7 7C7 5.625 7.48958 4.44792 8.46875 3.46875C9.44792 2.48958 10.625 2 12 2C13.375 2 14.5521 2.48958 15.5312 3.46875C16.5104 4.44792 17 5.625 17 7C17 8.375 16.5104 9.55208 15.5312 10.5312C14.5521 11.5104 13.375 12 12 12ZM3 22C2.44772 22 2 21.5523 2 21V18.5C2 17.7917 2.1825 17.1408 2.5475 16.5475C2.9125 15.9542 3.39667 15.5008 4 15.1875C5.29167 14.5417 6.60417 14.0575 7.9375 13.735C9.27083 13.4125 10.625 13.2508 12 13.25C13.375 13.2492 14.7292 13.4108 16.0625 13.735C17.3958 14.0592 18.7083 14.5433 20 15.1875C20.6042 15.5 21.0887 15.9533 21.4537 16.5475C21.8187 17.1417 22.0008 17.7925 22 18.5V21C22 21.5523 21.5523 22 21 22H3Z"
-      fill={isActive ? '#E6EDFC' : '#0247CB'}
-    />
-  </svg>
-);
+import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
+import HomeDefault from '@/assets/icons/IconNav/icon=home, state=Default.svg?react';
+import AnalysisActive from '@/assets/icons/IconNav/icon=graph-bar, state=active.svg?react';
+import AnalysisDefault from '@/assets/icons/IconNav/icon=graph-bar, state=Default.svg?react';
+import NoteActive from '@/assets/icons/IconNav/icon=note-outline-rounded, state=active.svg?react';
+import NoteDefault from '@/assets/icons/IconNav/icon=note-outline-rounded, state=Default.svg?react';
+import SettingActive from '@/assets/icons/IconNav/icon=setting, state=active.svg?react';
+import SettingDefault from '@/assets/icons/IconNav/icon=setting, state=Default.svg?react';
+import PersonActive from '@/assets/icons/IconNav/icon=person, state=active.svg?react';
+import PersonDefault from '@/assets/icons/IconNav/icon=person, state=Default.svg?react';
 
 export default function Sidebar() {
   const menuItems = [
-    { to: '/dashboard', label: '대시보드', icon: DashboardIcon },
-    { to: '/report', label: '상세 분석 리포트', icon: AnalysisIcon },
-    { to: '/notes', label: '나의 실행 노트', icon: NoteIcon },
-    { to: '/settings', label: '내 가게 설정', icon: SettingIcon },
-    { to: '/profile', label: '프로필 및 로그아웃', icon: ProfileIcon },
+    { to: '/dashboard', label: '대시보드', ActiveIcon: HomeActive, DefaultIcon: HomeDefault },
+    {
+      to: '/report',
+      label: '상세 분석 리포트',
+      ActiveIcon: AnalysisActive,
+      DefaultIcon: AnalysisDefault,
+    },
+    { to: '/notes', label: '나의 실행 노트', ActiveIcon: NoteActive, DefaultIcon: NoteDefault },
+    {
+      to: '/settings',
+      label: '내 가게 설정',
+      ActiveIcon: SettingActive,
+      DefaultIcon: SettingDefault,
+    },
+    {
+      to: '/profile',
+      label: '프로필 및 로그아웃',
+      ActiveIcon: PersonActive,
+      DefaultIcon: PersonDefault,
+    },
   ];
 
   return (
@@ -66,29 +41,33 @@ export default function Sidebar() {
       <nav className="mt-[47px] flex flex-col items-start gap-[20px] w-[276px]">
         {menuItems.map((item) => (
           <NavLink key={item.to} to={item.to} className="w-full">
-            {({ isActive }) => (
-              <div
-                className={clsx(
-                  'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
-                  'transition-[background-color,color] duration-200',
-                  isActive
-                    ? 'bg-gra2 shadow-md'
-                    : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
-                )}
-              >
-                <div className="flex items-center gap-[12px]">
-                  <item.icon isActive={isActive} />
-                  <span
-                    className={clsx(
-                      'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
-                      isActive ? 'text-primary-light' : 'text-blue-normal-hover'
-                    )}
-                  >
-                    {item.label}
-                  </span>
+            {({ isActive }) => {
+              const Icon = isActive ? item.ActiveIcon : item.DefaultIcon;
+
+              return (
+                <div
+                  className={clsx(
+                    'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
+                    'transition-[background-color,color] duration-200',
+                    isActive
+                      ? 'bg-gra2 shadow-md'
+                      : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
+                  )}
+                >
+                  <div className="flex items-center gap-[12px]">
+                    <Icon className="w-6 h-6 shrink-0" />
+                    <span
+                      className={clsx(
+                        'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
+                        isActive ? 'text-primary-light' : 'text-blue-normal-hover'
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            }}
           </NavLink>
         ))}
       </nav>
