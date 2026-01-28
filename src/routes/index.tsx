@@ -1,32 +1,43 @@
 import { createBrowserRouter } from 'react-router-dom';
-import MainLayout from '@/layouts/MainLayout';
-import HomePage from '@/pages/HomePage';
-import LoginPage from '@/pages/LoginPage';
+
+import DashboardLayout from '@/layouts/DashboardLayout';
+import OnboardingLayout from '@/layouts/OnboardingLayout';
+import PublicLayout from '@/layouts/PublicLayout';
+import AuthPage from '@/pages/AuthPage';
 import DashboardPage from '@/pages/DashboardPage';
-import AnalysisPage from '@/pages/AnalysisPage';
+import HomePage from '@/pages/HomePage';
+import NotesPage from '@/pages/NotesPage';
+import OnboardingPage from '@/pages/OnboardingPage';
+import ProfilePage from '@/pages/ProfilePage';
+import ReportPage from '@/pages/ReportPage';
+import SettingsPage from '@/pages/SettingsPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />, 
+    element: <PublicLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'auth', element: <AuthPage /> },
+    ],
   },
+
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/onboarding',
+    element: <OnboardingLayout />,
+    children: [{ index: true, element: <OnboardingPage /> }],
   },
-  
+
   {
     path: '/',
-    element: <MainLayout />,
+    element: <DashboardLayout />,
     children: [
-      {
-        path: 'dashboard', 
-        element: <DashboardPage />,
-      },
-      {
-        path: 'analysis',
-        element: <AnalysisPage />,
-      }
+      { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'report', element: <ReportPage /> },
+      { path: 'analysis', element: <ReportPage /> },
+      { path: 'notes', element: <NotesPage /> },
+      { path: 'settings', element: <SettingsPage /> },
+      { path: 'profile', element: <ProfilePage /> },
     ],
   },
 ]);

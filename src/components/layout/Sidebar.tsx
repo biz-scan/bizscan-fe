@@ -55,7 +55,7 @@ const ProfileIcon = ({ isActive }: IconProps) => (
 export default function Sidebar() {
   const menuItems = [
     { to: '/dashboard', label: '대시보드', icon: DashboardIcon },
-    { to: '/analysis', label: '상세 분석 리포트', icon: AnalysisIcon },
+    { to: '/report', label: '상세 분석 리포트', icon: AnalysisIcon },
     { to: '/notes', label: '나의 실행 노트', icon: NoteIcon },
     { to: '/settings', label: '내 가게 설정', icon: SettingIcon },
     { to: '/profile', label: '프로필 및 로그아웃', icon: ProfileIcon },
