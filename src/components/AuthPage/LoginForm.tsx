@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Label } from '@/components/ui/Label';
@@ -23,6 +24,7 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
 
   const onSubmit = (_data: LoginInput) => {
     // TODO: 로그인 API 호출
+    toast.success('로그인 성공!');
   };
 
   return (
