@@ -86,7 +86,7 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
           가입하고 분석 시작하기
         </Button>
 
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-end mt-5">
           <p className="typo-p1-semibold text-grey-dark mr-2">이미 계정이 있으신가요?</p>
           <p
             className="typo-p1-semibold text-blue-normal  cursor-pointer "
