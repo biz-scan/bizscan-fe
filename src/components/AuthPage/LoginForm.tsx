@@ -69,7 +69,7 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
         </Button>
 
         <p
-          className="typo-p1-semibold text-blue-normal mt-6 cursor-pointer text-end"
+          className="typo-p1-semibold text-blue-normal mt-5 cursor-pointer text-end"
           onClick={handleTabChange}
         >
           회원가입하기
