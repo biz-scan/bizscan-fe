@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import LogoIcon from '@/assets/icons/Logo/Logo.svg?react';
 import LoginForm from '@/components/AuthPage/LoginForm';
 import RegisterForm from '@/components/AuthPage/RegisterForm';
+import { cn } from '@/lib/utils';
 
 export default function AuthPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,7 +15,10 @@ export default function AuthPage() {
 
   return (
     <div
-      className="flex-1 flex flex-col w-full items-center justify-center bg-center bg-no-repeat"
+      className={cn(
+        'flex-1 flex flex-col w-full items-center justify-center bg-center bg-no-repeat bg-cover',
+        isLogin ? 'h-[1280px]' : 'h-[1480px]'
+      )}
       style={{ backgroundImage: "url('/images/background.png')" }}
     >
       <div className="">
@@ -27,7 +31,7 @@ export default function AuthPage() {
           </p>
         </header>
 
-        <section className="bg-grey-light px-35 py-25 rounded-[40px] ">
+        <section className="bg-grey-light px-35 py-25 rounded-[40px] shadow-normal">
           {isLogin ? (
             <LoginForm handleTabChange={handleTabChange} />
           ) : (
