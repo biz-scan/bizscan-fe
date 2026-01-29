@@ -26,7 +26,8 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
         // 에러 스타일
         'aria-invalid:border-error',
-        className
+        // password가 아닐 때만 className 적용 (password는 wrapper에 적용)
+        !isPassword && className
       )}
       {...props}
     />
@@ -34,7 +35,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 
   if (isPassword) {
     return (
-      <div className="relative w-full">
+      <div className={cn('relative w-full', className)}>
         {inputElement}
         <button
           type="button"
