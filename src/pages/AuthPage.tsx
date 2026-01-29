@@ -28,7 +28,11 @@ export default function AuthPage() {
         </header>
 
         <section className="bg-grey-light px-35 py-25 rounded-[40px] ">
-          {isLogin ? <LoginForm handleTabChange={handleTabChange} /> : <RegisterForm />}
+          {isLogin ? (
+            <LoginForm handleTabChange={handleTabChange} />
+          ) : (
+            <RegisterForm handleTabChange={handleTabChange} />
+          )}
         </section>
       </div>
     </div>
