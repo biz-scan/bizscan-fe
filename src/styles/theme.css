@@ -4,15 +4,6 @@
   --color-secondary: #64748b;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-primary-light: #e6edfc;
-
-  --background-image-gra2: linear-gradient(90deg, #024fe2 0%, #5a8ded 100%);
-  --background-image-gra1: linear-gradient(
-    90deg,
-    rgba(217, 229, 251, 0.8) 0%,
-    rgba(153, 186, 250, 0.8) 100%
-  );
 
   /* Base Colors */
   --color-white: #ffffff;

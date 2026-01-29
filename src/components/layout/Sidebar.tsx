@@ -37,7 +37,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[332px] h-screen bg-primary-light flex flex-col items-center shrink-0 sticky top-0 border-r border-blue-100 overflow-hidden">
+    <aside className="w-[332px] h-screen bg-blue-light flex flex-col items-center shrink-0 sticky top-0 border-r border-blue-100 overflow-hidden">
       <nav className="mt-[47px] flex flex-col items-start gap-[20px] w-[276px]">
         {menuItems.map((item) => (
           <NavLink key={item.to} to={item.to} className="w-full">
@@ -59,7 +59,7 @@ export default function Sidebar() {
                     <span
                       className={clsx(
                         'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
-                        isActive ? 'text-primary-light' : 'text-blue-normal-hover'
+                        isActive ? 'text-blue-light' : 'text-blue-normal-hover'
                       )}
                     >
                       {item.label}
