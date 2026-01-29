@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { Label } from '@/components/ui/Label';
 import { type RegisterInput, registerSchema } from '@/schemas/auth.schema';
@@ -22,6 +23,7 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
 
   const onSubmit = (_data: RegisterInput) => {
     // TODO: 회원가입 API 호출
+    toast.success('회원가입 성공!');
   };
 
   return (
