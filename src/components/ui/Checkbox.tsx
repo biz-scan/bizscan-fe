@@ -7,12 +7,12 @@ import CheckBlueLightIcon from '@/assets/icons/Check/checkbluelight.svg?react';
 import { cn } from '@/lib/utils';
 
 const checkboxVariants = cva(
-  'shrink-0 rounded border border-grey-light-active disabled:cursor-not-allowed disabled:opacity-50 bg-grey-light',
+  'shrink-0 rounded  disabled:cursor-not-allowed disabled:opacity-50 bg-grey-light',
   {
     variants: {
       variant: {
-        default: 'data-[state=checked]:bg-blue-normal data-[state=checked]:border-blue-normal',
-        white: 'data-[state=checked]:bg-white data-[state=checked]:border-blue-normal',
+        default: 'data-[state=checked]:bg-blue-normal ',
+        white: 'data-[state=checked]:bg-blue-light ',
       },
       size: {
         default: 'size-8', // 32px
