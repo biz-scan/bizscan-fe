@@ -65,14 +65,13 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
         <Button variant="default" type="submit" className="w-full">
           로그인
         </Button>
-        <div className="flex justify-end">
-          <p
-            className="typo-p1-semibold text-blue-normal mt-6 cursor-pointer"
-            onClick={handleTabChange}
-          >
-            회원가입하기
-          </p>
-        </div>
+
+        <p
+          className="typo-p1-semibold text-blue-normal mt-6 cursor-pointer text-end"
+          onClick={handleTabChange}
+        >
+          회원가입하기
+        </p>
       </form>
     </div>
   );

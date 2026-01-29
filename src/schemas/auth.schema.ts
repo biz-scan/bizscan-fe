@@ -6,6 +6,10 @@ export const emailSchema = z
   .min(1, '이메일을 입력해주세요.')
   .email('올바른 이메일 형식이 아닙니다.');
 
+export const nicknameSchema = z
+  .string()
+  .min(1, '닉네임을 입력해주세요.')
+  .max(20, '닉네임은 20자 이하로 입력해주세요.');
 export const passwordSchema = z
   .string()
   .min(1, '비밀번호를 입력해주세요.')
@@ -22,6 +26,7 @@ export type LoginInput = z.infer<typeof loginSchema>;
 // 회원가입 스키마
 export const registerSchema = z
   .object({
+    nickname: nicknameSchema,
     email: emailSchema,
     password: passwordSchema,
     passwordConfirm: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
