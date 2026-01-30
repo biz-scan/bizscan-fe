@@ -1,16 +1,21 @@
 import React from 'react';
 
+import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { ChipFilter } from '@/components/ui/ChipFilter';
+import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
 
-import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
-
-function FormRow({ label, children }: { label: any; children: any }) {
+function FormRow({
+  label,
+  children,
+}: {
+  label: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div
       className="
@@ -35,11 +40,15 @@ const LeftLabel = ({ text }: { text: string }) => (
   </div>
 );
 
-const TOGGLE_ITEM_CLASS =
-  'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace-nowrap';
+const TOGGLE_ITEM_CLASS = 'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace-nowrap';
 
-const BIZ_TYPES = ['카페/베이커리', '식당', '술집/주점'];
-const SUB_CATEGORIES = ['일반 카페', '베이커리 카페', '한식', '중식', '일식', '양식', '주점'];
+const BIZ_TYPE_MAP: Record<string, string[]> = {
+  '카페/베이커리': ['일반 카페', '테이크아웃 전문', '베이커리/디저트'],
+  식당: ['한식/백반/국밥', '고기/구이', '양식/브런치', '일식/중식/아시안', '분식/패스트푸드'],
+  '술집/주점': ['요리주점/포차', '이자카야/꼬치', '호프/맥주', '와인/바/칵테일'],
+};
+
+const BIZ_TYPES = Object.keys(BIZ_TYPE_MAP);
 
 const PRICE_OPTIONS = ['1만원 미만', '1~2만원대', '2~4만원대', '4만원 이상'];
 const AGE_OPTIONS = ['20대', '3040 직장인', '가족 단위', '동네 주민', '관광객'];
@@ -80,8 +89,9 @@ export default function SettingsPage() {
     });
   };
 
+  const subCategoryOptions = form.bizType ? BIZ_TYPE_MAP[form.bizType] ?? [] : [];
+
   const onSave = () => {
-    console.log('save:', form);
     alert('저장되었습니다.');
   };
 
@@ -104,7 +114,8 @@ export default function SettingsPage() {
                   <div className="lg:flex lg:h-full lg:items-center">
                     <LeftLabel text="매장 이름은 무엇인가요?" />
                   </div>
-                }>
+                }
+              >
                 <Input
                   className="w-full border-0 focus:border-0 focus:ring-0 outline-none typo-p1-regular text-grey-normal"
                   value={form.storeName}
@@ -118,7 +129,8 @@ export default function SettingsPage() {
                   <div className="lg:flex lg:h-full lg:items-center">
                     <LeftLabel text="매장 위치는 어디인가요?" />
                   </div>
-                }>
+                }
+              >
                 <Input
                   className="w-full border-0 focus:border-0 focus:ring-0 outline-none typo-p1-regular text-grey-normal"
                   value={form.location}
@@ -141,7 +153,13 @@ export default function SettingsPage() {
                       <ToggleGroup
                         type="single"
                         value={form.bizType}
-                        onValueChange={(v) => setForm({ ...form, bizType: v })}
+                        onValueChange={(v) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            bizType: v,
+                            subCategory: '',
+                          }))
+                        }
                         className="flex flex-wrap gap-[12px]"
                       >
                         {BIZ_TYPES.map((t) => (
@@ -162,12 +180,15 @@ export default function SettingsPage() {
                       <Select
                         value={form.subCategory}
                         onValueChange={(v) => setForm({ ...form, subCategory: v })}
+                        disabled={!form.bizType}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="소분류 선택" />
+                          <SelectValue
+                            placeholder={form.bizType ? '소분류 선택' : '업종을 먼저 선택해주세요'}
+                          />
                         </SelectTrigger>
                         <SelectContent>
-                          {SUB_CATEGORIES.map((c) => (
+                          {subCategoryOptions.map((c) => (
                             <SelectItem key={c} value={c}>
                               {c}
                             </SelectItem>
