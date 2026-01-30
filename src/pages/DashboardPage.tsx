@@ -20,7 +20,7 @@ export default function DashboardPage() {
           반갑습니다, 0000 님!
         </h1>
 
-        <div className="mt-[28px] flex px-[24px] py-[12px] justify-center items-center rounded-[8px] bg-gra2 shadow-md">
+        <div className="mt-[28px] flex px-[24px] py-[12px] justify-center items-center rounded-[8px] bg-gra2-right shadow-md">
           <span className="text-blue-light font-pretendard text-[clamp(14px,1.2vw,16px)] font-normal leading-[140%] tracking-[-0.4px] whitespace-nowrap">
             성수동 직장인 회식 1타
           </span>
