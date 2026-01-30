@@ -15,7 +15,7 @@ const TOGGLE_ITEM_CLASS = 'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace
 
 const BIZ_TYPE_MAP: Record<string, string[]> = {
   '카페/베이커리': ['일반 카페', '테이크아웃 전문', '베이커리/디저트'],
-  식당: ['한식/백반/국밥', '고기/구이', '양식/브런치', '일식/중식/아시안', '분식/패스트푸드'],
+  '식당': ['한식/백반/국밥', '고기/구이', '양식/브런치', '일식/중식/아시안', '분식/패스트푸드'],
   '술집/주점': ['요리주점/포차', '이자카야/꼬치', '호프/맥주', '와인/바/칵테일'],
 };
 
@@ -62,7 +62,19 @@ export default function SettingsPage() {
 
   const subCategoryOptions = form.bizType ? BIZ_TYPE_MAP[form.bizType] ?? [] : [];
 
+  const isFormValid =
+    form.storeName.trim() !== '' &&
+    form.location.trim() !== '' &&
+    form.bizType.trim() !== '' &&
+    form.subCategory.trim() !== '' &&
+    form.menuName.trim() !== '' &&
+    form.avgPrice.trim() !== '' &&
+    form.features.length > 0 &&
+    form.targetCustomers.trim() !== '' &&
+    form.painPoint.trim() !== '';
+
   const onSave = () => {
+    if (!isFormValid) return;
     alert('저장되었습니다.');
   };
 
@@ -296,7 +308,7 @@ export default function SettingsPage() {
             </section>
 
             <div className="flex justify-end">
-              <Button size="lg" onClick={onSave}>
+              <Button size="lg" onClick={onSave} disabled={!isFormValid}>
                 저장하기
               </Button>
             </div>
