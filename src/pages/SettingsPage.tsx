@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
-import FormRow from '@/components/SettingsPage/FormRow';
 import FieldLabel from '@/components/common/FieldLabel';
+import FormRow from '@/components/SettingsPage/FormRow';
 import { Button } from '@/components/ui/Button';
 import { ChipFilter } from '@/components/ui/ChipFilter';
 import { Input } from '@/components/ui/Input';
