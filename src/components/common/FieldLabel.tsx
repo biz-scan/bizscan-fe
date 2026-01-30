@@ -1,8 +1,8 @@
-interface LeftLabelProps {
+interface FieldLabelProps {
     text: string;
   }
   
-  export default function LeftLabel({ text }: LeftLabelProps) {
+  export default function FieldLabel({ text }: FieldLabelProps) {
     return (
       <div className="flex items-center gap-[8px] whitespace-nowrap">
         <span className="h-[20px] w-[3px] shrink-0 bg-blue-normal rounded-full" />

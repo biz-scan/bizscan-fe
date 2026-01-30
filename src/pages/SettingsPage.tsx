@@ -2,7 +2,7 @@ import React from 'react';
 
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import FormRow from '@/components/SettingsPage/FormRow';
-import LeftLabel from '@/components/SettingsPage/LeftLabel';
+import FieldLabel from '@/components/common/FieldLabel';
 import { Button } from '@/components/ui/Button';
 import { ChipFilter } from '@/components/ui/ChipFilter';
 import { Input } from '@/components/ui/Input';
@@ -95,7 +95,7 @@ export default function SettingsPage() {
               <FormRow
                 label={
                   <div className="lg:flex lg:h-full lg:items-center">
-                    <LeftLabel text="매장 이름은 무엇인가요?" />
+                    <FieldLabel text="매장 이름은 무엇인가요?" />
                   </div>
                 }
               >
@@ -110,7 +110,7 @@ export default function SettingsPage() {
               <FormRow
                 label={
                   <div className="lg:flex lg:h-full lg:items-center">
-                    <LeftLabel text="매장 위치는 어디인가요?" />
+                    <FieldLabel text="매장 위치는 어디인가요?" />
                   </div>
                 }
               >
@@ -125,7 +125,7 @@ export default function SettingsPage() {
 
             {/* 2) 업종 */}
             <section>
-              <FormRow label={<LeftLabel text="어떤 종류의 매장을 운영하시나요?" />}>
+              <FormRow label={<FieldLabel text="어떤 종류의 매장을 운영하시나요?" />}>
                 <div className="flex flex-col gap-[24px]">
                   <div className="flex items-center gap-x-[44px]">
                     <p className="min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
@@ -186,7 +186,7 @@ export default function SettingsPage() {
 
             {/* 3) 시그니처 메뉴 + 객단가 */}
             <section>
-              <FormRow label={<LeftLabel text="시그니처 메뉴와 객단가" />}>
+              <FormRow label={<FieldLabel text="시그니처 메뉴와 객단가" />}>
                 <div className="flex w-full flex-col gap-[24px]">
                   <div className="flex items-center gap-x-[44px]">
                     <p className="min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
@@ -225,7 +225,7 @@ export default function SettingsPage() {
 
             {/* 4) 분위기/운영 형태 */}
             <section>
-              <FormRow label={<LeftLabel text="매장 분위기 및 운영 형태" />}>
+              <FormRow label={<FieldLabel text="매장 분위기 및 운영 형태" />}>
                 <div className="flex w-full flex-col gap-[20px]">
                   <p className="typo-lead-semibold text-grey-darker">
                     우리 가게를 가장 잘 표현하는 태그를 선택해주세요. (최대 3개)
@@ -256,7 +256,7 @@ export default function SettingsPage() {
 
             {/* 5) 주 타겟 고객 */}
             <section>
-              <FormRow label={<LeftLabel text="주 타겟 고객" />}>
+              <FormRow label={<FieldLabel text="주 타겟 고객" />}>
                 <div className="flex w-full flex-col gap-[20px]">
                   <p className="whitespace-nowrap typo-lead-semibold text-grey-darker">
                     주로 어떤 손님이 오시나요? (또는 오길 바라나요?)
@@ -280,7 +280,7 @@ export default function SettingsPage() {
 
             {/* 6) 사장님의 현재 고민 */}
             <section>
-              <FormRow label={<LeftLabel text="사장님의 현재 고민" />}>
+              <FormRow label={<FieldLabel text="사장님의 현재 고민" />}>
                 <div className="flex w-full flex-col gap-[20px]">
                   <p className="typo-lead-semibold text-grey-darker">
                     지금 가장 해결하고 싶은 문제는 무엇인가요? (하나만 선택)
