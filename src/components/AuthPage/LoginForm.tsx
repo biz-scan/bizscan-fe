@@ -24,7 +24,7 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
 
   const onSubmit = (_data: LoginInput) => {
     // TODO: 로그인 API 호출
-    toast.success('로그인 성공!');
+    toast.error('로그인 성공!');
   };
 
   return (
