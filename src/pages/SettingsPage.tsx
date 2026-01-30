@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
+import FormRow from '@/components/SettingsPage/FormRow';
+import LeftLabel from '@/components/SettingsPage/LeftLabel';
 import { Button } from '@/components/ui/Button';
 import { ChipFilter } from '@/components/ui/ChipFilter';
 import { Input } from '@/components/ui/Input';
@@ -8,37 +10,6 @@ import { Label } from '@/components/ui/Label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
-
-function FormRow({
-  label,
-  children,
-}: {
-  label: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="
-        py-3
-        grid
-        gap-y-3
-        gap-x-[44px]
-        grid-cols-1
-        lg:grid-cols-[minmax(280px,372px)_1fr]
-      "
-    >
-      <div>{label}</div>
-      <div className="w-full lg:max-w-[722px]">{children}</div>
-    </div>
-  );
-}
-
-const LeftLabel = ({ text }: { text: string }) => (
-  <div className="flex items-center gap-[8px] whitespace-nowrap">
-    <span className="h-[20px] w-[3px] shrink-0 bg-blue-normal rounded-full" />
-    <h5 className="text-blue-normal">{text}</h5>
-  </div>
-);
 
 const TOGGLE_ITEM_CLASS = 'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace-nowrap';
 
