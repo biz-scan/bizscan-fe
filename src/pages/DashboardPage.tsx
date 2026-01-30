@@ -1,4 +1,8 @@
-export default function DashboardPage() {
+interface DashboardPageProps {
+  userName?: string;
+}
+
+export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps) {
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -17,7 +21,7 @@ export default function DashboardPage() {
     >
       <div className="flex flex-col items-center">
         <h1 className="text-center text-Grey-Darker font-pretendard text-[clamp(28px,4vw,48px)] font-extrabold leading-[140%] tracking-[-1.2px]">
-          반갑습니다, 0000 님!
+          반갑습니다, {userName} 님!
         </h1>
 
         <div className="mt-[28px] flex px-[24px] py-[12px] justify-center items-center rounded-[8px] bg-gra2-right shadow-md">
