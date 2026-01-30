@@ -13,7 +13,6 @@ import ReportPage from '@/pages/ReportPage';
 import SettingsPage from '@/pages/SettingsPage';
 
 export const router = createBrowserRouter([
-  // Public routes (메인, 로그인/회원가입)
   {
     path: '/',
     element: <PublicLayout />,
@@ -23,15 +22,12 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Onboarding route (매장 정보 입력)
   {
     path: '/onboarding',
     element: <OnboardingLayout />,
     children: [{ index: true, element: <OnboardingPage /> }],
   },
 
-  // Dashboard routes (로그인 후 사이드바 메뉴)
-  // 이부분은 /:Id 같은걸 params로 추가해야 할수도 있을 것 같습니다
   {
     path: '/',
     element: <DashboardLayout />,

@@ -1,46 +1,76 @@
 import { NavLink } from 'react-router-dom';
+import { clsx } from 'clsx';
 
-const sidebarItems = [
-  { to: '/dashboard', label: '대시보드' },
-  { to: '/report', label: '상세분석 리포트' },
-  { to: '/notes', label: '나의 실행노트' },
-  { to: '/settings', label: '내 가게 설정' },
-  { to: '/profile', label: '프로필' },
-];
+import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
+import HomeDefault from '@/assets/icons/IconNav/icon=home, state=Default.svg?react';
+import AnalysisActive from '@/assets/icons/IconNav/icon=graph-bar, state=active.svg?react';
+import AnalysisDefault from '@/assets/icons/IconNav/icon=graph-bar, state=Default.svg?react';
+import NoteActive from '@/assets/icons/IconNav/icon=note-outline-rounded, state=active.svg?react';
+import NoteDefault from '@/assets/icons/IconNav/icon=note-outline-rounded, state=Default.svg?react';
+import SettingActive from '@/assets/icons/IconNav/icon=setting, state=active.svg?react';
+import SettingDefault from '@/assets/icons/IconNav/icon=setting, state=Default.svg?react';
+import PersonActive from '@/assets/icons/IconNav/icon=person, state=active.svg?react';
+import PersonDefault from '@/assets/icons/IconNav/icon=person, state=Default.svg?react';
 
 export default function Sidebar() {
+  const menuItems = [
+    { to: '/dashboard', label: '대시보드', ActiveIcon: HomeActive, DefaultIcon: HomeDefault },
+    {
+      to: '/report',
+      label: '상세 분석 리포트',
+      ActiveIcon: AnalysisActive,
+      DefaultIcon: AnalysisDefault,
+    },
+    { to: '/notes', label: '나의 실행 노트', ActiveIcon: NoteActive, DefaultIcon: NoteDefault },
+    {
+      to: '/settings',
+      label: '내 가게 설정',
+      ActiveIcon: SettingActive,
+      DefaultIcon: SettingDefault,
+    },
+    {
+      to: '/profile',
+      label: '프로필 및 로그아웃',
+      ActiveIcon: PersonActive,
+      DefaultIcon: PersonDefault,
+    },
+  ];
+
   return (
-    <aside className="w-64 bg-white border-r flex flex-col">
-      <div className="px-6 py-4 border-b">
-        <h1 className="text-xl text-black font-bold">Bizscan</h1>
-      </div>
+    <aside className="w-[332px] h-screen bg-blue-light flex flex-col items-center shrink-0 sticky top-0 border-r border-blue-100 overflow-hidden">
+      <nav className="mt-[47px] flex flex-col items-start gap-[20px] w-[276px]">
+        {menuItems.map((item) => (
+          <NavLink key={item.to} to={item.to} className="w-full">
+            {({ isActive }) => {
+              const Icon = isActive ? item.ActiveIcon : item.DefaultIcon;
 
-      <nav className="flex-1 px-4 py-6">
-        <ul className="space-y-2">
-          {sidebarItems.map((item) => (
-            <li key={item.to}>
-              <NavLink
-                to={item.to}
-                className={({ isActive }) =>
-                  `block px-4 py-2 rounded-lg transition-colors ${
+              return (
+                <div
+                  className={clsx(
+                    'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
+                    'transition-[background-color,color] duration-200',
                     isActive
-                      ? 'bg-primary text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+                      ? 'bg-gra2 shadow-md'
+                      : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
+                  )}
+                >
+                  <div className="flex items-center gap-[12px]">
+                    <Icon className="w-6 h-6 shrink-0" />
+                    <span
+                      className={clsx(
+                        'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
+                        isActive ? 'text-blue-light' : 'text-blue-normal-hover'
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                  </div>
+                </div>
+              );
+            }}
+          </NavLink>
+        ))}
       </nav>
-
-      <div className="px-4 py-4 border-t">
-        <button className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-          로그아웃
-        </button>
-      </div>
     </aside>
   );
 }

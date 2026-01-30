@@ -1,4 +1,10 @@
 @theme {
+  /* Colors */
+  --color-primary: #3b82f6;
+  --color-secondary: #64748b;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+
   /* Base Colors */
   --color-white: #ffffff;
   --color-black: #000000;
