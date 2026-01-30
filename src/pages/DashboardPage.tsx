@@ -8,28 +8,6 @@ interface DashboardPageProps {
 }
 
 export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps) {
-<<<<<<< HEAD
-  return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div className="flex items-center justify-center w-full min-h-screen bg-white">
-      <h1 className="text-[24px] font-bold text-gray-800">사이드바 테스트</h1>
-=======
-<<<<<<< HEAD
-    <div>
-      <h1 className="text-2xl font-bold mb-4">대시보드</h1>
-      <p className="text-gray-500">대시보드 내용이 들어갈 영역입니다.</p>
->>>>>>> eaa9d8b ([Feat]: 사이드바 공용 컴포넌트)
-=======
-    <div
-      className="w-full bg-no-repeat bg-[center_20%] aspect-[1588/400] bg-cover max-h-[400px] min-h-[250px] flex items-center justify-center"
-      style={{ backgroundImage: "url('/images/background.png')" }}
-    >
-      <div className="flex flex-col items-center">
-        <h1 className="text-center text-Grey-Darker font-pretendard text-[clamp(28px,4vw,48px)] font-extrabold leading-[140%] tracking-[-1.2px]">
-          반갑습니다, {userName} 님!
-        </h1>
-=======
   const swotData = [
     {
       type: 'S' as const,
@@ -56,7 +34,6 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
       description: '반경 500m 내 150개',
     },
   ];
->>>>>>> fe712ff ([Feat]: SWOT 분석 카드 컴포넌트 구현 및 반응형 레이아웃 적용)
 
   const solutionText = "오후 5시 '직장인 퇴근길' 예약 프로모션";
   const tags = ['#객단가UP', '#난이도하', '#마케팅'];
@@ -79,10 +56,6 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
           </div>
         </div>
       </div>
-<<<<<<< HEAD
->>>>>>> 15c31cb ([Feat]: 대시보드 히어로 섹션 구현 및 반응형 레이아웃 최적화)
-    </div>
-=======
 
       <div className="w-full max-w-[1400px] mx-auto px-[clamp(20px,5vw,48px)]">
         {/* AI SWOT 분석 타이틀 */}
@@ -154,6 +127,5 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
         <div className="h-[clamp(40px,10vw,100px)]" />
       </div>
     </main>
->>>>>>> fe712ff ([Feat]: SWOT 분석 카드 컴포넌트 구현 및 반응형 레이아웃 적용)
   );
 }
