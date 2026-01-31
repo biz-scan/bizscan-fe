@@ -5,8 +5,8 @@ import OnboardingLayout from '@/layouts/OnboardingLayout';
 import PublicLayout from '@/layouts/PublicLayout';
 import AuthPage from '@/pages/AuthPage';
 import DashboardPage from '@/pages/DashboardPage';
-import HomePage from '@/pages/HomePage';
 import NoteDetailPage from '@/pages/NoteDetailPage';
+import LandingPage from '@/pages/LandingPage';
 import NotesPage from '@/pages/NotesPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import ProfilePage from '@/pages/ProfilePage';
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <PublicLayout />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <LandingPage /> },
       { path: 'auth', element: <AuthPage /> },
     ],
   },
