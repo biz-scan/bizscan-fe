@@ -5,10 +5,10 @@ import GraphIcon from '@/assets/icons/Icon/type=1.svg?react';
 import MarketingIcon from '@/assets/icons/Icon/type=2.svg?react';
 import ConsultingIcon from '@/assets/icons/Icon/type=3.svg?react';
 import MainIcon from '@/assets/icons/Icon/type=main.svg?react';
-import DescriptionBox from '@/components/HomePage/DescriptionBox';
+import DescriptionBox from '@/components/LandingPage/DescriptionBox';
 import { Button } from '@/components/ui/Button';
 
-export default function HomePage() {
+export default function LandingPage() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col w-full h-full justify-center items-center ">
@@ -24,14 +24,14 @@ export default function HomePage() {
         <Button onClick={() => navigate('/auth')}>내 가게 무료 진단하기</Button>
       </section>
 
-      <section className="flex flex-col items-center w-full min-w-fit mt-50 shrink-0">
+      <section className="flex flex-col items-center w-full min-w-fit mt-45 shrink-0">
         <SearchIcon className="shrink-0" />
         <h2 className="mt-6 whitespace-nowrap">혹시 이런 고민 있으신가요?</h2>
-        <p className="text-grey-dark typo-p2-medium whitespace-nowrap">
+        <p className="text-grey-dark typo-p2-medium whitespace-nowrap mt-2.5">
           BizScan이 데이터로 명쾌한 해답을 드립니다.
         </p>
 
-        <div className="flex gap-[14px] mt-19 mb-50 shrink-0">
+        <div className="flex gap-[14px] mt-17 mb-50 shrink-0">
           <DescriptionBox
             icon={<GraphIcon className="shadow" />}
             text1="매출이 왜 자꾸 떨어질까?"
