@@ -15,7 +15,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
       data-slot="input"
       className={cn(
         // 기본 스타일
-        'h-15 w-full rounded-lg border bg-grey-light-hover px-7 py-4',
+        'h-15 w-full rounded-lg border border-transparent bg-grey-light-hover px-7 py-4',
         // password일 때 오른쪽 패딩 추가 (아이콘 공간)
         isPassword && 'pr-14',
         // placeholder
@@ -26,7 +26,8 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
         // 에러 스타일
         'aria-invalid:border-error',
-        className
+        // password가 아닐 때만 className 적용 (password는 wrapper에 적용)
+        !isPassword && className
       )}
       {...props}
     />
@@ -34,7 +35,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 
   if (isPassword) {
     return (
-      <div className="relative w-full">
+      <div className={cn('relative w-full', className)}>
         {inputElement}
         <button
           type="button"

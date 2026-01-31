@@ -16,7 +16,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-grey-light border-b h-20 flex items-center px-12 justify-between">
+    <header className="bg-grey-light  h-20 flex items-center px-12 justify-between">
       {location.pathname === '/' ? (
         <Link to="/">
           <Logo />

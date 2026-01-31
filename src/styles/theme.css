@@ -35,6 +35,8 @@
 
   /* Error Color */
   --color-error: #ff3434;
+  --color-error-light: #ffeeee;
+  --color-error-light2: #ffbdbe;
 
   /* Gradients */
   --background-image-gra2: linear-gradient(to bottom, #024fe2 0%, #5a8de1 100%);
