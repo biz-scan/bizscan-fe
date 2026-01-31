@@ -10,14 +10,14 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
-
+  console.log(isAuthenticated, location.pathname);
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
 
   return (
     <header className="bg-grey-light  h-20 flex items-center px-12 justify-between">
-      {location.pathname === '/' ? (
+      {location.pathname === '/' || location.pathname.includes('/auth') ? (
         <Link to="/">
           <Logo />
         </Link>
