@@ -1,16 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
 
-import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
-import HomeDefault from '@/assets/icons/IconNav/icon=home, state=Default.svg?react';
 import AnalysisActive from '@/assets/icons/IconNav/icon=graph-bar, state=active.svg?react';
 import AnalysisDefault from '@/assets/icons/IconNav/icon=graph-bar, state=Default.svg?react';
+import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
+import HomeDefault from '@/assets/icons/IconNav/icon=home, state=Default.svg?react';
 import NoteActive from '@/assets/icons/IconNav/icon=note-outline-rounded, state=active.svg?react';
 import NoteDefault from '@/assets/icons/IconNav/icon=note-outline-rounded, state=Default.svg?react';
-import SettingActive from '@/assets/icons/IconNav/icon=setting, state=active.svg?react';
-import SettingDefault from '@/assets/icons/IconNav/icon=setting, state=Default.svg?react';
 import PersonActive from '@/assets/icons/IconNav/icon=person, state=active.svg?react';
 import PersonDefault from '@/assets/icons/IconNav/icon=person, state=Default.svg?react';
+import SettingActive from '@/assets/icons/IconNav/icon=setting, state=active.svg?react';
+import SettingDefault from '@/assets/icons/IconNav/icon=setting, state=Default.svg?react';
 
 export default function Sidebar() {
   const menuItems = [
