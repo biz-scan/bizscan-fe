@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 
 export default function ReportPage() {
+  const [selectedType, setSelectedType] = useState<'S' | 'W' | 'O' | 'T' | null>(null);
+
   const swotData = [
     {
       type: 'S' as const,
@@ -39,7 +42,12 @@ export default function ReportPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[20px] gap-y-[20px]">
           {swotData.map((item, index) => (
-            <SwotCard key={index} {...item} />
+            <SwotCard
+              key={index}
+              {...item}
+              isActive={selectedType === item.type}
+              onClick={() => setSelectedType(item.type)}
+            />
           ))}
         </div>
       </div>
