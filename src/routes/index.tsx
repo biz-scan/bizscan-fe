@@ -11,6 +11,7 @@ import OnboardingPage from '@/pages/OnboardingPage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReportPage from '@/pages/ReportPage';
 import SettingsPage from '@/pages/SettingsPage';
+import SolutionDetailPage from '@/pages/SolutionDetailPage';
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
       { path: 'notes', element: <NotesPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'solution/:id', element: <SolutionDetailPage /> },
     ],
   },
 ]);

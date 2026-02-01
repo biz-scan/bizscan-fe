@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
 
 export default function ReportPage() {
-  const [selectedType, setSelectedType] = useState<'S' | 'W' | 'O' | 'T' | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedType = searchParams.get('type') as 'S' | 'W' | 'O' | 'T' | null;
+
+  const handleCardClick = (type: 'S' | 'W' | 'O' | 'T') => {
+    setSearchParams({ type });
+  };
 
   const swotData = [
     {
@@ -44,14 +50,15 @@ export default function ReportPage() {
   const strategyData = {
     S: [
       {
+        id: 's1',
         title: "오후 5시 '직장인 퇴근길' 예약 프로모션",
         tags: ['#객단가UP', '#난이도하', '#마케팅'],
       },
-      { title: '평일 런치 한정 메뉴 구성', tags: ['#회전율UP', '#가성비'] },
+      { id: 's2', title: '평일 런치 한정 메뉴 구성', tags: ['#회전율UP', '#가성비'] },
     ],
-    W: [{ title: '네이버 영수증 리뷰 이벤트', tags: ['#신뢰도UP', '#리뷰활성화'] }],
-    O: [{ title: '20대 선호 메뉴 개발', tags: ['#신뢰도UP', '#리뷰활성화'] }],
-    T: [{ title: '핵심 시그니처 메뉴 브랜딩', tags: ['#신뢰도UP', '#리뷰활성화'] }],
+    W: [{ id: 'w1', title: '네이버 영수증 리뷰 이벤트', tags: ['#신뢰도UP', '#리뷰활성화'] }],
+    O: [{ id: 'o1', title: '20대 선호 메뉴 개발', tags: ['#신뢰도UP', '#리뷰활성화'] }],
+    T: [{ id: 't1', title: '핵심 시그니처 메뉴 브랜딩', tags: ['#신뢰도UP', '#리뷰활성화'] }],
   };
 
   return (
@@ -69,7 +76,7 @@ export default function ReportPage() {
               key={index}
               {...item}
               isActive={selectedType === item.type}
-              onClick={() => setSelectedType(item.type)}
+              onClick={() => handleCardClick(item.type)}
             />
           ))}
         </div>
@@ -110,8 +117,8 @@ export default function ReportPage() {
               </div>
 
               <div className="flex flex-col">
-                {strategyData[selectedType].map((item, idx) => (
-                  <SolutionCard key={idx} title={item.title} tags={item.tags} />
+                {strategyData[selectedType].map((item) => (
+                  <SolutionCard key={item.id} id={item.id} title={item.title} tags={item.tags} />
                 ))}
               </div>
             </section>
