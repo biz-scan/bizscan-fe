@@ -13,7 +13,13 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
 
   const handleDetailClick = () => {
     navigate('/report');
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  };
 
+  const handleSolutionClick = (id: string) => {
+    navigate(`/solution/${id}`);
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
@@ -130,7 +136,10 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
             </div>
           </div>
 
-          <button className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95">
+          <button
+            onClick={() => handleSolutionClick('s1')}
+            className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
+          >
             <span className="text-grey-normal font-pretendard text-[16px] font-semibold leading-[140%] tracking-[-0.4px] whitespace-nowrap">
               자세히 보기
             </span>
