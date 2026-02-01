@@ -201,7 +201,7 @@ export default function SettingsPage() {
                     </p>
                     <div className="flex-1 min-w-0">
                       <Input
-                        className="w-full border-0 focus:border-0 focus:ring-0 outline-none typo-p1-regular text-grey-normal"
+                        className="w-full"
                         value={form.menuName}
                         onChange={(e) => setForm({ ...form, menuName: e.target.value })}
                         placeholder="케이크"
