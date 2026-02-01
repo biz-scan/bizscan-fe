@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SolutionCard from '@/components/ReportPage/SolutionCard';
 
 export default function ReportPage() {
   const [selectedType, setSelectedType] = useState<'S' | 'W' | 'O' | 'T' | null>(null);
@@ -38,6 +39,19 @@ export default function ReportPage() {
     W: '현재 리뷰 수가 절대적으로 부족합니다. 경쟁사 대비 20% 수준으로, 신규 고객들이 방문을 결정하는 데 주저하게 만드는 요인이 될 수 있습니다.',
     O: '성수동 인근 20대 유동인구가 저녁 시간대에 급증하는 추세입니다. 이들을 타겟팅한 감성적인 브랜딩과 야간 메뉴 강화가 필요합니다.',
     T: '반경 500m 이내 유사 업종이 150개로 과포화 상태입니다. 차별화된 핵심 메뉴 없이는 시장 점유율 유지가 어려울 수 있습니다.',
+  };
+
+  const strategyData = {
+    S: [
+      {
+        title: "오후 5시 '직장인 퇴근길' 예약 프로모션",
+        tags: ['#객단가UP', '#난이도하', '#마케팅'],
+      },
+      { title: '평일 런치 한정 메뉴 구성', tags: ['#회전율UP', '#가성비'] },
+    ],
+    W: [{ title: '네이버 영수증 리뷰 이벤트', tags: ['#신뢰도UP', '#리뷰활성화'] }],
+    O: [{ title: '20대 선호 메뉴 개발', tags: ['#신뢰도UP', '#리뷰활성화'] }],
+    T: [{ title: '핵심 시그니처 메뉴 브랜딩', tags: ['#신뢰도UP', '#리뷰활성화'] }],
   };
 
   return (
@@ -85,6 +99,24 @@ export default function ReportPage() {
             <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden animate-in fade-in duration-700">
               <LineIcon className="w-full h-auto text-transparent" />
             </div>
+
+            {/* 맞춤 실행 전략 */}
+            <section className="mt-[clamp(60px,8vw,145px)]">
+              <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
+                <SimbolLogo className="w-[42px] h-[42px]" />
+                <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)] font-bold">
+                  맞춤 실행 전략
+                </h2>
+              </div>
+
+              <div className="flex flex-col">
+                {strategyData[selectedType].map((item, idx) => (
+                  <SolutionCard key={idx} title={item.title} tags={item.tags} />
+                ))}
+              </div>
+            </section>
+
+            <div className="h-[clamp(100px,15vw,241px)]" />
           </>
         )}
       </div>
