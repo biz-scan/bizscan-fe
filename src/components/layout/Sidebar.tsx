@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 
 import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
@@ -13,6 +13,8 @@ import PersonActive from '@/assets/icons/IconNav/icon=person, state=active.svg?r
 import PersonDefault from '@/assets/icons/IconNav/icon=person, state=Default.svg?react';
 
 export default function Sidebar() {
+  const { pathname } = useLocation();
+
   const menuItems = [
     { to: '/dashboard', label: '대시보드', ActiveIcon: HomeActive, DefaultIcon: HomeDefault },
     {
@@ -39,37 +41,43 @@ export default function Sidebar() {
   return (
     <aside className="w-[332px] h-screen bg-blue-light flex flex-col items-center shrink-0 sticky top-0 border-r border-blue-100 overflow-hidden">
       <nav className="mt-[47px] flex flex-col items-start gap-[20px] w-[276px]">
-        {menuItems.map((item) => (
-          <NavLink key={item.to} to={item.to} className="w-full">
-            {({ isActive }) => {
-              const Icon = isActive ? item.ActiveIcon : item.DefaultIcon;
+        {menuItems.map((item) => {
+          const isActuallyActive = (navActive: boolean) =>
+            navActive || (item.to === '/report' && pathname.startsWith('/solution/'));
 
-              return (
-                <div
-                  className={clsx(
-                    'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
-                    'transition-[background-color,color] duration-200',
-                    isActive
-                      ? 'bg-gra2 shadow-md'
-                      : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
-                  )}
-                >
-                  <div className="flex items-center gap-[12px]">
-                    <Icon className="w-6 h-6 shrink-0" />
-                    <span
-                      className={clsx(
-                        'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
-                        isActive ? 'text-blue-light' : 'text-blue-normal-hover'
-                      )}
-                    >
-                      {item.label}
-                    </span>
+          return (
+            <NavLink key={item.to} to={item.to} className="w-full">
+              {({ isActive }) => {
+                const active = isActuallyActive(isActive);
+                const Icon = active ? item.ActiveIcon : item.DefaultIcon;
+
+                return (
+                  <div
+                    className={clsx(
+                      'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
+                      'transition-[background-color,color] duration-200',
+                      active
+                        ? 'bg-gra2 shadow-md'
+                        : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
+                    )}
+                  >
+                    <div className="flex items-center gap-[12px]">
+                      <Icon className="w-6 h-6 shrink-0" />
+                      <span
+                        className={clsx(
+                          'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
+                          active ? 'text-blue-light' : 'text-blue-normal-hover'
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              );
-            }}
-          </NavLink>
-        ))}
+                );
+              }}
+            </NavLink>
+          );
+        })}
       </nav>
     </aside>
   );
