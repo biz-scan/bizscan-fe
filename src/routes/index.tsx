@@ -6,6 +6,7 @@ import PublicLayout from '@/layouts/PublicLayout';
 import AuthPage from '@/pages/AuthPage';
 import DashboardPage from '@/pages/DashboardPage';
 import HomePage from '@/pages/HomePage';
+import NoteDetailPage from '@/pages/NoteDetailPage';
 import NotesPage from '@/pages/NotesPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import ProfilePage from '@/pages/ProfilePage';
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'report', element: <ReportPage /> },
       { path: 'notes', element: <NotesPage /> },
+      { path: 'notes/:noteId', element: <NoteDetailPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'profile', element: <ProfilePage /> },
     ],
