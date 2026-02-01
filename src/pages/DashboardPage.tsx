@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
@@ -8,6 +9,16 @@ interface DashboardPageProps {
 }
 
 export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps) {
+  const navigate = useNavigate();
+
+  const handleDetailClick = () => {
+    navigate('/report');
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  };
+
   const swotData = [
     {
       type: 'S' as const,
@@ -66,7 +77,10 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
               AI SWOT 분석
             </h2>
           </div>
-          <button className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95">
+          <button
+            onClick={handleDetailClick}
+            className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
+          >
             <span className="text-grey-normal font-pretendard text-[16px] font-semibold leading-[140%] tracking-[-0.4px] whitespace-nowrap">
               자세히 보기
             </span>
