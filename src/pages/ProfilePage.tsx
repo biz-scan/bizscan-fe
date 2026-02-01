@@ -88,13 +88,13 @@ export default function ProfilePage() {
                     현재 비밀번호 입력
                   </p>
                   <div className="min-w-0">
-                    <Input
-                      type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                      placeholder="***"
-                      value={form.currentPassword}
-                      onChange={handleChange('currentPassword')}
-                    />
+                  <Input
+                    type="password"
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                    placeholder="현재 비밀번호를 입력하세요"
+                    value={form.currentPassword}
+                    onChange={handleChange('currentPassword')}
+                  />
                   </div>
                 </div>
 
@@ -103,13 +103,13 @@ export default function ProfilePage() {
                     새 비밀번호 입력
                   </p>
                   <div className="min-w-0">
-                    <Input
-                      type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                      placeholder="***"
-                      value={form.newPassword}
-                      onChange={handleChange('newPassword')}
-                    />
+                  <Input
+                    type="password"
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                    placeholder="새 비밀번호를 입력하세요"
+                    value={form.newPassword}
+                    onChange={handleChange('newPassword')}
+                  />
                   </div>
                 </div>
               </div>
