@@ -23,7 +23,7 @@ export function useLogin(options?: UseLoginOptions) {
           if (meRes.isSuccess) {
             setAuth(meRes.result, res.accessToken, options?.rememberMe ?? false);
             toast.success('로그인에 성공하셨습니다!');
-            navigate('/dashboard');
+            navigate('/onboarding');
           }
         } else {
           toast.error('로그인에 실패했습니다.');
