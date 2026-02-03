@@ -10,7 +10,7 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
-  console.log(isAuthenticated, location.pathname);
+
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
