@@ -1,17 +1,19 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
+import { tokenStorage } from '@/lib/tokenStorage';
 import type { User } from '@/types/auth.type';
 
 interface AuthState {
   // State
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
+  isInitialized: boolean;
 
   // Actions
-  setAuth: (user: User, token: string) => void;
   setUser: (user: User) => void;
+  setAuth: (user: User, token: string, persist?: boolean) => void;
+  setInitialized: (initialized: boolean) => void;
   logout: () => void;
 }
 
@@ -20,26 +22,29 @@ const useAuthStore = create<AuthState>()(
     (set) => ({
       // Initial State
       user: null,
-      token: null,
       isAuthenticated: false,
+      isInitialized: false,
 
       // Actions
-      setAuth: (user, token) => {
-        localStorage.setItem('token', token);
-        set({ user, token, isAuthenticated: true });
-      },
-
       setUser: (user) => set({ user }),
 
+      setAuth: (user, token, persistToken = false) => {
+        tokenStorage.set(token, persistToken);
+        set({ user, isAuthenticated: true });
+      },
+
+      setInitialized: (initialized) => set({ isInitialized: initialized }),
+
       logout: () => {
-        localStorage.removeItem('token');
-        set({ user: null, token: null, isAuthenticated: false });
+        tokenStorage.remove();
+        set({ user: null, isAuthenticated: false });
       },
     }),
     {
-      name: 'auth-storage', // localStorage key
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        // persist
+        // user 정보만 persist (token은 tokenStorage에서 관리)
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
