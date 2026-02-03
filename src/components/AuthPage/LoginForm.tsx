@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Label } from '@/components/ui/Label';
+import { useLogin } from '@/hooks/auth';
 import { type LoginInput, loginSchema } from '@/schemas/auth.schema';
 
 import { Button } from '../ui/Button';
@@ -14,6 +15,8 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ handleTabChange }: LoginFormProps) {
+  const [rememberMe, setRememberMe] = useState(false);
+  const { mutate } = useLogin({ rememberMe });
   const {
     register,
     handleSubmit,
@@ -23,8 +26,8 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
   });
 
   const onSubmit = (_data: LoginInput) => {
+    mutate(_data);
     // TODO: 로그인 API 호출
-    toast.error('로그인 성공!');
   };
 
   return (
@@ -60,7 +63,13 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
         )}
 
         <div className="mt-6 mb-8 flex items-center gap-2">
-          <Checkbox variant="white" size="sm" id="remember-me" />
+          <Checkbox
+            variant="white"
+            size="sm"
+            id="remember-me"
+            checked={rememberMe}
+            onCheckedChange={(checked) => setRememberMe(checked === true)}
+          />
           <Label htmlFor="remember-me">로그인 상태 유지</Label>
         </div>
 

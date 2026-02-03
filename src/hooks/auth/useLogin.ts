@@ -14,20 +14,21 @@ export function useLogin(options?: UseLoginOptions) {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
 
-  return useAppMutation<LoginResponse, LoginRequest>((data) => login(data), {
-    onSuccess: async (res) => {
-      if (res.isSuccess) {
-        const { accessToken } = res.result;
-
-        const meRes = await getMe();
-        if (meRes.isSuccess) {
-          setAuth(meRes.result, accessToken, options?.rememberMe ?? false);
-          toast.success('로그인에 성공하셨습니다!');
-          navigate('/dashboard');
+  return useAppMutation<{ data: LoginResponse; accessToken: string | null }, LoginRequest>(
+    (data) => login(data),
+    {
+      onSuccess: async (res) => {
+        if (res.data.isSuccess && res.accessToken) {
+          const meRes = await getMe();
+          if (meRes.isSuccess) {
+            setAuth(meRes.result, res.accessToken, options?.rememberMe ?? false);
+            toast.success('로그인에 성공하셨습니다!');
+            navigate('/dashboard');
+          }
+        } else {
+          toast.error('로그인에 실패했습니다.');
         }
-      } else {
-        toast.error(res.message || '로그인에 실패했습니다.');
-      }
-    },
-  });
+      },
+    }
+  );
 }
