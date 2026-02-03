@@ -3,7 +3,7 @@ import type { CommonResponse } from './api.type';
 export type User = {
   id: number;
   email: string;
-  name: string;
+  nickname: string;
 };
 
 /* REQUEST */
