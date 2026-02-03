@@ -18,9 +18,13 @@ export async function signup(data: SignupRequest): Promise<SignupResponse> {
 }
 
 /* 로그인 */
-export async function login(data: LoginRequest): Promise<LoginResponse> {
+export async function login(
+  data: LoginRequest
+): Promise<{ data: LoginResponse; accessToken: string | null }> {
   const res = await axiosInstance.post<LoginResponse>('/api/tokens/login', data);
-  return res.data;
+  const accessToken = res.headers['authorization']?.replace('Bearer ', '') ?? null;
+
+  return { data: res.data, accessToken };
 }
 
 /* 로그아웃 */
