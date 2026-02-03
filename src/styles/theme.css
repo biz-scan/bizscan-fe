@@ -42,6 +42,11 @@
   --background-image-gra2: linear-gradient(to bottom, #024fe2 0%, #5a8de1 100%);
   --background-image-gra2-right: linear-gradient(90deg, #024fe2 0%, #5a8de1 100%);
   --background-image-gra1: linear-gradient(to bottom, #d9e5f3 0%, #99baf2 100%);
+  --background-image-gra2: linear-gradient(to bottom, #024fe2 0%, #5a8de1 100%);
+
+  /* Gradients - Horizontal */
+  --background-image-gra1-h: linear-gradient(to right, #d9e5f3 0%, #99baf2 100%);
+  --background-image-gra2-h: linear-gradient(to right, #024fe2 0%, #5a8de1 100%);
 
   /* Typography */
   --font-family-sans:
