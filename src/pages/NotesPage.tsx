@@ -1,5 +1,5 @@
-import { useMemo, useState, useSyncExternalStore } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMemo, useSyncExternalStore } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import NextGuideCard from '@/components/NotesPage/NextGuideCard';
@@ -12,11 +12,26 @@ import {
   subscribeNotes,
 } from '@/mocks/notesMockStore';
 
+type TabValue = 'in_progress' | 'completed';
+
+const DEFAULT_TAB: TabValue = 'in_progress';
+
+function isTabValue(v: string | null): v is TabValue {
+  return v === 'in_progress' || v === 'completed';
+}
+
 export default function NotesPage() {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<'in_progress' | 'completed'>('in_progress');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const allNotes = useSyncExternalStore(subscribeNotes, getAllNotesSnapshot, getAllNotesSnapshot);
+  const tabParam = searchParams.get('tab');
+  const tab: TabValue = isTabValue(tabParam) ? tabParam : DEFAULT_TAB;
+
+  const allNotes = useSyncExternalStore(
+    subscribeNotes,
+    getAllNotesSnapshot,
+    getAllNotesSnapshot
+  );
 
   const filtered = useMemo(() => {
     return allNotes.filter((n) => {
@@ -25,10 +40,14 @@ export default function NotesPage() {
     });
   }, [allNotes, tab]);
 
+  const handleTabChange = (v: string) => {
+    if (!isTabValue(v)) return;
+    setSearchParams({ tab: v });
+  };
+
   return (
     <div className="min-h-screen bg-grey-light px-[120px] py-[120px]">
       <div className="mx-auto w-full max-w-[1100px]">
-
         <div className="flex items-center gap-[8px]">
           <Simbol className="h-[32px] w-[32px]" />
           <h3 className="text-blue-dark">oooo님의 실행 노트</h3>
@@ -42,14 +61,20 @@ export default function NotesPage() {
             value={tab}
             onValueChange={(v) => {
               if (!v) return;
-              setTab(v as 'in_progress' | 'completed');
+              handleTabChange(v);
             }}
             className="flex gap-[16px]"
           >
-            <ToggleGroupItem value="in_progress" className="px-[28px] py-[14px] rounded-[12px]">
+            <ToggleGroupItem
+              value="in_progress"
+              className="rounded-[12px] px-[28px] py-[14px]"
+            >
               진행 중
             </ToggleGroupItem>
-            <ToggleGroupItem value="completed" className="px-[28px] py-[14px] rounded-[12px]">
+            <ToggleGroupItem
+              value="completed"
+              className="rounded-[12px] px-[28px] py-[14px]"
+            >
               완료
             </ToggleGroupItem>
           </ToggleGroup>
@@ -67,17 +92,25 @@ export default function NotesPage() {
           ) : (
             filtered.map((note) => {
               const progress = calcProgress(note.steps).percent;
-              const guideText = tab === 'in_progress' ? getNextGuideText(note.steps) : null;
+              const guideText =
+                tab === 'in_progress' ? getNextGuideText(note.steps) : null;
 
               return (
-                <div key={note.noteId} className="grid grid-cols-1 gap-[20px] lg:grid-cols-[8fr_5fr]">
+                <div
+                  key={note.noteId}
+                  className="grid grid-cols-1 gap-[20px] lg:grid-cols-[8fr_5fr]"
+                >
                   <NoteListCard
                     note={note}
                     progress={progress}
                     onClick={() => navigate(`/notes/${note.noteId}`)}
                   />
 
-                  {tab === 'in_progress' && guideText ? <NextGuideCard text={guideText} /> : <div />}
+                  {tab === 'in_progress' && guideText ? (
+                    <NextGuideCard text={guideText} />
+                  ) : (
+                    <div />
+                  )}
                 </div>
               );
             })
