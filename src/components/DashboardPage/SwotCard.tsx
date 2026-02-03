@@ -8,9 +8,18 @@ interface SwotCardProps {
   title: string;
   keyword: string;
   description: string;
+  isActive?: boolean;
+  onClick?: () => void;
 }
 
-export default function SwotCard({ type, title, keyword, description }: SwotCardProps) {
+export default function SwotCard({
+  type,
+  title,
+  keyword,
+  description,
+  isActive,
+  onClick,
+}: SwotCardProps) {
   const commonColor = 'text-blue-normal';
   const isReverse = type === 'W' || type === 'T';
 
@@ -24,16 +33,28 @@ export default function SwotCard({ type, title, keyword, description }: SwotCard
   const { color, icon, pos } = theme[type];
 
   return (
-    <div className="relative flex flex-col w-full max-w-[664px] h-[160px] rounded-[20px] bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] overflow-hidden pt-[25px] px-[clamp(20px,5vw,48px)]">
+    <button
+      onClick={onClick}
+      className={`relative flex flex-col w-full max-w-[664px] h-[160px] rounded-[20px] overflow-hidden pt-[25px] px-[clamp(20px,5vw,48px)] transition-all duration-200 text-left
+    ${
+      isActive
+        ? 'bg-blue-light ring-1 ring-blue-normal shadow-[0_4px_20px_0_rgba(49,49,49,0.08)]'
+        : 'bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)]'
+    }`}
+    >
       <h3
-        className={`z-10 font-pretendard text-[clamp(24px,2.5vw,32px)] font-bold leading-[140%] tracking-[-0.8px] mb-[16px] ${isReverse ? 'text-right' : 'text-left'}`}
+        className={`z-10 font-pretendard text-[clamp(24px,2.5vw,32px)] font-bold leading-[140%] tracking-[-0.8px] mb-[16px] w-full ${isReverse ? 'text-right' : 'text-left'}`}
       >
         <span className={color}>{title[0]}</span>
         <span className="text-grey-darker">{title.slice(1)}</span>
       </h3>
 
-      <div className={`z-10 flex items-center ${isReverse ? 'flex-row-reverse' : 'flex-row'}`}>
-        <div className="flex justify-center items-center px-[clamp(20px,3vw,44px)] py-[10px] rounded-[8px] border border-blue-normal bg-transparent whitespace-nowrap">
+      <div
+        className={`z-10 flex items-center w-full ${isReverse ? 'flex-row-reverse' : 'flex-row'}`}
+      >
+        <div
+          className={`flex justify-center items-center px-[clamp(20px,3vw,44px)] py-[10px] rounded-[8px] border border-blue-normal whitespace-nowrap transition-colors bg-transparent`}
+        >
           <span className="text-blue-normal font-pretendard text-[clamp(16px,1.5vw,20px)] font-bold leading-[140%] tracking-[-0.5px]">
             {keyword}
           </span>
@@ -47,8 +68,12 @@ export default function SwotCard({ type, title, keyword, description }: SwotCard
       </div>
 
       <div className={`absolute ${pos} pointer-events-none z-0`}>
-        <img src={icon} alt={`SWOT ${type}`} className="w-auto h-auto max-h-full" />
+        <img
+          src={icon}
+          alt={`SWOT ${type}`}
+          className={`w-auto h-auto max-h-full transition-opacity ${isActive ? 'opacity-100' : 'opacity-80'}`}
+        />
       </div>
-    </div>
+    </button>
   );
 }
