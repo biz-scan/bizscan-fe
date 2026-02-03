@@ -11,7 +11,7 @@ export function useSignup(options?: MutationOptions<SignupResponse, SignupReques
   return useAppMutation<SignupResponse, SignupRequest>((data) => signup(data), {
     onSuccess: (res) => {
       if (res.isSuccess) {
-        toast.success('회원가입 성공! 로그인해주세요.');
+        toast.success('환영합니다! 사장님의 성공 파트너 BizScan입니다.');
         navigate('/auth');
       } else {
         toast.error(res.message || '회원가입에 실패했습니다.');
