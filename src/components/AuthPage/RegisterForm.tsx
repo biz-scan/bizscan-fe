@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { Label } from '@/components/ui/Label';
+import { useSignup } from '@/hooks/auth';
 import { type RegisterInput, registerSchema } from '@/schemas/auth.schema';
 
 import { Button } from '../ui/Button';
@@ -13,6 +13,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
+  const { mutate } = useSignup();
   const {
     register,
     handleSubmit,
@@ -22,8 +23,7 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
   });
 
   const onSubmit = (_data: RegisterInput) => {
-    // TODO: 회원가입 API 호출
-    toast.success('회원가입 성공!');
+    mutate(_data);
   };
 
   return (
