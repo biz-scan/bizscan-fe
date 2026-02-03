@@ -53,8 +53,7 @@ export default function SwotCard({
         className={`z-10 flex items-center w-full ${isReverse ? 'flex-row-reverse' : 'flex-row'}`}
       >
         <div
-          className={`flex justify-center items-center px-[clamp(20px,3vw,44px)] py-[10px] rounded-[8px] border border-blue-normal whitespace-nowrap transition-colors
-          ${isActive ? 'bg-transparent' : 'bg-transparent'}`}
+          className={`flex justify-center items-center px-[clamp(20px,3vw,44px)] py-[10px] rounded-[8px] border border-blue-normal whitespace-nowrap transition-colors bg-transparent`}
         >
           <span className="text-blue-normal font-pretendard text-[clamp(16px,1.5vw,20px)] font-bold leading-[140%] tracking-[-0.5px]">
             {keyword}
