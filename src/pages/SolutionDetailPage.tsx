@@ -4,9 +4,9 @@ import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import CloseActive from '@/assets/icons/Close/state=active.svg?react';
 import CloseHover from '@/assets/icons/Close/state=hover.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
-import RectangleIcon from '@/assets/icons/SolutionDetailPage/Rectangle.svg';
 import CheckIcon from '@/assets/icons/Icon/type=check.svg?react';
 import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
+import FieldLabel from '@/components/common/FieldLabel';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
@@ -94,13 +94,10 @@ export default function SolutionDetailPage() {
           <LineIcon className="w-full h-auto text-transparent" />
         </div>
 
+        {/* AI 추천 이유 */}
         <section className="flex flex-col items-start">
-          {/* AI 추천 이유 */}
-          <div className="mt-[60px] flex items-center mb-[20px]">
-            <img src={RectangleIcon} alt="rect" className="w-[3px] h-[20px]" />
-            <h5 className="ml-[16px] text-blue-normal font-pretendard text-[24px] font-bold leading-[140%] tracking-[-0.6px]">
-              AI 추천 이유
-            </h5>
+          <div className="mt-[60px] mb-[20px]">
+            <FieldLabel text="AI 추천 이유" />
           </div>
 
           <div className="w-full max-w-[1348px] min-h-[200px] aspect-auto md:aspect-[1348/360] rounded-[20px] bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] flex flex-col items-start p-[clamp(24px,3vw,48px)]">
@@ -112,11 +109,8 @@ export default function SolutionDetailPage() {
 
         {/* 세부 실행 가이드 */}
         <section className="mt-[60px] w-full flex flex-col">
-          <div className="flex items-center mb-[20px]">
-            <img src={RectangleIcon} alt="rect" className="w-[3px] h-[20px]" />
-            <h5 className="ml-[16px] text-blue-normal text-[24px] font-bold tracking-[-0.6px]">
-              세부 실행 가이드
-            </h5>
+          <div className="mb-[20px]">
+            <FieldLabel text="세부 실행 가이드" />
           </div>
 
           <div className="flex flex-col gap-[20px] w-full">
