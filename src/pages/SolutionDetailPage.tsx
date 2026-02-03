@@ -53,9 +53,7 @@ export default function SolutionDetailPage() {
         <div className="flex justify-between items-start mb-[clamp(32px,4vw,48px)]">
           <div className="flex items-center gap-[20px]">
             <SimbolLogo className="w-[42px] h-[42px]" />
-            <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)] font-bold leading-[140%] tracking-[-0.8px]">
-              맞춤 실행 전략
-            </h2>
+            <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">맞춤 실행 전략</h2>
           </div>
 
           <button
@@ -73,9 +71,7 @@ export default function SolutionDetailPage() {
         </div>
 
         <section className="flex flex-col">
-          <h1 className="text-grey-darker font-pretendard text-[clamp(20px,2.5vw,32px)] font-bold leading-[140%] tracking-[-0.8px]">
-            {solutionData.title}
-          </h1>
+          <h1 className="text-grey-darker text-[clamp(20px,2.5vw,32px)]">{solutionData.title}</h1>
 
           <div className="flex flex-wrap gap-[8px] mt-[20px]">
             {solutionData.tags.map((tag, idx) => (
@@ -83,9 +79,7 @@ export default function SolutionDetailPage() {
                 key={idx}
                 className="flex px-[10px] py-[4px] justify-center items-center gap-[2px] rounded-[4px] bg-blue-light whitespace-nowrap"
               >
-                <span className="text-blue-dark font-pretendard text-[16px] font-medium leading-[140%] tracking-[-0.4px]">
-                  {tag}
-                </span>
+                <span className="text-blue-dark typo-p2-medium">{tag}</span>
               </div>
             ))}
           </div>
@@ -101,8 +95,8 @@ export default function SolutionDetailPage() {
             <FieldLabel text="AI 추천 이유" />
           </div>
 
-          <div className="w-full max-w-[1348px] min-h-[200px] aspect-auto md:aspect-[1348/360] rounded-[20px] bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] flex flex-col items-start p-[clamp(24px,3vw,48px)]">
-            <p className="text-grey-darker font-pretendard text-[clamp(16px,1.5vw,20px)] font-normal leading-[140%] tracking-[-0.5px] whitespace-pre-wrap">
+          <div className="w-full max-w-[1348px] min-h-[200px] aspect-auto md:aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
+            <p className="text-grey-darker typo-p1-regular whitespace-pre-wrap">
               {solutionData.aiReason}
             </p>
           </div>
@@ -118,13 +112,11 @@ export default function SolutionDetailPage() {
             {solutionData.guides.map((text, index) => (
               <div
                 key={index}
-                className="flex items-center w-full min-h-[110px] py-[20px] px-[clamp(24px,5vw,48px)] rounded-[20px] border border-blue-normal bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] transition-all"
+                className="flex items-center w-full min-h-[110px] py-[20px] px-[clamp(24px,5vw,48px)] rounded-[20px] border border-blue-normal bg-grey-light shadow-normal transition-all"
               >
                 <CheckIcon className="w-[54px] h-[54px] flex-shrink-0" />
 
-                <span className="ml-[32px] text-grey-darker text-[clamp(16px,2vw,20px)] font-semibold leading-[140%] tracking-[-0.5px]">
-                  {text}
-                </span>
+                <span className="ml-[32px] text-grey-darker typo-p1-semibold">{text}</span>
               </div>
             ))}
           </div>
@@ -137,9 +129,7 @@ export default function SolutionDetailPage() {
               /* 담기 로직 */
             }}
           >
-            <span className="font-pretendard text-[20px] font-bold leading-[140%] tracking-[-0.5px]">
-              내 실행 노트에 담기
-            </span>
+            <span className="typo-p1-bold">내 실행 노트에 담기</span>
             <ArrowWhite className="w-[24px] h-[24px] flex-shrink-0" />
           </Button>
         </section>

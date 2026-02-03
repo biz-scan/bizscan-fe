@@ -66,7 +66,7 @@ export default function ReportPage() {
       <div className="mx-auto w-full max-w-[1348px] pt-[120px] px-6 md:px-10 xl:px-[60px]">
         <div className="flex items-center gap-[20px] mb-[48px]">
           <SimbolLogo className="w-[42px] h-[42px]" />
-          <h2 className="text-blue-dark text-[32px] font-bold">AI SWOT 분석</h2>
+          <h2 className="text-blue-dark text-[32px]">AI SWOT 분석</h2>
         </div>
 
         {/* SWOT 카드 */}
@@ -91,15 +91,11 @@ export default function ReportPage() {
             <section className="mt-[clamp(60px,8vw,145px)] animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
-                <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)] font-bold leading-[140%] tracking-[-0.8px]">
-                  AI 정밀 진단
-                </h2>
+                <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">AI 정밀 진단</h2>
               </div>
 
-              <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] flex flex-col items-start p-[clamp(24px,3vw,48px)]">
-                <p className="text-grey-darker font-pretendard text-[clamp(16px,1.5vw,20px)] font-normal leading-[140%] tracking-[-0.5px]">
-                  {aiAnalysisData[selectedType]}
-                </p>
+              <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
+                <p className="text-grey-darker typo-p1-regular">{aiAnalysisData[selectedType]}</p>
               </div>
             </section>
 
@@ -111,9 +107,7 @@ export default function ReportPage() {
             <section className="mt-[clamp(60px,8vw,145px)]">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
-                <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)] font-bold">
-                  맞춤 실행 전략
-                </h2>
+                <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">맞춤 실행 전략</h2>
               </div>
 
               <div className="flex flex-col">
