@@ -7,6 +7,7 @@ import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import CheckIcon from '@/assets/icons/Icon/type=check.svg?react';
 import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
+import { Button } from '@/components/ui/Button';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
@@ -128,17 +129,19 @@ export default function SolutionDetailPage() {
             ))}
           </div>
 
-          <button
-            className="mt-[52px] self-end flex px-[26px] py-[18px] justify-center items-center gap-[44px] flex-wrap rounded-[8px] bg-blue-normal text-grey-light transition-all active:scale-95 shadow-md"
+          <Button
+            variant="default"
+            size="lg"
+            className="mt-[52px] self-end flex items-center gap-[44px]"
             onClick={() => {
-              /* 담기 로직  */
+              /* 담기 로직 */
             }}
           >
             <span className="font-pretendard text-[20px] font-bold leading-[140%] tracking-[-0.5px]">
               내 실행 노트에 담기
             </span>
             <ArrowWhite className="w-[24px] h-[24px] flex-shrink-0" />
-          </button>
+          </Button>
         </section>
 
         <div className="h-[clamp(100px,15vw,241px)]" />
