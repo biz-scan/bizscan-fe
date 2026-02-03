@@ -33,7 +33,7 @@ export default function Header() {
 
       {isAuthenticated ? (
         <div>
-          <p className="typo-p2-semibold text-grey-dark">{user?.name}님 환영합니다!</p>
+          <p className="typo-p2-semibold text-grey-dark">안녕하세요! {user?.nickname}님</p>
         </div>
       ) : (
         <div className="flex gap-3">
