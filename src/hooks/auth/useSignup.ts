@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 
 import { type MutationOptions, useAppMutation } from '@/apis/apiHooks';
 import { getMe, login, signup } from '@/apis/auth/auth';
+import { tokenStorage } from '@/lib/tokenStorage';
 import useAuthStore from '@/store/useAuthStore';
 import type { SignupRequest, SignupResponse } from '@/types/auth.type';
 
@@ -17,6 +18,7 @@ export function useSignup(options?: MutationOptions<SignupResponse, SignupReques
 
         const loginRes = await login({ email: variables.email, password: variables.password });
         if (loginRes.data.isSuccess && loginRes.accessToken) {
+          tokenStorage.set(loginRes.accessToken, false);
           const meRes = await getMe();
           if (meRes.isSuccess) {
             setAuth(meRes.result, loginRes.accessToken, false);

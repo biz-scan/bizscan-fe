@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 
 import { useAppMutation } from '@/apis/apiHooks';
 import { getMe, login } from '@/apis/auth/auth';
+import { tokenStorage } from '@/lib/tokenStorage';
 import useAuthStore from '@/store/useAuthStore';
 import type { LoginRequest, LoginResponse } from '@/types/auth.type';
 
@@ -19,6 +20,7 @@ export function useLogin(options?: UseLoginOptions) {
     {
       onSuccess: async (res) => {
         if (res.data.isSuccess && res.accessToken) {
+          tokenStorage.set(res.accessToken, options?.rememberMe ?? false);
           const meRes = await getMe();
           if (meRes.isSuccess) {
             setAuth(meRes.result, res.accessToken, options?.rememberMe ?? false);
