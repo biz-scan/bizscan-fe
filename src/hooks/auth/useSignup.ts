@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { type MutationOptions, useAppMutation } from '@/apis/apiHooks';
+import { useAppMutation } from '@/apis/apiHooks';
 import { getMe, login, signup } from '@/apis/auth/auth';
 import { tokenStorage } from '@/lib/tokenStorage';
 import useAuthStore from '@/store/useAuthStore';
 import type { SignupRequest, SignupResponse } from '@/types/auth.type';
 
-export function useSignup(options?: MutationOptions<SignupResponse, SignupRequest>) {
+export function useSignup() {
   const navigate = useNavigate();
   const { setAuth } = useAuthStore();
 
@@ -31,6 +31,5 @@ export function useSignup(options?: MutationOptions<SignupResponse, SignupReques
         toast.error('입력 정보를 다시 확인해주세요.');
       }
     },
-    ...options,
   });
 }
