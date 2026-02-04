@@ -71,9 +71,9 @@ pnpm run dev
 src/
 ├── apis/                    # API 통신 관련
 │   ├── auth/               # 인증 관련 API
-│   │   └── auth.ts         # login, signup, logout, getMe 함수
-│   ├── axiosInstance.ts    # Axios 설정 (인터셉터, 토큰 자동 주입)
-│   ├── query.ts            # useAppQuery, useAppMutation 커스텀 훅
+│   │   └── auth.ts         # login, signup, logout, getMe, refreshToken 함수
+│   ├── axiosInstance.ts    # Axios 설정 (인터셉터, 토큰 자동 갱신)
+│   ├── apiHooks.ts         # useAppQuery, useAppMutation 커스텀 훅
 │   └── queryClient.ts      # React Query 클라이언트 설정
 │
 ├── components/              # 재사용 가능한 컴포넌트
@@ -82,10 +82,20 @@ src/
 │       └── HomeInput.tsx   # Input 컴포넌트
 │
 ├── hooks/                   # 커스텀 훅
-│   ├── queries/            # 데이터 조회 훅 (useQuery 기반)
-│   │   └── useAuthQueries.ts   # useMe()
-│   └── mutations/          # 데이터 변경 훅 (useMutation 기반)
-│       └── useAuthMutations.ts # useLogin(), useSignup(), useLogout()
+│   └── auth/               # 인증 관련 훅
+│       ├── index.ts        # barrel export
+│       ├── useLogin.ts     # 로그인
+│       ├── useSignup.ts    # 회원가입
+│       ├── useLogout.ts    # 로그아웃
+│       ├── useMe.ts        # 내 정보 조회
+│       └── useUpdateMe.ts  # 내 정보 수정
+│
+├── lib/                     # 유틸리티 라이브러리
+│   ├── tokenStorage.ts     # 토큰 저장소 (localStorage/sessionStorage)
+│   └── utils.ts            # 공통 유틸리티 함수
+│
+├── providers/               # React Provider 컴포넌트
+│   └── AuthProvider.tsx    # 인증 상태 초기화 (앱 시작 시 토큰 검증)
 │
 ├── pages/                   # 페이지 컴포넌트
 │   ├── HomePage.tsx        # 홈페이지 (/)
@@ -98,18 +108,16 @@ src/
 │   └── index.tsx           # React Router 설정
 │
 ├── store/                   # Zustand 상태 관리
-│   └── useAuthStore.ts     # 인증 상태 (user, token, isAuthenticated)
+│   └── useAuthStore.ts     # 인증 상태 (user, isAuthenticated)
 │
 ├── types/                   # TypeScript 타입 정의
-│   ├── auth.type.ts        # 인증 관련 타입
-│   └── query.type.ts       # React Query 관련 타입
+│   └── auth.type.ts        # 인증 관련 타입
 │
 ├── styles/                  # 전역 스타일
 │   └── theme.css           # CSS 변수 (색상, 폰트, 간격 등)
 │
 ├── assets/                  # 정적 파일 (이미지, 아이콘 등)
 ├── constants/               # 상수 정의
-├── utils/                   # 유틸리티 함수
 │
 ├── main.tsx                 # 앱 진입점
 └── index.css                # 전역 CSS (Tailwind import)
@@ -153,7 +161,8 @@ ESLint 설정 파일입니다. 다음 규칙들이 적용되어 있습니다:
   ```typescript
   // 사용 예시
   import { Button } from '@/components/Button';
-  import { useLogin } from '@/hooks/mutations/useAuthMutations';
+  import { useLogin, useMe } from '@/hooks/auth';
+  import { tokenStorage } from '@/lib/tokenStorage';
   ```
 - **엄격 모드**: `strict: true`로 타입 안정성 강화
 
@@ -176,36 +185,146 @@ ESLint 설정 파일입니다. 다음 규칙들이 적용되어 있습니다:
 
 ## 아키텍처 가이드
 
+### 인증 시스템 구조
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           앱 시작 (main.tsx)                         │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    v
+┌─────────────────────────────────────────────────────────────────────┐
+│                         AuthProvider                                 │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ 1. tokenStorage.get() → 저장된 토큰 확인                      │    │
+│  │ 2. getMe() → 토큰 유효성 검증                                 │    │
+│  │ 3. 실패 시 → refreshToken() → 토큰 갱신 시도                  │    │
+│  │ 4. 성공 → useAuthStore에 user 정보 저장                       │    │
+│  │ 5. 실패 → logout() 처리                                       │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                      │
+│  isInitialized = false 동안 로딩 스피너 표시                         │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    v
+┌─────────────────────────────────────────────────────────────────────┐
+│                         RouterProvider                               │
+│                      (페이지 렌더링 시작)                             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ### API 통신 구조
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   컴포넌트       │ -> │  Custom Hook     │ -> │   API 함수      │
-│ (LoginPage)     │    │ (useLogin)       │    │ (auth.ts)       │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                              │                        │
-                              v                        v
-                       ┌──────────────────┐    ┌─────────────────┐
-                       │  React Query     │    │  Axios Instance │
-                       │ (캐싱 & 상태)    │    │ (인터셉터)       │
-                       └──────────────────┘    └─────────────────┘
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  컴포넌트    │ -> │ Custom Hook │ -> │  API 함수   │ -> │   Axios     │
+│ (LoginPage) │    │ (useLogin)  │    │ (auth.ts)   │    │ Instance    │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+                          │                                     │
+                          v                                     v
+                   ┌─────────────┐                      ┌─────────────┐
+                   │ React Query │                      │ Interceptor │
+                   │ (캐싱/상태) │                      │ (토큰 처리) │
+                   └─────────────┘                      └─────────────┘
 ```
 
 **사용 예시:**
 
 ```typescript
 // 페이지에서 훅 사용
-const { mutate: login, isPending } = useLogin();
+import { useLogin } from '@/hooks/auth';
+
+const { mutate: login, isPending } = useLogin({ rememberMe: true });
 
 login({ email: 'test@test.com', password: '1234' });
 ```
 
-### Axios 인터셉터
+### Axios 인터셉터 (토큰 자동 갱신)
 
 `apis/axiosInstance.ts`에서 다음 기능을 자동 처리합니다:
 
-1. **요청 인터셉터**: localStorage에서 토큰을 읽어 Authorization 헤더에 자동 추가
-2. **응답 인터셉터**: 401 에러 시 자동으로 로그인 페이지로 리다이렉트
+**1. 요청 인터셉터**
+```
+모든 요청 → tokenStorage에서 토큰 조회 → Authorization 헤더에 자동 추가
+```
+
+**2. 응답 인터셉터 (401 자동 처리)**
+```
+API 요청 실패 (401 Unauthorized)
+        │
+        v
+refresh 요청 자체가 401? ──Yes──> 로그아웃 → /auth로 이동
+        │
+        No
+        v
+이미 refresh 중? ──Yes──> 대기열(Queue)에 추가 → refresh 완료 후 재시도
+        │
+        No
+        v
+refresh 토큰으로 새 access 토큰 발급
+        │
+        v
+원래 요청 재시도 (새 토큰 사용)
+```
+
+**동시 요청 처리:**
+```
+요청1 ─── 401 ─── refresh 시작 ════════ 성공! ─── 재시도 ─── 완료
+요청2 ─── 401 ─── 대기열 추가 ── 대기중... ─── 재시도 ─── 완료
+요청3 ─── 401 ─── 대기열 추가 ── 대기중... ─── 재시도 ─── 완료
+                                    ↑
+                              processQueue()가
+                              대기열 전부 깨움
+```
+
+### 토큰 저장소 (tokenStorage)
+
+`lib/tokenStorage.ts`에서 토큰을 관리합니다:
+
+| 옵션 | 저장소 | 설명 |
+|------|--------|------|
+| `persist: true` | localStorage | 브라우저 닫아도 유지 (로그인 유지 O) |
+| `persist: false` | sessionStorage | 탭 닫으면 삭제 (로그인 유지 X) |
+
+```typescript
+// 로그인 시
+tokenStorage.set(accessToken, rememberMe);  // rememberMe 체크 여부에 따라 저장소 결정
+
+// 조회
+tokenStorage.get();  // 자동으로 올바른 저장소에서 조회
+
+// 로그아웃 시
+tokenStorage.remove();  // 모든 저장소에서 삭제
+```
+
+### Zustand 상태 관리
+
+`store/useAuthStore.ts`에서 인증 상태를 관리합니다:
+
+```typescript
+interface AuthState {
+  user: User | null;           // 사용자 정보
+  isAuthenticated: boolean;    // 로그인 여부
+  isInitialized: boolean;      // 앱 초기화 완료 여부
+
+  setAuth: (user, token, persist?) => void;  // 로그인 처리
+  setUser: (user) => void;                   // 유저 정보 업데이트
+  logout: () => void;                        // 로그아웃 처리
+}
+```
+
+**zustand persist 사용 시 주의:**
+```typescript
+// 불필요한 리렌더링 방지를 위해 useShallow 사용 권장
+import { useShallow } from 'zustand/react/shallow';
+
+const { user, isAuthenticated } = useAuthStore(
+  useShallow((state) => ({
+    user: state.user,
+    isAuthenticated: state.isAuthenticated,
+  }))
+);
+```
 
 ### React Query 설정
 
@@ -214,10 +333,6 @@ login({ email: 'test@test.com', password: '1234' });
 - `staleTime: 5분` - 데이터가 5분간 fresh 상태 유지
 - 에러 발생 시 Sonner 토스트로 자동 알림
 - **React Query Devtools**: 개발 환경에서 우측 하단 버튼으로 캐시 상태 확인 가능
-
-### Zustand 상태 관리
-
-`store/useAuthStore.ts`에 인증 상태 관리 예시가 구현되어 있습니다.
 
 ---
 
@@ -311,7 +426,9 @@ import axios from 'axios';
 
 // 3. 내부 절대 경로 (@/)
 import { Button } from '@/components/Button';
-import { useLogin } from '@/hooks/mutations/useAuthMutations';
+import { useLogin, useMe } from '@/hooks/auth';
+import { tokenStorage } from '@/lib/tokenStorage';
+import useAuthStore from '@/store/useAuthStore';
 
 // 4. 상대 경로
 import { HomeInput } from './HomeInput';
