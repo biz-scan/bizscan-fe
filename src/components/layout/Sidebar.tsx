@@ -39,8 +39,8 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[332px] h-screen bg-blue-light flex flex-col items-center shrink-0 sticky top-0 border-r border-blue-100 overflow-hidden">
-      <nav className="mt-[47px] flex flex-col items-start gap-[20px] w-[276px]">
+    <aside className="sticky top-0 flex h-screen w-[332px] shrink-0 flex-col items-center bg-blue-light overflow-hidden">
+      <nav className="mt-[47px] flex w-[276px] flex-col items-start gap-[20px]">
         {menuItems.map((item) => {
           const isActuallyActive = (navActive: boolean) =>
             navActive || (item.to === '/report' && pathname.startsWith('/solution/'));
@@ -57,7 +57,7 @@ export default function Sidebar() {
                       'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
                       'transition-[background-color,color] duration-200',
                       active
-                        ? 'bg-gra2 shadow-md'
+                        ? 'bg-gra2 shadow-normal'
                         : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
                     )}
                   >
@@ -65,7 +65,7 @@ export default function Sidebar() {
                       <Icon className="w-6 h-6 shrink-0" />
                       <span
                         className={clsx(
-                          'font-["Pretendard"] text-[20px] font-semibold tracking-[-1px] leading-[160%] whitespace-nowrap',
+                          'typo-p1-semibold whitespace-nowrap tracking-[-1px]',
                           active ? 'text-blue-light' : 'text-blue-normal-hover'
                         )}
                       >
