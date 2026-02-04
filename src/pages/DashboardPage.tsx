@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useGetSwots } from '@/apis/analysis/analysisHooks';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
@@ -7,6 +8,13 @@ import LineIcon from '@/assets/icons/Line/Line.svg?react';
 interface DashboardPageProps {
   userName?: string;
 }
+
+const SWOT_TITLES = {
+  S: 'Strengths',
+  W: 'Weaknesses',
+  O: 'Opportunities',
+  T: 'Threats',
+};
 
 export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps) {
   const navigate = useNavigate();
@@ -25,32 +33,8 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
     }, 0);
   };
 
-  const swotData = [
-    {
-      type: 'S' as const,
-      title: 'Strengths',
-      keyword: '가격 경쟁력 우수',
-      description: '객단가가 주변보다 낮아요',
-    },
-    {
-      type: 'W' as const,
-      title: 'Weaknesses',
-      keyword: '리뷰 수 부족',
-      description: '경쟁사 대비 20% 수준',
-    },
-    {
-      type: 'O' as const,
-      title: 'Opportunities',
-      keyword: '20대 유동인구 ↑',
-      description: '저녁 시간대 급증',
-    },
-    {
-      type: 'T' as const,
-      title: 'Threats',
-      keyword: '유사 업종 과포화',
-      description: '반경 500m 내 150개',
-    },
-  ];
+  const { data: swotResponse } = useGetSwots();
+  const swotList = swotResponse?.result || [];
 
   const solutionText = "오후 5시 '직장인 퇴근길' 예약 프로모션";
   const tags = ['#객단가UP', '#난이도하', '#마케팅'];
@@ -92,8 +76,14 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
 
         {/* SWOT 카드 그리드 */}
         <div className="mt-[48px] grid grid-cols-1 md:grid-cols-2 gap-[20px]">
-          {swotData.map((item, index) => (
-            <SwotCard key={index} {...item} />
+          {swotList.map((item) => (
+            <SwotCard
+              key={item.swotId}
+              type={item.type}
+              title={SWOT_TITLES[item.type]}
+              keyword={item.keyword}
+              description={item.description}
+            />
           ))}
         </div>
 
