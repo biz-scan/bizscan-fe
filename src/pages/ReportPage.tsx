@@ -81,13 +81,13 @@ export default function ReportPage() {
           ))}
         </div>
 
-        <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
-          <LineIcon className="w-full h-auto text-transparent" />
-        </div>
-
         {/* AI 정밀 진단 */}
         {selectedType && (
           <>
+            <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
+              <LineIcon className="w-full h-auto text-transparent" />
+            </div>
+
             <section className="mt-[clamp(60px,8vw,145px)] animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
