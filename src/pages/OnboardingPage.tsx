@@ -16,6 +16,16 @@ import {
   SelectValue,
 } from '@/components/ui/Select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
+import {
+  CATEGORY_MAP,
+  DETAIL_MAP,
+  PAIN_MAP,
+  PRICE_MAP,
+  TAG_MAP,
+  TARGET_MAP,
+} from '@/constants/storeMapping';
+import { usePostStore, useStore, useUpdateStore } from '@/hooks/store';
+import type { RegisterStoreRequest } from '@/types/store.type';
 
 const TOGGLE_ITEM_CLASS = 'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace-nowrap';
 
@@ -45,6 +55,10 @@ const PAIN_OPTIONS = [
 ];
 
 export default function SettingsPage() {
+  const { data: storeRes } = useStore();
+  const { mutate: postStore, isPending: isPosting } = usePostStore();
+  const { mutate: updateStore, isPending: isUpdating } = useUpdateStore();
+
   const [form, setForm] = React.useState({
     storeName: '',
     location: '',
@@ -81,8 +95,31 @@ export default function SettingsPage() {
 
   const onSave = () => {
     if (!isFormValid) return;
-    alert('저장되었습니다.');
+
+    const requestData: RegisterStoreRequest = {
+      name: form.storeName,
+      address: form.location,
+      category: CATEGORY_MAP[form.bizType],
+      categoryDetail: DETAIL_MAP[form.subCategory],
+      signature: form.menuName,
+      price: PRICE_MAP[form.avgPrice],
+      target: TARGET_MAP[form.targetCustomers],
+      painPoint: PAIN_MAP[form.painPoint],
+      tags: form.features.map((f) => TAG_MAP[f] || f),
+    };
+
+    if (storeRes?.isSuccess && storeRes.result) {
+      // 수정 (API 스펙상 PATCH에서 tags 제외)
+
+      const { tags, ...updateData } = requestData;
+      updateStore({ storeId: storeRes.result.storeId, data: updateData });
+    } else {
+      // 신규 등록
+      postStore(requestData);
+    }
   };
+
+  const isLoading = isPosting || isUpdating;
 
   return (
     <div className="w-full bg-grey-light">
@@ -315,8 +352,8 @@ export default function SettingsPage() {
             </section>
 
             <div className="flex justify-end">
-              <Button size="lg" onClick={onSave} disabled={!isFormValid}>
-                저장하기
+              <Button size="lg" onClick={onSave} disabled={!isFormValid || isLoading}>
+                {isLoading ? '저장 중...' : '저장하기'}
               </Button>
             </div>
           </div>
