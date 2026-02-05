@@ -40,7 +40,7 @@ export default function DashboardPage() {
   const swotList = swotResponse?.result || [];
 
   // AI 캐치프레이즈 조회
-  const { data: catchphraseResponse } = useGetCatchphrase();
+  const { data: catchphraseResponse } = useGetCatchphrase(dummyStoreId);
   const catchphrase = catchphraseResponse?.result?.catchphrase;
 
   // 실행 전략 목록 조회

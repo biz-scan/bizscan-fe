@@ -20,7 +20,6 @@ export const useGetAnalysisStatus = (requestId: string) => {
 };
 
 // GET /api/analysis/swots?storeId={storeId}
-// storeId가 없으면 요청은 보내지 않음
 export const useGetSwots = (storeId?: number) => {
   return useQuery({
     queryKey: analysisKeys.swots(storeId),
@@ -38,11 +37,13 @@ export const useGetSwotDiagnosis = (swotId: number) => {
   });
 };
 
-// GET /api/analysis/catchphrase
-export const useGetCatchphrase = () => {
+// GET /api/analysis/catchphrase?storeId={storeId}
+// storeId가 없으면 요청은 보내지 않음
+export const useGetCatchphrase = (storeId?: number) => {
   return useQuery({
-    queryKey: analysisKeys.catchphrase(),
-    queryFn: analysisApi.getCatchphrase,
+    queryKey: analysisKeys.catchphrase(storeId),
+    queryFn: () => analysisApi.getCatchphrase(storeId!),
+    enabled: !!storeId,
   });
 };
 

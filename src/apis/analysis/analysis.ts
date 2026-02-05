@@ -47,9 +47,12 @@ getSwots: async (storeId: number) => {
   },
 
   // AI 캐치프레이즈 조회
-  getCatchphrase: async () => {
+  getCatchphrase: async (storeId: number) => {
     const response = await axiosInstance.get<ApiResponse<CatchphraseResponse>>(
-      '/api/analysis/catchphrase'
+      '/api/analysis/catchphrase',
+      {
+        params: { storeId },
+      }
     );
     return response.data;
   },
