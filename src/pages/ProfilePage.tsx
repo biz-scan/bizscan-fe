@@ -165,12 +165,6 @@ export default function ProfilePage() {
                     />
                   </div>
                 </div>
-
-                {hasAnyPw && !pwBothFilled ? (
-                  <p className="typo-p2-regular text-grey-darker">
-                    비밀번호를 변경하려면 현재/새 비밀번호를 모두 입력해주세요.
-                  </p>
-                ) : null}
               </div>
             </div>
 
