@@ -1,7 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
-import SwotCard from '@/components/DashboardPage/SwotCard';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import SwotCard from '@/components/DashboardPage/SwotCard';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
 
 export default function ReportPage() {

@@ -20,6 +20,8 @@ export type LoginRequest = {
 
 export type UpdateMeRequest = {
   nickname?: string;
+  currentPassword?: string;
+  newPassword?: string;
 };
 
 /* RESPONSE */
