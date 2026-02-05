@@ -19,11 +19,13 @@ export const useGetAnalysisStatus = (requestId: string) => {
   });
 };
 
-// GET /api/analysis/swots
-export const useGetSwots = () => {
+// GET /api/analysis/swots?storeId={storeId}
+// storeId가 없으면 요청은 보내지 않음
+export const useGetSwots = (storeId?: number) => {
   return useQuery({
-    queryKey: analysisKeys.swots(),
-    queryFn: analysisApi.getSwots,
+    queryKey: analysisKeys.swots(storeId),
+    queryFn: () => analysisApi.getSwots(storeId!),
+    enabled: !!storeId,
   });
 };
 

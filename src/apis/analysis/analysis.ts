@@ -30,11 +30,13 @@ export const analysisApi = {
     return response.data;
   },
 
-  // SWOT 대시보드 요약 조회
-  getSwots: async () => {
-    const response = await axiosInstance.get<ApiResponse<SwotItem[]>>('/api/analysis/swots');
-    return response.data;
-  },
+// SWOT 대시보드 요약 조회
+getSwots: async (storeId: number) => {
+  const response = await axiosInstance.get<ApiResponse<SwotItem[]>>('/api/analysis/swots', {
+    params: { storeId },
+  });
+  return response.data;
+},
 
   // SWOT 항목별 정밀 진단 조회
   getSwotDiagnosis: async (swotId: number) => {

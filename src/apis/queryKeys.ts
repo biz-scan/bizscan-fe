@@ -5,8 +5,9 @@ export const authKeys = {
 
 export const analysisKeys = {
   all: ['analysis'] as const,
-  swots: () => [...analysisKeys.all, 'swots'] as const,
-  swotDiagnosis: (swotId: number) => [...analysisKeys.swots(), swotId, 'diagnosis'] as const,
+  swots: (storeId?: number) => [...analysisKeys.all, 'swots', storeId] as const,
+  swotDiagnosis: (swotId: number) =>
+    [...analysisKeys.all, 'swots', swotId, 'diagnosis'] as const,
   catchphrase: () => [...analysisKeys.all, 'catchphrase'] as const,
   actionPlans: () => [...analysisKeys.all, 'action-plans'] as const,
   actionPlanDetail: (actionPlanId: number) =>

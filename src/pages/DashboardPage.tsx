@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetSwots } from '@/apis/analysis/analysisHooks';
+import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/apis/analysis/analysisHooks';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
@@ -26,18 +26,27 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
     }, 0);
   };
 
-  const handleSolutionClick = (id: string) => {
+  const handleSolutionClick = (id: number) => {
     navigate(`/solution/${id}`);
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
   };
 
-  const { data: swotResponse } = useGetSwots();
+  // TODO: 실제 선택된 매장의 storeId로 교체 필요!
+  const dummyStoreId = 6;
+
+  // SWOT 분석 결과 조회
+  const { data: swotResponse } = useGetSwots(dummyStoreId);
   const swotList = swotResponse?.result || [];
 
-  const solutionText = "오후 5시 '직장인 퇴근길' 예약 프로모션";
-  const tags = ['#객단가UP', '#난이도하', '#마케팅'];
+  // AI 캐치프레이즈 조회
+  const { data: catchphraseResponse } = useGetCatchphrase();
+  const catchphrase = catchphraseResponse?.result?.catchphrase;
+
+  // 실행 전략 목록 조회
+  const { data: actionPlanResponse } = useGetActionPlans();
+  const mainSolution = actionPlanResponse?.result?.[0];
 
   return (
     <main className="w-full min-h-screen bg-grey-light">
@@ -51,9 +60,11 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
             반갑습니다, {userName} 님!
           </h1>
           <div className="mt-[28px] flex px-[24px] py-[12px] justify-center items-center rounded-[8px] bg-gra2-right shadow-md">
-            <span className="text-blue-light text-[clamp(14px,1.2vw,16px)] font-normal whitespace-nowrap">
-              성수동 직장인 회식 1타
-            </span>
+            {catchphrase && (
+              <span className="text-blue-light text-[clamp(14px,1.2vw,16px)] font-normal whitespace-nowrap">
+                {catchphrase}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -101,31 +112,35 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
         </div>
 
         {/* 핵심 솔루션 */}
-        <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="flex flex-col gap-[16px]">
-            <p className="text-grey-darker text-[clamp(18px,2vw,24px)] font-semibold">
-              {solutionText}
-            </p>
-            <div className="flex flex-wrap gap-[8px]">
-              {tags.map((tag, idx) => (
-                <div
-                  key={idx}
-                  className="flex px-[10px] py-[4px] justify-center items-center rounded-[4px] bg-blue-light whitespace-nowrap"
-                >
-                  <span className="text-blue-dark typo-p2-medium">{tag}</span>
-                </div>
-              ))}
+        {mainSolution && (
+          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="flex flex-col gap-[16px]">
+              <p className="text-grey-darker text-[clamp(18px,2vw,24px)] font-semibold">
+                {mainSolution.title}
+              </p>
+              <div className="flex flex-wrap gap-[8px]">
+                {mainSolution.tags.map((tag) => (
+                  <div
+                    key={tag.tagId}
+                    className="flex px-[10px] py-[4px] justify-center items-center rounded-[4px] bg-blue-light whitespace-nowrap"
+                  >
+                    <span className="text-blue-dark typo-p2-medium">{tag.content}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={() => handleSolutionClick('s1')}
-            className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
-          >
-            <span className="text-grey-normal typo-p2-semibold whitespace-nowrap">자세히 보기</span>
-            <ArrowGray className="w-4 h-4 shrink-0" />
-          </button>
-        </div>
+            <button
+              onClick={() => handleSolutionClick(mainSolution.actionPlanId)}
+              className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
+            >
+              <span className="text-grey-normal typo-p2-semibold whitespace-nowrap">
+                자세히 보기
+              </span>
+              <ArrowGray className="w-4 h-4 shrink-0" />
+            </button>
+          </div>
+        )}
 
         <div className="h-[clamp(40px,10vw,100px)]" />
       </div>
