@@ -4,10 +4,7 @@ import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
-
-interface DashboardPageProps {
-  userName?: string;
-}
+import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
   S: 'Strengths',
@@ -16,8 +13,10 @@ const SWOT_TITLES = {
   T: 'Threats',
 };
 
-export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps) {
+export default function DashboardPage() {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const displayName = user?.nickname ?? 'OOOO';
 
   const handleDetailClick = () => {
     navigate('/report');
@@ -57,7 +56,7 @@ export default function DashboardPage({ userName = 'OOOO' }: DashboardPageProps)
       >
         <div className="flex flex-col items-center">
           <h1 className="text-center text-Grey-Darker text-[clamp(28px,4vw,48px)]">
-            반갑습니다, {userName} 님!
+            반갑습니다, {displayName} 님!
           </h1>
           <div className="mt-[28px] flex px-[24px] py-[12px] justify-center items-center rounded-[8px] bg-gra2-right shadow-md">
             {catchphrase && (
