@@ -20,8 +20,8 @@ export async function registerStore(data: RegisterStoreRequest): Promise<Registe
 /**
  * 매장 조회
  */
-export async function getStore(): Promise<GetStoreResponse> {
-  const res = await axiosInstance.get<GetStoreResponse>('/api/stores');
+export async function getStore(storeId: number): Promise<GetStoreResponse> {
+  const res = await axiosInstance.get<GetStoreResponse>(`/api/stores/${storeId}`);
   return res.data;
 }
 

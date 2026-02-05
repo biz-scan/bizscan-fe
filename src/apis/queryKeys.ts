@@ -4,5 +4,5 @@ export const authKeys = {
 };
 export const storeKeys = {
   all: ['store'] as const,
-  my: () => [...storeKeys.all, 'my'] as const,
+  my: (storeId: number) => [...storeKeys.all, 'my', storeId] as const,
 };
