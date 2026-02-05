@@ -58,9 +58,12 @@ getSwots: async (storeId: number) => {
   },
 
   // 실행 전략 목록 조회
-  getActionPlans: async () => {
+  getActionPlans: async (storeId: number) => {
     const response = await axiosInstance.get<ApiResponse<ActionPlanItem[]>>(
-      '/api/analysis/action-plans'
+      '/api/analysis/action-plans',
+      {
+        params: { storeId },
+      }
     );
     return response.data;
   },

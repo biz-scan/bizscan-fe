@@ -10,7 +10,8 @@ export const analysisKeys = {
     [...analysisKeys.all, 'swots', swotId, 'diagnosis'] as const,
   catchphrase: (storeId?: number) =>
     [...analysisKeys.all, 'catchphrase', storeId] as const,
-  actionPlans: () => [...analysisKeys.all, 'action-plans'] as const,
+  actionPlans: (storeId?: number) =>
+    [...analysisKeys.all, 'action-plans', storeId] as const,
   actionPlanDetail: (actionPlanId: number) =>
     [...analysisKeys.actionPlans(), actionPlanId] as const,
   status: (requestId: string) => [...analysisKeys.all, 'status', requestId] as const,

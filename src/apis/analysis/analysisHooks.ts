@@ -47,11 +47,13 @@ export const useGetCatchphrase = (storeId?: number) => {
   });
 };
 
-// GET /api/analysis/action-plans
-export const useGetActionPlans = () => {
+// GET /api/analysis/action-plans?storeId={storeId}
+// storeId가 없으면 요청은 보내지 않음
+export const useGetActionPlans = (storeId?: number) => {
   return useQuery({
-    queryKey: analysisKeys.actionPlans(),
-    queryFn: analysisApi.getActionPlans,
+    queryKey: analysisKeys.actionPlans(storeId),
+    queryFn: () => analysisApi.getActionPlans(storeId!),
+    enabled: !!storeId,
   });
 };
 

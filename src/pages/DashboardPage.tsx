@@ -44,8 +44,13 @@ export default function DashboardPage() {
   const catchphrase = catchphraseResponse?.result?.catchphrase;
 
   // 실행 전략 목록 조회
-  const { data: actionPlanResponse } = useGetActionPlans();
-  const mainSolution = actionPlanResponse?.result?.[0];
+  const {
+    data: actionPlanResponse,
+    isLoading: isActionPlansLoading,
+    isError: isActionPlansError,
+  } = useGetActionPlans(dummyStoreId);
+  const actionPlans = actionPlanResponse?.result || [];
+  const mainSolution = actionPlans[0];
 
   return (
     <main className="w-full min-h-screen bg-grey-light">
@@ -111,14 +116,24 @@ export default function DashboardPage() {
         </div>
 
         {/* 핵심 솔루션 */}
-        {mainSolution && (
+        {isActionPlansLoading ? (
+          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">
+            <p className="text-grey-normal typo-p2-regular">솔루션을 불러오는 중...</p>
+          </div>
+        ) : isActionPlansError ? (
+          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">
+            <p className="text-grey-normal typo-p2-regular">
+              솔루션을 불러오지 못했어요. 잠시 후 다시 시도해주세요.
+            </p>
+          </div>
+        ) : mainSolution ? (
           <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="flex flex-col gap-[16px]">
               <p className="text-grey-darker text-[clamp(18px,2vw,24px)] font-semibold">
                 {mainSolution.title}
               </p>
               <div className="flex flex-wrap gap-[8px]">
-                {mainSolution.tags.map((tag) => (
+                {(mainSolution.tags ?? []).map((tag) => (
                   <div
                     key={tag.tagId}
                     className="flex px-[10px] py-[4px] justify-center items-center rounded-[4px] bg-blue-light whitespace-nowrap"
@@ -138,6 +153,12 @@ export default function DashboardPage() {
               </span>
               <ArrowGray className="w-4 h-4 shrink-0" />
             </button>
+          </div>
+        ) : (
+          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">
+            <p className="text-grey-normal typo-p2-regular">
+              아직 생성된 맞춤 솔루션이 없어요. AI 분석이 완료된 후 확인할 수 있습니다.
+            </p>
           </div>
         )}
 

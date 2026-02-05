@@ -21,7 +21,11 @@ export default function ReportPage() {
     setSearchParams({ type });
   };
 
-  const { data: swotResponse } = useGetSwots();
+  // TODO: 실제 선택된 매장의 storeId로 교체 필요!
+  const dummyStoreId = 6;
+
+  // SWOT 목록 조회
+  const { data: swotResponse } = useGetSwots(dummyStoreId);
   const swotList = swotResponse?.result || [];
 
   const selectedSwot = swotList.find((item) => item.type === selectedType);
@@ -30,7 +34,8 @@ export default function ReportPage() {
   const { data: diagnosisResponse } = useGetSwotDiagnosis(swotId as number);
   const diagnosis = diagnosisResponse?.result?.diagnosis;
 
-  const { data: actionPlanResponse } = useGetActionPlans();
+  // 실행 전략 목록 조회
+  const { data: actionPlanResponse } = useGetActionPlans(dummyStoreId);
   const actionPlans = actionPlanResponse?.result || [];
 
   return (
