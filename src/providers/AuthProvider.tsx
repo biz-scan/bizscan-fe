@@ -25,6 +25,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
       // 토큰이 없으면 비로그인 상태로 초기화 완료
       if (!token) {
+        logout();
         setInitialized(true);
         return;
       }
