@@ -121,7 +121,7 @@ export default function ProfilePage() {
 
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
-                  className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                  className="typo-p1-regular bg-grey-light-active text-grey-normal-active w-full"
                   placeholder="이메일"
                   value={form.email}
                   readOnly
