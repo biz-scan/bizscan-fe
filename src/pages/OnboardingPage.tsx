@@ -24,7 +24,7 @@ import {
   TAG_MAP,
   TARGET_MAP,
 } from '@/constants/storeMapping';
-import { usePostStore, useStore, useUpdateStore } from '@/hooks/store';
+import { usePostStore } from '@/hooks/store';
 import type { RegisterStoreRequest } from '@/types/store.type';
 
 const TOGGLE_ITEM_CLASS = 'h-[60px] px-[28px] py-[16px] rounded-[8px] whitespace-nowrap';
@@ -55,9 +55,7 @@ const PAIN_OPTIONS = [
 ];
 
 export default function SettingsPage() {
-  const { data: storeRes } = useStore();
   const { mutate: postStore, isPending: isPosting } = usePostStore();
-  const { mutate: updateStore, isPending: isUpdating } = useUpdateStore();
 
   const [form, setForm] = React.useState({
     storeName: '',
@@ -108,18 +106,10 @@ export default function SettingsPage() {
       tags: form.features.map((f) => TAG_MAP[f] || f),
     };
 
-    if (storeRes?.isSuccess && storeRes.result) {
-      // 수정 (API 스펙상 PATCH에서 tags 제외)
-
-      const { tags, ...updateData } = requestData;
-      updateStore({ storeId: storeRes.result.storeId, data: updateData });
-    } else {
-      // 신규 등록
-      postStore(requestData);
-    }
+    postStore(requestData);
   };
 
-  const isLoading = isPosting || isUpdating;
+  const isLoading = isPosting;
 
   return (
     <div className="w-full bg-grey-light">
