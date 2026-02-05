@@ -17,11 +17,12 @@ import {
   TARGET_MAP,
 } from '@/constants/storeMapping';
 import { usePostStore } from '@/hooks/store';
+import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest } from '@/types/store.type';
 
 export default function SettingsPage() {
   const { mutate: postStore, isPending: isPosting } = usePostStore();
-
+  const { user } = useAuthStore();
   const [form, setForm] = React.useState({
     storeName: '',
     location: '',
@@ -82,7 +83,9 @@ export default function SettingsPage() {
       >
         <MainIcon className="mb-10" />
         <h2 className="mb-2.5">매장 정보 입력</h2>
-        <p className="text-grey-dark typo-p2-medium">OO님의 가게 정보를 입력해주세요.</p>
+        <p className="text-grey-dark typo-p2-medium">
+          {user?.nickname}님의 가게 정보를 입력해주세요.
+        </p>
       </div>
       <div className="mx-auto w-full max-w-[1348px] px-6 py-15">
         <div className="w-full rounded-[20px] shadow-normal bg-grey-light">
