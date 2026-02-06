@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 import MainIcon from '@/assets/icons/Icon/type=main.svg?react';
 import AtmosphereSection from '@/components/OnboardingPage/AtmosphereSection';
@@ -23,7 +23,7 @@ import type { RegisterStoreRequest } from '@/types/store.type';
 export default function SettingsPage() {
   const { mutate: postStore, isPending: isPosting } = usePostStore();
   const { user } = useAuthStore();
-  const [form, setForm] = React.useState({
+  const [form, setForm] = useState({
     storeName: '',
     location: '',
     bizType: '',

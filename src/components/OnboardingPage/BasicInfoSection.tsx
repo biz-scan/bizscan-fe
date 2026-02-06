@@ -1,6 +1,7 @@
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { Input } from '@/components/ui/Input';
+import { useAddressSearch } from '@/hooks/store';
 
 interface BasicInfoSectionProps {
   storeName: string;
@@ -15,6 +16,8 @@ export default function BasicInfoSection({
   location,
   onLocationChange,
 }: BasicInfoSectionProps) {
+  const { open: openAddressSearch } = useAddressSearch(onLocationChange);
+
   return (
     <section className="flex flex-col gap-[100px]">
       <FormRow
@@ -40,10 +43,11 @@ export default function BasicInfoSection({
         }
       >
         <Input
-          className="w-full"
+          className="w-full cursor-pointer"
           value={location}
-          onChange={(e) => onLocationChange(e.target.value)}
-          placeholder="서울특별시..."
+          readOnly
+          onClick={openAddressSearch}
+          placeholder="클릭하여 주소를 검색하세요"
         />
       </FormRow>
     </section>
