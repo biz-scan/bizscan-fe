@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useLogout } from '@/hooks/auth/useLogout';
 import { useMe } from '@/hooks/auth/useMe';
-import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
+import { useUpdateMe } from '@/hooks/auth/useUpdateMe';
 import type { UpdateMeRequest, User } from '@/types/auth.type';
 
 export default function ProfilePage() {
@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const [currentPassword, setCurrentPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
 
-  const updateProfile = useUpdateProfile(memberId);
+  const updateProfile = useUpdateMe(memberId);
   const logoutMutation = useLogout();
 
   const originNickname = (me?.nickname ?? '').trim();
@@ -44,16 +44,16 @@ export default function ProfilePage() {
     if (hasPasswordInput && !isPasswordComplete) return;
     if (!nicknameChanged && !isPasswordComplete) return;
     
-    const payload: UpdateMeRequest = {};
-    
-    if (nicknameChanged) payload.nickname = finalNickname;
-    
+    const data: UpdateMeRequest = {};
+
+    if (nicknameChanged) data.nickname = finalNickname;
+
     if (hasPasswordInput) {
-      payload.currentPassword = currentPassword.trim() || null;
-      payload.newPassword = newPassword.trim() || null;
+      data.currentPassword = currentPassword.trim() || null;
+      data.newPassword = newPassword.trim() || null;
     }
-    
-    updateProfile.mutate(payload, {
+
+    updateProfile.mutate(data, {
       onSuccess: () => {
         setCurrentPassword('');
         setNewPassword('');
@@ -61,6 +61,7 @@ export default function ProfilePage() {
       },
     });
   };
+
     
   const handleLogout = async () => {
     await logoutMutation.mutateAsync();
