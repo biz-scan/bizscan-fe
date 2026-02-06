@@ -13,26 +13,34 @@ import type { UpdateMeRequest, User } from '@/types/auth.type';
 export default function ProfilePage() {
   const { data: meResponse, isLoading } = useMe();
   const me = meResponse?.result as User | undefined;
-  const memberId = me?.id ?? 0;
+  const memberId = me?.id;
 
-  const [nickname, setNickname] = React.useState<string | null>(null);
+  const [nickname, setNickname] = React.useState('');
   const [currentPassword, setCurrentPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
 
-  const updateProfile = useUpdateMe(memberId);
+  const updateProfile = useUpdateMe(memberId ?? 0);
   const logoutMutation = useLogout();
 
+  React.useEffect(() => {
+    if (me?.nickname) {
+      setNickname(me.nickname);
+    }
+  }, [me?.nickname]);
+
   const originNickname = (me?.nickname ?? '').trim();
-  const finalNickname = (nickname ?? originNickname).trim();
+  const finalNickname = nickname.trim();
 
-  const nicknameChanged = nickname !== null && finalNickname !== originNickname;
+  const nicknameChanged = finalNickname !== originNickname;
 
-  const hasPasswordInput = currentPassword.trim().length > 0 || newPassword.trim().length > 0;
+  const hasPasswordInput =
+    currentPassword.trim().length > 0 || newPassword.trim().length > 0;
   const isPasswordComplete =
     currentPassword.trim().length > 0 && newPassword.trim().length > 0;
   const isPasswordValid = !hasPasswordInput || isPasswordComplete;
 
   const canSave =
+    !!memberId &&
     !!me &&
     !isLoading &&
     !updateProfile.isPending &&
@@ -40,29 +48,29 @@ export default function ProfilePage() {
     (nicknameChanged || isPasswordComplete);
 
   const handleSave = () => {
-    if (!me) return;
+    if (!memberId || !me) return;
     if (hasPasswordInput && !isPasswordComplete) return;
     if (!nicknameChanged && !isPasswordComplete) return;
-    
+
     const data: UpdateMeRequest = {};
 
-    if (nicknameChanged) data.nickname = finalNickname;
+    if (nicknameChanged) {
+      data.nickname = finalNickname;
+    }
 
     if (hasPasswordInput) {
-      data.currentPassword = currentPassword.trim() || null;
-      data.newPassword = newPassword.trim() || null;
+      data.currentPassword = currentPassword.trim();
+      data.newPassword = newPassword.trim();
     }
 
     updateProfile.mutate(data, {
       onSuccess: () => {
         setCurrentPassword('');
         setNewPassword('');
-        setNickname(null);
       },
     });
   };
 
-    
   const handleLogout = async () => {
     await logoutMutation.mutateAsync();
   };
@@ -84,10 +92,9 @@ export default function ProfilePage() {
 
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
-                  key={originNickname}
                   className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
                   placeholder="닉네임을 입력하세요"
-                  defaultValue={originNickname}
+                  value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
                   disabled={isLoading}
                 />
@@ -115,32 +122,26 @@ export default function ProfilePage() {
                   <p className="typo-lead-semibold text-grey-darker whitespace-nowrap">
                     현재 비밀번호 입력
                   </p>
-                  <div className="min-w-0">
-                    <Input
-                      type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
-                      placeholder="현재 비밀번호를 입력하세요"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      disabled={isLoading}
-                    />
-                  </div>
+                  <Input
+                    type="password"
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    disabled={isLoading}
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 min-[1200px]:grid-cols-[240px_1fr] items-center gap-4">
                   <p className="typo-lead-semibold text-grey-darker whitespace-nowrap">
                     새 비밀번호 입력
                   </p>
-                  <div className="min-w-0">
-                    <Input
-                      type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
-                      placeholder="새 비밀번호를 입력하세요"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      disabled={isLoading}
-                    />
-                  </div>
+                  <Input
+                    type="password"
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    disabled={isLoading}
+                  />
                 </div>
               </div>
             </div>
