@@ -4,6 +4,7 @@ export type User = {
   id: number;
   email: string;
   nickname: string;
+  storeId: number | null;
 };
 
 /* REQUEST */
