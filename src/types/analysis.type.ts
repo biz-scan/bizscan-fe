@@ -1,6 +1,12 @@
 import type { CommonResponse } from './api.type';
 
-type Status = 'WAITING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+export type Status =
+  | 'REQUEST'
+  | 'SWOT_PROCESSING'
+  | 'ACTION_PLAN_PROCESSING'
+  | 'ACTION_DETAIL_PROCESSING'
+  | 'COMPLETED'
+  | 'FAILED';
 /* REQUEST */
 export type AnalyzeStoreRequest = {
   storeId: string;

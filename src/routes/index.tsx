@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         element: <OnboardingLayout />,
         children: [
           { path: 'onboarding', element: <OnboardingPage /> },
-          { path: 'analyze/:storeId', element: <AnalysisStatusPage /> },
+          { path: '/analyze/:requestId', element: <AnalysisStatusPage /> },
         ],
       },
       {

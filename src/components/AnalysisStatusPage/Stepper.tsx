@@ -1,18 +1,19 @@
 import CheckIcon from '@/assets/icons/Check/Check_Icon.svg?react';
-
-type AnalysisStatus = 'WAITING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+import type { Status as AnalysisStatus } from '@/types/analysis.type';
 
 interface StepperProps {
   status: AnalysisStatus;
 }
 
-const STEPS = ['접수', '분석 중', '완료'] as const;
+const STEPS = ['접수', 'SWOT', '액션 플랜', '상세 분석', '완료'] as const;
 
 const STATUS_TO_STEP: Record<AnalysisStatus, number> = {
-  WAITING: 0,
-  PROCESSING: 1,
-  COMPLETED: 2,
-  FAILED: 2,
+  REQUEST: 0,
+  SWOT_PROCESSING: 1,
+  ACTION_PLAN_PROCESSING: 2,
+  ACTION_DETAIL_PROCESSING: 3,
+  COMPLETED: 4,
+  FAILED: 4,
 };
 
 function StepCircle({
@@ -77,7 +78,7 @@ export default function Stepper({ status }: StepperProps) {
   }));
 
   return (
-    <div className="flex w-full max-w-100 items-center">
+    <div className="flex w-[500px] items-center">
       {steps.map(({ state, showFailed }, i) => (
         <div key={i} className="contents">
           {i > 0 && <StepLine />}

@@ -8,7 +8,7 @@ import axiosInstance from '../axiosInstance';
 
 /* 매장 분석 요청 */
 export async function analyzeStore(data: AnalyzeStoreRequest): Promise<AnalyzeStoreResponse> {
-  const res = await axiosInstance.post<AnalyzeStoreResponse>('/api/analysis/store', data);
+  const res = await axiosInstance.post<AnalyzeStoreResponse>('/api/analysis', data);
   return res.data;
 }
 
