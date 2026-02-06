@@ -9,6 +9,11 @@ export function useAnalysisStatus(requestId: string) {
     () => getAnalysisStatus(requestId),
     {
       enabled: !!requestId,
+      refetchInterval: (query) => {
+        const status = query.state.data?.result?.status;
+        if (status === 'COMPLETED' || status === 'FAILED') return false;
+        return query.state.data?.result?.pollingTime ?? 3000;
+      },
     }
   );
 }

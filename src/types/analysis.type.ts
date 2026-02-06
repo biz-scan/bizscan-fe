@@ -2,9 +2,9 @@ import type { CommonResponse } from './api.type';
 
 type Status = 'WAITING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
 /* REQUEST */
-export type AnalyzeStoreRequest = CommonResponse<{
+export type AnalyzeStoreRequest = {
   storeId: string;
-}>;
+};
 
 /* RESPONSE */
 export type AnalyzeStoreResponse = CommonResponse<{
