@@ -43,16 +43,16 @@ export default function ProfilePage() {
     if (!me) return;
     if (hasPasswordInput && !isPasswordComplete) return;
     if (!nicknameChanged && !isPasswordComplete) return;
-
+    
     const payload: UpdateMeRequest = {};
-
+    
     if (nicknameChanged) payload.nickname = finalNickname;
-
-    if (isPasswordComplete) {
-      payload.currentPassword = currentPassword.trim();
-      payload.newPassword = newPassword.trim();
+    
+    if (hasPasswordInput) {
+      payload.currentPassword = currentPassword.trim() || null;
+      payload.newPassword = newPassword.trim() || null;
     }
-
+    
     updateProfile.mutate(payload, {
       onSuccess: () => {
         setCurrentPassword('');
@@ -61,7 +61,7 @@ export default function ProfilePage() {
       },
     });
   };
-
+    
   const handleLogout = async () => {
     await logoutMutation.mutateAsync();
   };
