@@ -5,6 +5,7 @@ import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import NextGuideCard from '@/components/NotesPage/NextGuideCard';
 import NoteListCard from '@/components/NotesPage/NoteListCard';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
+import useAuthStore from '@/store/useAuthStore'; // ✅ 추가
 import {
   calcProgress,
   getAllNotesSnapshot,
@@ -23,6 +24,9 @@ function isTabValue(v: string | null): v is TabValue {
 export default function NotesPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { user } = useAuthStore(); // ✅ 추가
+  const nickname = user?.nickname ?? '사용자'; // ✅ 추가(미로그인/로딩 대비)
 
   const tabParam = searchParams.get('tab');
   const tab: TabValue = isTabValue(tabParam) ? tabParam : DEFAULT_TAB;
@@ -50,7 +54,7 @@ export default function NotesPage() {
       <div className="mx-auto w-full max-w-[1100px]">
         <div className="flex items-center gap-[8px]">
           <Simbol className="h-[32px] w-[32px]" />
-          <h3 className="text-blue-dark">oooo님의 실행 노트</h3>
+          <h3 className="text-blue-dark">{nickname}님의 실행 노트</h3> {/* ✅ 변경 */}
         </div>
 
         <div className="mt-[36px] w-full border-b-2 border-blue-light-hover" />

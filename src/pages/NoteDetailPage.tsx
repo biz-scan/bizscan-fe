@@ -7,6 +7,7 @@ import FieldLabel from '@/components/common/FieldLabel';
 import HashTag from '@/components/NotesPage/HashTag';
 import ProgressBar from '@/components/NotesPage/ProgressBar';
 import { Checkbox } from '@/components/ui/Checkbox';
+import useAuthStore from '@/store/useAuthStore'; // ✅ 추가
 import {
   calcProgress,
   getNote,
@@ -25,6 +26,9 @@ function splitSteps(steps: NoteStep[]) {
 export default function NoteDetailPage() {
   const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>();
+
+  const { user } = useAuthStore(); // ✅ 추가
+  const nickname = user?.nickname ?? '사용자'; // ✅ 추가
 
   const note = useSyncExternalStore(
     subscribeNotes,
@@ -61,10 +65,9 @@ export default function NoteDetailPage() {
   return (
     <div className="min-h-screen bg-grey-light px-[120px] py-[120px]">
       <div className="mx-auto w-full max-w-[1100px]">
-
         <div className="flex items-center gap-[8px]">
           <Simbol className="h-[32px] w-[32px]" />
-          <h3 className="text-blue-dark">oooo님의 실행 노트</h3>
+          <h3 className="text-blue-dark">{nickname}님의 실행 노트</h3> {/* ✅ 변경 */}
         </div>
 
         {/* 제목 + 닫기 버튼 */}
