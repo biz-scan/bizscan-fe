@@ -53,28 +53,31 @@ export default function ProfilePage() {
 
   const nicknameChanged = !!me && nickname !== (me.nickname ?? '').trim();
 
-  const hasAnyPw = currentPassword.length > 0 || newPassword.length > 0;
-  const pwBothFilled = currentPassword.length > 0 && newPassword.length > 0;
-
-  const passwordSectionValid = !hasAnyPw || pwBothFilled;
+  const hasPasswordInput = currentPassword.length > 0 || newPassword.length > 0;
+  const isPasswordComplete = currentPassword.length > 0 && newPassword.length > 0;
+  const isPasswordValid = !hasPasswordInput || isPasswordComplete;
 
   const canSave =
     !!memberId &&
     !isLoading &&
     !updateProfile.isPending &&
-    passwordSectionValid &&
-    (nicknameChanged || pwBothFilled);
+    isPasswordValid &&
+    (nicknameChanged || isPasswordComplete);
 
   const handleSave = () => {
     if (!memberId) return;
 
-    if (hasAnyPw && !pwBothFilled) return;
-    if (!nicknameChanged && !pwBothFilled) return;
+    // 비밀번호는 한 칸만 입력하면 저장 막기
+    if (hasPasswordInput && !isPasswordComplete) return;
+
+    // 아무 변경도 없으면 저장 막기
+    if (!nicknameChanged && !isPasswordComplete) return;
 
     const payload: UpdateMeRequest = {};
 
     if (nicknameChanged) payload.nickname = nickname;
-    if (pwBothFilled) {
+
+    if (isPasswordComplete) {
       payload.currentPassword = currentPassword;
       payload.newPassword = newPassword;
     }
@@ -141,7 +144,7 @@ export default function ProfilePage() {
                   <div className="min-w-0">
                     <Input
                       type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                      className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                       placeholder="현재 비밀번호를 입력하세요"
                       value={form.currentPassword}
                       onChange={handleChange('currentPassword')}
@@ -157,7 +160,7 @@ export default function ProfilePage() {
                   <div className="min-w-0">
                     <Input
                       type="password"
-                      className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                      className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                       placeholder="새 비밀번호를 입력하세요"
                       value={form.newPassword}
                       onChange={handleChange('newPassword')}

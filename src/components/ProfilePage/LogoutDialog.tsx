@@ -41,7 +41,7 @@ export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps)
         showCloseButton={false}
         className="w-[544px] h-[303px] max-w-none rounded-[20px] border-0 bg-grey-light shadow-normal px-[48px] py-[40px] flex flex-col"
       >
-        {/* ✅ 접근성용 Title (화면에는 안 보임) */}
+
         <DialogTitle className="sr-only">로그아웃</DialogTitle>
 
         <div className="flex flex-col items-center text-center">
