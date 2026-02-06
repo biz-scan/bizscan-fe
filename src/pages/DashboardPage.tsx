@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/apis/analysis/analysisHooks';
+import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
@@ -15,25 +16,24 @@ const SWOT_TITLES = {
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { user } = useAuthStore();
   const displayName = user?.nickname ?? 'OOOO';
 
   const handleDetailClick = () => {
     navigate('/report');
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
   };
 
   const handleSolutionClick = (id: number) => {
     navigate(`/solution/${id}`);
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
   };
 
   // TODO: 실제 선택된 매장의 storeId로 교체 필요!
-  const dummyStoreId = 6;
+  const dummyStoreId = 3;
 
   // SWOT 분석 결과 조회
   const { data: swotResponse } = useGetSwots(dummyStoreId);

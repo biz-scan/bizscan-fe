@@ -30,16 +30,18 @@ export const analysisApi = {
     return response.data;
   },
 
-// SWOT 대시보드 요약 조회
-getSwots: async (storeId: number) => {
-  const response = await axiosInstance.get<ApiResponse<SwotItem[]>>('/api/analysis/swots', {
-    params: { storeId },
-  });
-  return response.data;
-},
+  // SWOT 대시보드 요약 조회
+  getSwots: async (storeId: number) => {
+    if (!storeId) return null;
+    const response = await axiosInstance.get<ApiResponse<SwotItem[]>>('/api/analysis/swots', {
+      params: { storeId },
+    });
+    return response.data;
+  },
 
   // SWOT 항목별 정밀 진단 조회
   getSwotDiagnosis: async (swotId: number) => {
+    if (!swotId) return null;
     const response = await axiosInstance.get<ApiResponse<SwotDiagnosisResponse>>(
       `/api/analysis/swots/${swotId}/diagnosis`
     );
@@ -48,6 +50,7 @@ getSwots: async (storeId: number) => {
 
   // AI 캐치프레이즈 조회
   getCatchphrase: async (storeId: number) => {
+    if (!storeId) return null;
     const response = await axiosInstance.get<ApiResponse<CatchphraseResponse>>(
       '/api/analysis/catchphrase',
       {
@@ -59,6 +62,7 @@ getSwots: async (storeId: number) => {
 
   // 실행 전략 목록 조회
   getActionPlans: async (storeId: number) => {
+    if (!storeId) return null;
     const response = await axiosInstance.get<ApiResponse<ActionPlanItem[]>>(
       '/api/analysis/action-plans',
       {
@@ -70,6 +74,7 @@ getSwots: async (storeId: number) => {
 
   // 실행 전략 상세 및 단계별 지침 조회
   getActionPlanDetail: async (actionPlanId: number) => {
+    if (!actionPlanId) return null;
     const response = await axiosInstance.get<ApiResponse<ActionPlanDetailResponse>>(
       `/api/analysis/action-plans/${actionPlanId}`
     );

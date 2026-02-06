@@ -1,5 +1,10 @@
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useGetActionPlans, useGetSwotDiagnosis, useGetSwots } from '@/apis/analysis/analysisHooks';
+import {
+  useGetActionPlans,
+  useGetSwotDiagnosis,
+  useGetSwots,
+} from '@/hooks/analysis/analysisHooks';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
@@ -15,6 +20,10 @@ const SWOT_TITLES = {
 export default function ReportPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const selectedType = searchParams.get('type') as 'S' | 'W' | 'O' | 'T' | null;
 
   const handleCardClick = (type: 'S' | 'W' | 'O' | 'T') => {
@@ -22,7 +31,7 @@ export default function ReportPage() {
   };
 
   // TODO: 실제 선택된 매장의 storeId로 교체 필요!
-  const dummyStoreId = 6;
+  const dummyStoreId = 3;
 
   // SWOT 목록 조회
   const { data: swotResponse } = useGetSwots(dummyStoreId);

@@ -29,11 +29,11 @@ export const useGetSwots = (storeId?: number) => {
 };
 
 // GET /api/analysis/swots/{swotId}/diagnosis
-export const useGetSwotDiagnosis = (swotId: number) => {
+export const useGetSwotDiagnosis = (swotId?: number) => {
   return useQuery({
-    queryKey: analysisKeys.swotDiagnosis(swotId),
-    queryFn: () => analysisApi.getSwotDiagnosis(swotId),
-    enabled: !!swotId,
+    queryKey: analysisKeys.swotDiagnosis(swotId!),
+    queryFn: () => analysisApi.getSwotDiagnosis(swotId!),
+    enabled: !!swotId && !isNaN(swotId),
   });
 };
 
@@ -58,10 +58,10 @@ export const useGetActionPlans = (storeId?: number) => {
 };
 
 // GET /api/analysis/action-plans/{actionPlanId}
-export const useGetActionPlanDetail = (actionPlanId: number) => {
+export const useGetActionPlanDetail = (actionPlanId?: number) => {
   return useQuery({
-    queryKey: analysisKeys.actionPlanDetail(actionPlanId),
-    queryFn: () => analysisApi.getActionPlanDetail(actionPlanId),
-    enabled: !!actionPlanId,
+    queryKey: analysisKeys.actionPlanDetail(actionPlanId!),
+    queryFn: () => analysisApi.getActionPlanDetail(actionPlanId!),
+    enabled: !!actionPlanId && !isNaN(actionPlanId),
   });
 };
