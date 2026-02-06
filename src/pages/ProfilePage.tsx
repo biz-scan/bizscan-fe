@@ -10,81 +10,54 @@ import { useMe } from '@/hooks/auth/useMe';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import type { UpdateMeRequest, User } from '@/types/auth.type';
 
-type ProfileForm = {
-  nickname: string;
-  email: string;
-  currentPassword: string;
-  newPassword: string;
-};
-
 export default function ProfilePage() {
   const { data: meResponse, isLoading } = useMe();
   const me = meResponse?.result as User | undefined;
-  const memberId = me?.id;
+  const memberId = me?.id ?? 0;
 
-  const [form, setForm] = React.useState<ProfileForm>({
-    nickname: '',
-    email: '',
-    currentPassword: '',
-    newPassword: '',
-  });
+  const [nickname, setNickname] = React.useState<string | null>(null);
+  const [currentPassword, setCurrentPassword] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
 
-  React.useEffect(() => {
-    if (!me) return;
-    setForm((prev) => ({
-      ...prev,
-      nickname: me.nickname ?? '',
-      email: me.email ?? '',
-      currentPassword: '',
-      newPassword: '',
-    }));
-  }, [me?.nickname, me?.email]);
-
-  const handleChange =
-    (key: keyof ProfileForm) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setForm((prev) => ({ ...prev, [key]: e.target.value }));
-
-  const updateProfile = useUpdateProfile(memberId ?? 0);
+  const updateProfile = useUpdateProfile(memberId);
   const logoutMutation = useLogout();
 
-  const nickname = form.nickname.trim();
-  const currentPassword = form.currentPassword.trim();
-  const newPassword = form.newPassword.trim();
+  const originNickname = (me?.nickname ?? '').trim();
+  const finalNickname = (nickname ?? originNickname).trim();
 
-  const nicknameChanged = !!me && nickname !== (me.nickname ?? '').trim();
+  const nicknameChanged = nickname !== null && finalNickname !== originNickname;
 
-  const hasPasswordInput = currentPassword.length > 0 || newPassword.length > 0;
-  const isPasswordComplete = currentPassword.length > 0 && newPassword.length > 0;
+  const hasPasswordInput = currentPassword.trim().length > 0 || newPassword.trim().length > 0;
+  const isPasswordComplete =
+    currentPassword.trim().length > 0 && newPassword.trim().length > 0;
   const isPasswordValid = !hasPasswordInput || isPasswordComplete;
 
   const canSave =
-    !!memberId &&
+    !!me &&
     !isLoading &&
     !updateProfile.isPending &&
     isPasswordValid &&
     (nicknameChanged || isPasswordComplete);
 
   const handleSave = () => {
-    if (!memberId) return;
-
-    // 비밀번호는 한 칸만 입력하면 저장 막기
+    if (!me) return;
     if (hasPasswordInput && !isPasswordComplete) return;
-
-    // 아무 변경도 없으면 저장 막기
     if (!nicknameChanged && !isPasswordComplete) return;
 
     const payload: UpdateMeRequest = {};
 
-    if (nicknameChanged) payload.nickname = nickname;
+    if (nicknameChanged) payload.nickname = finalNickname;
 
     if (isPasswordComplete) {
-      payload.currentPassword = currentPassword;
-      payload.newPassword = newPassword;
+      payload.currentPassword = currentPassword.trim();
+      payload.newPassword = newPassword.trim();
     }
 
     updateProfile.mutate(payload, {
       onSuccess: () => {
-        setForm((prev) => ({ ...prev, currentPassword: '', newPassword: '' }));
+        setCurrentPassword('');
+        setNewPassword('');
+        setNickname(null);
       },
     });
   };
@@ -110,10 +83,11 @@ export default function ProfilePage() {
 
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
+                  key={originNickname}
                   className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
                   placeholder="닉네임을 입력하세요"
-                  value={form.nickname}
-                  onChange={handleChange('nickname')}
+                  defaultValue={originNickname}
+                  onChange={(e) => setNickname(e.target.value)}
                   disabled={isLoading}
                 />
               </div>
@@ -125,7 +99,7 @@ export default function ProfilePage() {
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
                   className="typo-p1-regular bg-grey-light-active text-grey-normal-active w-full"
-                  value={form.email}
+                  value={me?.email ?? ''}
                   readOnly
                   disabled
                 />
@@ -145,8 +119,8 @@ export default function ProfilePage() {
                       type="password"
                       className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                       placeholder="현재 비밀번호를 입력하세요"
-                      value={form.currentPassword}
-                      onChange={handleChange('currentPassword')}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                       disabled={isLoading}
                     />
                   </div>
@@ -161,8 +135,8 @@ export default function ProfilePage() {
                       type="password"
                       className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                       placeholder="새 비밀번호를 입력하세요"
-                      value={form.newPassword}
-                      onChange={handleChange('newPassword')}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                       disabled={isLoading}
                     />
                   </div>
@@ -179,7 +153,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <LogoutDialog nickname={form.nickname} onConfirm={handleLogout} />
+          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout} />
         </div>
       </div>
     </div>
