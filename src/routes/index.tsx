@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import OnboardingLayout from '@/layouts/OnboardingLayout';
 import PublicLayout from '@/layouts/PublicLayout';
+import { AnalysisStatusPage } from '@/pages/AnalysisStatusPage';
 import AuthPage from '@/pages/AuthPage';
 import DashboardPage from '@/pages/DashboardPage';
 import LandingPage from '@/pages/LandingPage';
@@ -29,9 +30,12 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: '/onboarding',
+        path: '/',
         element: <OnboardingLayout />,
-        children: [{ index: true, element: <OnboardingPage /> }],
+        children: [
+          { path: 'onboarding', element: <OnboardingPage /> },
+          { path: 'analyze/:storeId', element: <AnalysisStatusPage /> },
+        ],
       },
       {
         path: '/',
