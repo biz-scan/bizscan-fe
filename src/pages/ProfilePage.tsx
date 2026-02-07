@@ -5,40 +5,74 @@ import FieldLabel from '@/components/common/FieldLabel';
 import LogoutDialog from '@/components/ProfilePage/LogoutDialog';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-
-type ProfileForm = {
-  nickname: string;
-  email: string;
-  currentPassword: string;
-  newPassword: string;
-};
+import { useLogout } from '@/hooks/auth/useLogout';
+import { useMe } from '@/hooks/auth/useMe';
+import { useUpdateMe } from '@/hooks/auth/useUpdateMe';
+import type { UpdateMeRequest, User } from '@/types/auth.type';
 
 export default function ProfilePage() {
-  const [form, setForm] = React.useState<ProfileForm>({
-    nickname: '',
-    email: '',
-    currentPassword: '',
-    newPassword: '',
-  });
+  const { data: meResponse, isLoading } = useMe();
+  const me = meResponse?.result as User | undefined;
+  const memberId = me?.id;
 
-  const [isSaving, setIsSaving] = React.useState(false);
+  const [nickname, setNickname] = React.useState('');
+  const [currentPassword, setCurrentPassword] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
 
-  const handleChange =
-    (key: keyof ProfileForm) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setForm((prev) => ({ ...prev, [key]: e.target.value }));
+  const updateProfile = useUpdateMe(memberId ?? 0);
+  const logoutMutation = useLogout();
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      alert('저장되었습니다.');
-      setForm((prev) => ({ ...prev, currentPassword: '', newPassword: '' }));
-    } finally {
-      setIsSaving(false);
+  React.useEffect(() => {
+    if (me?.nickname) {
+      setNickname(me.nickname);
     }
+  }, [me?.nickname]);
+
+  const originNickname = (me?.nickname ?? '').trim();
+  const finalNickname = nickname.trim();
+
+  const nicknameChanged = finalNickname !== originNickname;
+
+  const hasPasswordInput =
+    currentPassword.trim().length > 0 || newPassword.trim().length > 0;
+  const isPasswordComplete =
+    currentPassword.trim().length > 0 && newPassword.trim().length > 0;
+  const isPasswordValid = !hasPasswordInput || isPasswordComplete;
+
+  const canSave =
+    !!memberId &&
+    !!me &&
+    !isLoading &&
+    !updateProfile.isPending &&
+    isPasswordValid &&
+    (nicknameChanged || isPasswordComplete);
+
+  const handleSave = () => {
+    if (!memberId || !me) return;
+    if (hasPasswordInput && !isPasswordComplete) return;
+    if (!nicknameChanged && !isPasswordComplete) return;
+
+    const data: UpdateMeRequest = {};
+
+    if (nicknameChanged) {
+      data.nickname = finalNickname;
+    }
+
+    if (hasPasswordInput) {
+      data.currentPassword = currentPassword.trim();
+      data.newPassword = newPassword.trim();
+    }
+
+    updateProfile.mutate(data, {
+      onSuccess: () => {
+        setCurrentPassword('');
+        setNewPassword('');
+      },
+    });
   };
 
   const handleLogout = async () => {
-    alert('로그아웃 되었습니다.');
+    await logoutMutation.mutateAsync();
   };
 
   return (
@@ -59,9 +93,10 @@ export default function ProfilePage() {
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
                   className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                  placeholder="UMC"
-                  value={form.nickname}
-                  onChange={handleChange('nickname')}
+                  placeholder="닉네임을 입력하세요"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -71,10 +106,10 @@ export default function ProfilePage() {
 
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
-                  className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                  placeholder="UMC@gmail.com"
-                  value={form.email}
-                  onChange={handleChange('email')}
+                  className="typo-p1-regular bg-grey-light-active text-grey-normal-active w-full"
+                  value={me?.email ?? ''}
+                  readOnly
+                  disabled
                 />
               </div>
 
@@ -87,46 +122,40 @@ export default function ProfilePage() {
                   <p className="typo-lead-semibold text-grey-darker whitespace-nowrap">
                     현재 비밀번호 입력
                   </p>
-                  <div className="min-w-0">
                   <Input
                     type="password"
-                    className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                    placeholder="현재 비밀번호를 입력하세요"
-                    value={form.currentPassword}
-                    onChange={handleChange('currentPassword')}
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    disabled={isLoading}
                   />
-                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 min-[1200px]:grid-cols-[240px_1fr] items-center gap-4">
                   <p className="typo-lead-semibold text-grey-darker whitespace-nowrap">
                     새 비밀번호 입력
                   </p>
-                  <div className="min-w-0">
                   <Input
                     type="password"
-                    className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
-                    placeholder="새 비밀번호를 입력하세요"
-                    value={form.newPassword}
-                    onChange={handleChange('newPassword')}
+                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    disabled={isLoading}
                   />
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 저장 */}
             <div className="mt-10 md:mt-[60px] flex justify-end">
-              <Button size="lg" onClick={handleSave} disabled={isSaving}>
+              <Button size="lg" onClick={handleSave} disabled={!canSave}>
                 저장하기
               </Button>
             </div>
           </div>
         </div>
 
-        {/* 로그아웃 */}
         <div className="mt-8 flex justify-end">
-          <LogoutDialog nickname={form.nickname} onConfirm={handleLogout} />
+          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout} />
         </div>
       </div>
     </div>

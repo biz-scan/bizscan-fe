@@ -2,7 +2,13 @@ import * as React from 'react';
 
 import LogoutIcon from '@/assets/icons/Arrow/logout.svg?react';
 import { Button } from '@/components/ui/Button';
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/ui/Dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/Dialog';
 
 interface LogoutDialogProps {
   nickname: string;
@@ -35,6 +41,9 @@ export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps)
         showCloseButton={false}
         className="w-[544px] h-[303px] max-w-none rounded-[20px] border-0 bg-grey-light shadow-normal px-[48px] py-[40px] flex flex-col"
       >
+
+        <DialogTitle className="sr-only">로그아웃</DialogTitle>
+
         <div className="flex flex-col items-center text-center">
           <h4 className="text-grey-darker">로그아웃</h4>
           <p className="mt-[40px] typo-p1-semibold text-grey-dark">
