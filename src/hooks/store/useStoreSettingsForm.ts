@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAppQuery } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
@@ -56,34 +56,34 @@ export function useStoreSettingsForm(storeId: number | null) {
 
   const { mutate: patchAll, isPending } = useUpdateStoreAll();
 
-  const [form, setForm] = React.useState<FormState>(EMPTY_FORM);
-  const initializedRef = React.useRef(false);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const initializedRef = useRef(false);
 
-    React.useEffect(() => {
+  useEffect(() => {
     initializedRef.current = false;
     if (!storeId) setForm(EMPTY_FORM);
-    }, [storeId]);
+  }, [storeId]);
 
-    React.useEffect(() => {
+  useEffect(() => {
     if (!isStoreReady) return;
     if (initializedRef.current) return;
 
     initializedRef.current = true;
 
     setForm({
-        storeName: store.name ?? '',
-        location: store.address ?? '',
-        bizType: CATEGORY_REVERSE_MAP[store.category] ?? '',
-        subCategory: DETAIL_REVERSE_MAP[store.categoryDetail] ?? '',
-        menuName: store.signature ?? '',
-        avgPrice: PRICE_REVERSE_MAP[store.price] ?? '',
-        targetCustomers: TARGET_REVERSE_MAP[store.target] ?? '',
-        painPoint: PAIN_REVERSE_MAP[store.painPoint] ?? '',
-        features: (store.tags ?? [])
+      storeName: store.name ?? '',
+      location: store.address ?? '',
+      bizType: CATEGORY_REVERSE_MAP[store.category] ?? '',
+      subCategory: DETAIL_REVERSE_MAP[store.categoryDetail] ?? '',
+      menuName: store.signature ?? '',
+      avgPrice: PRICE_REVERSE_MAP[store.price] ?? '',
+      targetCustomers: TARGET_REVERSE_MAP[store.target] ?? '',
+      painPoint: PAIN_REVERSE_MAP[store.painPoint] ?? '',
+      features: (store.tags ?? [])
         .map((t) => TAG_REVERSE_MAP[`${t.type}_${t.name}`])
         .filter(Boolean) as string[],
     });
-    }, [isStoreReady, store]);
+  }, [isStoreReady, store]);
 
   const toggleFeature = (name: string) => {
     setForm((prev) => {
