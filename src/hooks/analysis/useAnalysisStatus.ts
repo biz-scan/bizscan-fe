@@ -10,6 +10,7 @@ export function useAnalysisStatus(requestId: string) {
     {
       enabled: !!requestId,
       refetchInterval: (query) => {
+        if (query.state.error) return false;
         const status = query.state.data?.result?.status;
         if (status === 'COMPLETED' || status === 'FAILED') return false;
         return query.state.data?.result?.pollingTime ?? 3000;
