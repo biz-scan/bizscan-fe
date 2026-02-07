@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import { useEffect,useState } from 'react';
+import { useNavigate,useParams } from 'react-router-dom';
+
+import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
 import CloseActive from '@/assets/icons/Close/state=active.svg?react';
 import CloseHover from '@/assets/icons/Close/state=hover.svg?react';
-import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import CheckIcon from '@/assets/icons/Icon/type=check.svg?react';
-import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
+import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
 import { Button } from '@/components/ui/Button';
 

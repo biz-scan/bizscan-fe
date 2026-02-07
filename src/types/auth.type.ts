@@ -4,6 +4,7 @@ export type User = {
   id: number;
   email: string;
   nickname: string;
+  storeId: number | null;
 };
 
 /* REQUEST */
@@ -20,6 +21,8 @@ export type LoginRequest = {
 
 export type UpdateMeRequest = {
   nickname?: string;
+  currentPassword?: string | null;
+  newPassword?: string | null;
 };
 
 /* RESPONSE */

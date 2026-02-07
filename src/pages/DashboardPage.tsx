@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import SwotCard from '@/components/DashboardPage/SwotCard';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import SwotCard from '@/components/DashboardPage/SwotCard';
 
 interface DashboardPageProps {
   userName?: string;
