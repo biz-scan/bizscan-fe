@@ -9,13 +9,13 @@ import type {
 export const CATEGORY_MAP: Record<string, StoreCategory> = {
   '카페/베이커리': 'CAFE_BAKERY',
   식당: 'RESTAURANT',
-  '술집/주점': 'BAR_PUB',
+  '술집/주점': 'BAR',
 };
 
 export const CATEGORY_REVERSE_MAP: Record<StoreCategory, string> = {
   CAFE_BAKERY: '카페/베이커리',
   RESTAURANT: '식당',
-  BAR_PUB: '술집/주점',
+  BAR: '술집/주점',
 };
 
 export const DETAIL_MAP: Record<string, CategoryDetail> = {
