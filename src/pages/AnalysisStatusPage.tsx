@@ -14,14 +14,18 @@ export function AnalysisStatusPage() {
   const status = data?.result?.status ?? 'REQUEST';
 
   useEffect(() => {
+    if (!requestId) {
+      navigate('/', { replace: true });
+      return;
+    }
     if (status === 'COMPLETED') {
       setTimeout(() => {
         navigate(`/analysis/${requestId}`, { replace: true });
       }, 1000);
     }
-  }, [status, navigate, requestId]);
+  }, [requestId, status, navigate]);
 
-  const isError = status === 'FAILED' || !!statusError;
+  const isError = !requestId || status === 'FAILED' || !!statusError;
 
   const getMessage = () => {
     if (statusError) return '상태 조회에 실패했습니다';
