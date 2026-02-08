@@ -1,9 +1,9 @@
 import axiosInstance from '@/apis/axiosInstance';
 import type {
-  GetActionNotesRequest,
-  GetActionNotesResponse,
   GetActionNoteDetailRequest,
   GetActionNoteDetailResponse,
+  GetActionNotesRequest,
+  GetActionNotesResponse,
   PatchActionDetailResponse,
 } from '@/types/note.type';
 

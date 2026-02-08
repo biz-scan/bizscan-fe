@@ -41,7 +41,6 @@ export default function NotesPage() {
   };
 
   const filtered = notes;
-
   return (
     <div className="min-h-screen bg-grey-light px-[120px] py-[120px]">
       <div className="mx-auto w-full max-w-[1100px]">
@@ -104,23 +103,10 @@ export default function NotesPage() {
                   className="grid grid-cols-1 gap-[20px] lg:grid-cols-[8fr_5fr]"
                 >
                   <NoteListCard
-                    note={{
-                      noteId: String(note.actionPlanId),
-                      startDate: note.createdAt,
-                      title: note.title,
-                      tags: note.tags.map((t) => ({ id: String(t.tagId), name: t.content })),
-                      aiReason: '',
-                      steps: [],
-                    }}
-                    progress={note.progress}
+                    note={note}
                     onClick={() => navigate(`/notes/${note.actionPlanId}`)}
                   />
-
-                  {tab === 'in_progress' && guideText ? (
-                    <NextGuideCard text={guideText} />
-                  ) : (
-                    <div />
-                  )}
+                  {tab === 'in_progress' && guideText ? <NextGuideCard text={guideText} /> : <div />}
                 </div>
               );
             })
