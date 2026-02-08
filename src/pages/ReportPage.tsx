@@ -9,6 +9,7 @@ import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
+import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
   S: 'Strengths',
@@ -20,6 +21,9 @@ const SWOT_TITLES = {
 export default function ReportPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const { user, storeId: persistedStoreId } = useAuthStore();
+  const storeId = user?.storeId || persistedStoreId;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -30,11 +34,8 @@ export default function ReportPage() {
     setSearchParams({ type });
   };
 
-  // TODO: 실제 선택된 매장의 storeId로 교체 필요!
-  const dummyStoreId = 3;
-
   // SWOT 목록 조회
-  const { data: swotResponse } = useGetSwots(dummyStoreId);
+  const { data: swotResponse } = useGetSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   const selectedSwot = swotList.find((item) => item.type === selectedType);
@@ -44,7 +45,7 @@ export default function ReportPage() {
   const diagnosis = diagnosisResponse?.result?.diagnosis;
 
   // 실행 전략 목록 조회
-  const { data: actionPlanResponse } = useGetActionPlans(dummyStoreId);
+  const { data: actionPlanResponse } = useGetActionPlans(storeId as number);
   const actionPlans = actionPlanResponse?.result || [];
 
   return (

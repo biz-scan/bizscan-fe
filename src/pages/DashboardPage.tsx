@@ -17,12 +17,15 @@ const SWOT_TITLES = {
 export default function DashboardPage() {
   const navigate = useNavigate();
 
+  const { user, storeId: persistedStoreId } = useAuthStore();
+
+  const storeId = user?.storeId || persistedStoreId;
+
+  const displayName = user?.nickname ?? 'OOOO';
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  const { user } = useAuthStore();
-  const displayName = user?.nickname ?? 'OOOO';
+  }, [storeId, navigate]);
 
   const handleDetailClick = () => {
     navigate('/report');
@@ -32,15 +35,12 @@ export default function DashboardPage() {
     navigate(`/solution/${id}`);
   };
 
-  // TODO: 실제 선택된 매장의 storeId로 교체 필요!
-  const dummyStoreId = 3;
-
   // SWOT 분석 결과 조회
-  const { data: swotResponse } = useGetSwots(dummyStoreId);
+  const { data: swotResponse } = useGetSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   // AI 캐치프레이즈 조회
-  const { data: catchphraseResponse } = useGetCatchphrase(dummyStoreId);
+  const { data: catchphraseResponse } = useGetCatchphrase(storeId as number);
   const catchphrase = catchphraseResponse?.result?.catchphrase;
 
   // 실행 전략 목록 조회
@@ -48,7 +48,7 @@ export default function DashboardPage() {
     data: actionPlanResponse,
     isLoading: isActionPlansLoading,
     isError: isActionPlansError,
-  } = useGetActionPlans(dummyStoreId);
+  } = useGetActionPlans(storeId as number);
   const actionPlans = actionPlanResponse?.result || [];
   const mainSolution = actionPlans[0];
 

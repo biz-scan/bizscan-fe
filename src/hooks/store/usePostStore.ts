@@ -6,15 +6,21 @@ import { postAnalysis } from '@/apis/analysis/analysis';
 import { useAppMutation } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
 import { registerStore } from '@/apis/store/store';
+import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest, RegisterStoreResponse } from '@/types/store.type';
 
 export function usePostStore() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { setStoreId } = useAuthStore();
+
   return useAppMutation<RegisterStoreResponse & { requestId: string }, RegisterStoreRequest>(
     async (data: RegisterStoreRequest) => {
       const storeRes = await registerStore(data);
       const analyzeRes = await postAnalysis(storeRes.result.storeId);
+
+      setStoreId(storeRes.result.storeId);
+
       return { ...storeRes, requestId: analyzeRes.result.requestId };
     },
     {
