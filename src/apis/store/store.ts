@@ -35,3 +35,14 @@ export async function updateStore(
   const res = await axiosInstance.patch<UpdateStoreResponse>(`/api/stores/${storeId}`, data);
   return res.data;
 }
+
+/**
+ * 매장 태그 수정
+ */
+export async function updateStoreTags(
+  storeId: number,
+  data: { tags: string[] }
+): Promise<UpdateStoreResponse> {
+  const res = await axiosInstance.patch<UpdateStoreResponse>(`/api/stores/${storeId}/tags`,data);
+  return res.data;
+}
