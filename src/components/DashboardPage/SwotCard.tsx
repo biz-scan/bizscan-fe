@@ -1,7 +1,7 @@
-import Swot_S from '@/assets/icons/SwotCard/Swot_S.svg';
-import Swot_W from '@/assets/icons/SwotCard/Swot_W.svg';
 import Swot_O from '@/assets/icons/SwotCard/Swot_O.svg';
+import Swot_S from '@/assets/icons/SwotCard/Swot_S.svg';
 import Swot_T from '@/assets/icons/SwotCard/Swot_T.svg';
+import Swot_W from '@/assets/icons/SwotCard/Swot_W.svg';
 
 interface SwotCardProps {
   type: 'S' | 'W' | 'O' | 'T';

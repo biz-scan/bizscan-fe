@@ -2,6 +2,7 @@ import { type ReactNode, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { getMe, refreshToken } from '@/apis/auth/auth';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { tokenStorage } from '@/lib/tokenStorage';
 import useAuthStore from '@/store/useAuthStore';
 
@@ -25,6 +26,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
       // 토큰이 없으면 비로그인 상태로 초기화 완료
       if (!token) {
+        logout();
         setInitialized(true);
         return;
       }
@@ -79,7 +81,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   if (!isInitialized) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <LoadingSpinner />
       </div>
     );
   }

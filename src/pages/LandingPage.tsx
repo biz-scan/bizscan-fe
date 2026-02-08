@@ -7,9 +7,21 @@ import ConsultingIcon from '@/assets/icons/Icon/type=3.svg?react';
 import MainIcon from '@/assets/icons/Icon/type=main.svg?react';
 import DescriptionBox from '@/components/LandingPage/DescriptionBox';
 import { Button } from '@/components/ui/Button';
+import useAuthStore from '@/store/useAuthStore';
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuthStore();
+
+  const handleStart = () => {
+    if (user?.storeId && isAuthenticated) {
+      navigate('/dashboard');
+    } else if (isAuthenticated) {
+      navigate('/onboarding');
+    } else {
+      navigate('/auth');
+    }
+  };
   return (
     <div className="flex flex-col w-full h-full justify-center items-center ">
       <section
@@ -21,7 +33,7 @@ export default function LandingPage() {
         <p className="text-grey-dark typo-p2-medium mt-2.5 mb-6 whitespace-nowrap">
           AI가 내 가게 상권 분석부터 당장 실행해야 할 마케팅 전략까지 알려드립니다.
         </p>
-        <Button onClick={() => navigate('/auth')}>내 가게 무료 진단하기</Button>
+        <Button onClick={handleStart}>내 가게 무료 진단하기</Button>
       </section>
 
       <section className="flex flex-col items-center w-full min-w-fit mt-45 shrink-0">

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 
 interface SolutionCardProps {

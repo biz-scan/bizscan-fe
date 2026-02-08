@@ -1,17 +1,23 @@
 import type { CommonResponse } from './api.type';
 
-// 분석 요청 시 반환되는 데이터 (requestId)
-export interface AnalysisRequestResult {
-  requestId: string;
-}
-
-// 분석 상태 조회
-export type AnalysisStatus = 'WAITING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'REQUEST';
+// 분석 상태 조회 (Develop의 상세 상태값 채택)
+export type AnalysisStatus =
+  | 'REQUEST'
+  | 'SWOT_PROCESSING'
+  | 'ACTION_PLAN_PROCESSING'
+  | 'ACTION_DETAIL_PROCESSING'
+  | 'COMPLETED'
+  | 'FAILED';
 
 export interface AnalysisStatusInfo {
   status: AnalysisStatus;
   progressMessage: string;
   pollingTime: number;
+}
+
+// 분석 요청 시 반환되는 데이터
+export interface AnalysisRequestResult {
+  requestId: string;
 }
 
 // SWOT 데이터
