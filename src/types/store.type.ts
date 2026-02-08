@@ -1,6 +1,6 @@
 import type { CommonResponse } from './api.type';
 
-export type StoreCategory = 'CAFE_BAKERY' | 'RESTAURANT' | 'BAR_PUB';
+export type StoreCategory = 'CAFE_BAKERY' | 'RESTAURANT' | 'BAR';
 
 export type CafeBakeryDetail = 'GENERAL_CAFE' | 'TAKEOUT_ONLY' | 'BAKERY_DESSERT';
 export type RestaurantDetail = 'KOREAN' | 'GRILL' | 'WESTERN_BRUNCH' | 'ASIAN' | 'FAST_FOOD';

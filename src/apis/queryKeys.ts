@@ -16,3 +16,7 @@ export const noteKeys = {
   details: () => [...noteKeys.all, 'detail'] as const,
   detail: (actionPlanId: number) => [...noteKeys.details(), actionPlanId] as const,
 };
+export const analysisKeys = {
+  all: ['analysis'] as const,
+  status: (requestId: string) => [...analysisKeys.all, 'status', requestId] as const,
+};
