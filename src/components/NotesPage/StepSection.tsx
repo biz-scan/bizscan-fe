@@ -1,12 +1,12 @@
 import FieldLabel from '@/components/common/FieldLabel';
-import type { ActionNoteDetailItemDTO } from '@/types/note.type';
+import type { ActionNoteDetailItem } from '@/types/note.type';
 
 import StepRow from './StepItem';
 
 type StepSectionProps = {
   title: string;
   emptyText: string;
-  steps: ActionNoteDetailItemDTO[];
+  steps: ActionNoteDetailItem[];
   variant: 'completed' | 'inProgress';
   expandedStepIds: Set<number>;
   onToggleExpanded: (actionDetailId: number) => void;

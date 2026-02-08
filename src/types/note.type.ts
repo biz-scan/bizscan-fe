@@ -1,29 +1,24 @@
-export type ApiResponse<T> = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: T;
-};
+import type { CommonResponse } from './api.type';
 
 export type TagType = 'GOAL' | 'DIFFICULTY' | 'CATEGORY';
 
-export type NoteTagDTO = {
+export type NoteTag = {
   tagId: number;
   tagType: TagType;
-  content: string; // 예: "#객단가 UP"
+  content: string;
 };
 
-export type ActionNoteListItemDTO = {
+export type ActionNoteListItem = {
   actionPlanId: number;
   isCompleted: boolean;
-  createdAt: string; // "2024-02-04T12:00:00"
+  createdAt: string;
   title: string;
-  progress: number; // 0~100
+  progress: number;
   nextActionDetailTitle: string | null;
-  tags: NoteTagDTO[];
+  tags: NoteTag[];
 };
 
-export type ActionNoteDetailItemDTO = {
+export type ActionNoteDetailItem = {
   actionDetailId: number;
   step: number;
   title: string;
@@ -32,18 +27,40 @@ export type ActionNoteDetailItemDTO = {
   isCompleted: boolean;
 };
 
-export type ActionNoteDetailDTO = {
+export type ActionNoteDetail = {
   actionPlanId: number;
   actionPlanTitle: string;
-  tags: NoteTagDTO[];
+  tags: NoteTag[];
   reason: string;
   progress: number;
-  actionDetails: ActionNoteDetailItemDTO[];
+  actionDetails: ActionNoteDetailItem[];
 };
 
-export type PatchActionDetailResultDTO = {
+export type PatchActionDetailResult = {
   actionDetailId: number;
   isDetailCompleted: boolean;
   progress: number;
   isNoteCompleted: boolean;
 };
+
+/* REQUEST */
+export type GetActionNotesRequest = {
+  storeId: number;
+  isCompleted: boolean;
+};
+
+export type GetActionNoteDetailRequest = {
+  actionPlanId: number;
+};
+
+export type PatchActionDetailRequest = {
+  storeId: number;
+  actionPlanId: number;
+  actionDetailId: number;
+  isCompleted: boolean;
+};
+
+/* RESPONSE */
+export type GetActionNotesResponse = CommonResponse<ActionNoteListItem[]>;
+export type GetActionNoteDetailResponse = CommonResponse<ActionNoteDetail>;
+export type PatchActionDetailResponse = CommonResponse<PatchActionDetailResult>;

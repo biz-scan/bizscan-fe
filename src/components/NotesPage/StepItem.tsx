@@ -1,10 +1,10 @@
 import DownIcon from '@/assets/icons/Arrow/down.svg?react';
 import UpIcon from '@/assets/icons/Arrow/up.svg?react';
 import { Checkbox } from '@/components/ui/Checkbox';
-import type { ActionNoteDetailItemDTO } from '@/types/note.type';
+import type { ActionNoteDetailItem } from '@/types/note.type';
 
 type StepRowProps = {
-  step: ActionNoteDetailItemDTO;
+  step: ActionNoteDetailItem;
   expanded: boolean;
   onToggleExpanded: () => void;
   onToggleChecked: (next: boolean) => void;

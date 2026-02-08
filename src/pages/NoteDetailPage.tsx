@@ -7,7 +7,7 @@ import FieldLabel from '@/components/common/FieldLabel';
 import HashTag from '@/components/NotesPage/HashTag';
 import ProgressBar from '@/components/NotesPage/ProgressBar';
 import StepSection from '@/components/NotesPage/StepSection';
-import { splitSteps } from '@/components/NotesPage/StepUtils';
+import { splitSteps } from '@/utils/note/step';
 import { useActionNoteDetail } from '@/hooks/note/useActionNoteDetail';
 import { usePatchActionDetail } from '@/hooks/note/usePatchActionDetail';
 import useAuthStore from '@/store/useAuthStore';

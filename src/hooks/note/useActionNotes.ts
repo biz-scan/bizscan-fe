@@ -4,10 +4,10 @@ import { noteKeys } from '@/apis/queryKeys';
 
 export function useActionNotes(storeId: number | undefined, isCompleted: boolean) {
   return useAppQuery(
-    storeId ? noteKeys.list(storeId, isCompleted) : noteKeys.lists(),
-    () => getActionNotes({ storeId: storeId as number, isCompleted }),
+    noteKeys.list(storeId ?? 0, isCompleted),
+    () => getActionNotes({ storeId: storeId!, isCompleted }),
     {
-      enabled: Number.isFinite(storeId),
+      enabled: !!storeId,
       select: (res) => res.result ?? [],
     }
   );
