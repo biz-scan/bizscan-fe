@@ -6,3 +6,7 @@ export const storeKeys = {
   all: ['store'] as const,
   my: (storeId: number) => [...storeKeys.all, 'my', storeId] as const,
 };
+export const analysisKeys = {
+  all: ['analysis'] as const,
+  status: (requestId: string) => [...analysisKeys.all, 'status', requestId] as const,
+};

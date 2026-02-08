@@ -20,7 +20,7 @@ import { usePostStore } from '@/hooks/store';
 import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest } from '@/types/store.type';
 
-export default function SettingsPage() {
+export default function OnboardingPage() {
   const { mutate: postStore, isPending: isPosting } = usePostStore();
   const { user } = useAuthStore();
   const [form, setForm] = useState({
