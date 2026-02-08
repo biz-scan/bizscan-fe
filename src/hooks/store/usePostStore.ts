@@ -31,6 +31,7 @@ export function usePostStore() {
     {
       onSuccess: (res) => {
         if (res.isSuccess && res.requestId) {
+          setStoreId(res.result.storeId);
           toast.success('매장이 성공적으로 등록되었습니다.');
           queryClient.invalidateQueries({ queryKey: storeKeys.all });
           navigate(`/analyze/${res.requestId}`, { replace: true });

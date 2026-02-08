@@ -11,7 +11,9 @@ import type {
 
 // 매장 AI 분석 요청
 export const postAnalysis = async (storeId: number) => {
-  const response = await axiosInstance.post<PostAnalysisResponse>('/api/analysis', { storeId });
+  const response = await axiosInstance.post<PostAnalysisResponse>('/api/analysis', null, {
+    params: { storeId },
+  });
   return response.data;
 };
 
