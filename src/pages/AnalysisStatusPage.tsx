@@ -36,7 +36,7 @@ export function AnalysisStatusPage() {
     }
     if (status === 'COMPLETED') {
       setTimeout(() => {
-        navigate(`/analysis/${requestId}`, { replace: true });
+        navigate(`/dashboard`, { replace: true });
       }, 1000);
     }
   }, [requestId, status, navigate]);
