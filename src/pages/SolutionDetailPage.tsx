@@ -1,5 +1,5 @@
-import { useEffect,useState } from 'react';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
 import CloseActive from '@/assets/icons/Close/state=active.svg?react';
@@ -10,6 +10,8 @@ import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
 import { Button } from '@/components/ui/Button';
 import { useGetActionPlanDetail } from '@/hooks/analysis/analysisHooks';
+import { usePostActionNote } from '@/hooks/note/useNoteHooks';
+import { toast } from 'sonner';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
@@ -24,7 +26,17 @@ export default function SolutionDetailPage() {
 
   const { data: actionPlanDetailResponse, isLoading } = useGetActionPlanDetail(actionPlanId);
 
+  const { mutate: addToNote, isPending: isAdding } = usePostActionNote();
+
   const actionPlan = actionPlanDetailResponse?.result;
+
+  const handleAddToNote = () => {
+    if (isNaN(actionPlanId)) {
+      toast.error('유효하지 않은 실행 전략입니다.');
+      return;
+    }
+    addToNote(actionPlanId);
+  };
 
   return (
     <main className="w-full min-h-screen bg-grey-light pb-[100px]">
@@ -143,11 +155,10 @@ export default function SolutionDetailPage() {
             variant="default"
             size="lg"
             className="mt-[52px] self-end flex items-center gap-[44px]"
-            onClick={() => {
-              /* 담기 로직 */
-            }}
+            onClick={handleAddToNote}
+            disabled={isAdding || isLoading}
           >
-            <span className="typo-p1-bold">내 실행 노트에 담기</span>
+            <span className="typo-p1-bold">{isAdding ? '담는 중...' : '내 실행 노트에 담기'}</span>
             <ArrowWhite className="w-[24px] h-[24px] flex-shrink-0" />
           </Button>
         </section>
