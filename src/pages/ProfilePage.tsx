@@ -125,6 +125,7 @@ export default function ProfilePage() {
                   <Input
                     type="password"
                     className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    placeholder="현재 비밀번호를 입력하세요"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     disabled={isLoading}
@@ -138,6 +139,7 @@ export default function ProfilePage() {
                   <Input
                     type="password"
                     className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    placeholder="새 비밀번호를 입력하세요"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     disabled={isLoading}
