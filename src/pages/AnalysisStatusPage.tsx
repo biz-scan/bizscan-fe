@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { analyzeStore } from '@/apis/analysis/analysis';
+import { postAnalysis } from '@/apis/analysis/analysis';
 import ErrorIcon from '@/assets/icons/Icon/type=error.svg?react';
 import Stepper from '@/components/AnalysisStatusPage/Stepper';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -22,24 +22,36 @@ const statusText: Record<string, string> = {
 export function AnalysisStatusPage() {
   const { requestId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuthStore();
-  const storeId = user?.storeId ?? null;
+  const { user, storeId: persistedStoreId } = useAuthStore();
+  const storeId = user?.storeId || persistedStoreId;
   const [retrying, setRetrying] = useState(false);
 
-  const { data, error: statusError } = useAnalysisStatus(requestId ?? '');
+  const { data, error: statusError, isLoading } = useAnalysisStatus(requestId ?? '');
   const status = data?.result?.status ?? 'REQUEST';
 
+  console.log('🕵️ 현재 페이지 상태 확인:', {
+    requestId,
+    status,
+    isLoading,
+    storeId,
+    dataExists: !!data,
+  });
+
   useEffect(() => {
-    if (!requestId) {
-      navigate('/', { replace: true });
-      return;
-    }
+    if (isLoading) return;
+
     if (status === 'COMPLETED') {
-      setTimeout(() => {
-        navigate(`/dashboard`, { replace: true });
+      const timer = setTimeout(() => {
+        navigate('/dashboard', { replace: true });
       }, 1000);
+      return () => clearTimeout(timer);
     }
-  }, [requestId, status, navigate]);
+
+    if (!requestId) {
+      console.log('데이터 로딩 후에도 requestId가 없어 튕깁니다.');
+      navigate('/', { replace: true });
+    }
+  }, [requestId, status, navigate, isLoading]);
 
   const isError = !requestId || status === 'FAILED' || !!statusError;
 
@@ -52,7 +64,7 @@ export function AnalysisStatusPage() {
     if (!storeId || retrying) return;
     try {
       setRetrying(true);
-      const res = await analyzeStore({ storeId: String(storeId) });
+      const res = await postAnalysis(storeId);
       navigate(`/analyze/${res.result.requestId}`, { replace: true });
     } catch {
       toast.error('재분석 요청에 실패했습니다.');

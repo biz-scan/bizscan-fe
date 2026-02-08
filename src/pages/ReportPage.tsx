@@ -1,12 +1,32 @@
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-import LineIcon from '@/assets/icons/Line/Line.svg?react';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import {
+  useGetActionPlans,
+  useGetSwotDiagnosis,
+  useGetSwots,
+} from '@/hooks/analysis/analysisHooks';
 import SwotCard from '@/components/DashboardPage/SwotCard';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
+import useAuthStore from '@/store/useAuthStore';
+
+const SWOT_TITLES = {
+  S: 'Strengths',
+  W: 'Weaknesses',
+  O: 'Opportunities',
+  T: 'Threats',
+};
 
 export default function ReportPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { user, storeId: persistedStoreId } = useAuthStore();
+  const storeId = user?.storeId || persistedStoreId;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const selectedType = searchParams.get('type') as 'S' | 'W' | 'O' | 'T' | null;
 
@@ -14,53 +34,19 @@ export default function ReportPage() {
     setSearchParams({ type });
   };
 
-  const swotData = [
-    {
-      type: 'S' as const,
-      title: 'Strengths',
-      keyword: '가격 경쟁력 우수',
-      description: '객단가가 주변보다 낮아요',
-    },
-    {
-      type: 'W' as const,
-      title: 'Weaknesses',
-      keyword: '리뷰 수 부족',
-      description: '경쟁사 대비 20% 수준',
-    },
-    {
-      type: 'O' as const,
-      title: 'Opportunities',
-      keyword: '20대 유동인구 ↑',
-      description: '저녁 시간대 급증',
-    },
-    {
-      type: 'T' as const,
-      title: 'Threats',
-      keyword: '유사 업종 과포화',
-      description: '반경 500m 내 150개',
-    },
-  ];
+  // SWOT 목록 조회
+  const { data: swotResponse } = useGetSwots(storeId as number);
+  const swotList = swotResponse?.result || [];
 
-  const aiAnalysisData = {
-    S: '해당 업체는 가격 경쟁력이 우수합니다. 객단가가 주변보다 낮게 책정되어 있고, 경쟁사 대비 가성비 면에서 확실한 우위를 점하고 있습니다.',
-    W: '현재 리뷰 수가 절대적으로 부족합니다. 경쟁사 대비 20% 수준으로, 신규 고객들이 방문을 결정하는 데 주저하게 만드는 요인이 될 수 있습니다.',
-    O: '성수동 인근 20대 유동인구가 저녁 시간대에 급증하는 추세입니다. 이들을 타겟팅한 감성적인 브랜딩과 야간 메뉴 강화가 필요합니다.',
-    T: '반경 500m 이내 유사 업종이 150개로 과포화 상태입니다. 차별화된 핵심 메뉴 없이는 시장 점유율 유지가 어려울 수 있습니다.',
-  };
+  const selectedSwot = swotList.find((item) => item.type === selectedType);
+  const swotId = selectedSwot?.swotId;
 
-  const strategyData = {
-    S: [
-      {
-        id: 's1',
-        title: "오후 5시 '직장인 퇴근길' 예약 프로모션",
-        tags: ['#객단가UP', '#난이도하', '#마케팅'],
-      },
-      { id: 's2', title: '평일 런치 한정 메뉴 구성', tags: ['#회전율UP', '#가성비'] },
-    ],
-    W: [{ id: 'w1', title: '네이버 영수증 리뷰 이벤트', tags: ['#신뢰도UP', '#리뷰활성화'] }],
-    O: [{ id: 'o1', title: '20대 선호 메뉴 개발', tags: ['#신뢰도UP', '#리뷰활성화'] }],
-    T: [{ id: 't1', title: '핵심 시그니처 메뉴 브랜딩', tags: ['#신뢰도UP', '#리뷰활성화'] }],
-  };
+  const { data: diagnosisResponse } = useGetSwotDiagnosis(swotId as number);
+  const diagnosis = diagnosisResponse?.result?.diagnosis;
+
+  // 실행 전략 목록 조회
+  const { data: actionPlanResponse } = useGetActionPlans(storeId as number);
+  const actionPlans = actionPlanResponse?.result || [];
 
   return (
     <main className="w-full min-h-screen bg-grey-light">
@@ -72,23 +58,26 @@ export default function ReportPage() {
 
         {/* SWOT 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[20px] gap-y-[20px]">
-          {swotData.map((item, index) => (
+          {swotList.map((item) => (
             <SwotCard
-              key={index}
-              {...item}
+              key={item.swotId}
+              type={item.type}
+              title={SWOT_TITLES[item.type]}
+              keyword={item.keyword}
+              description={item.description}
               isActive={selectedType === item.type}
               onClick={() => handleCardClick(item.type)}
             />
           ))}
         </div>
 
-        <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
-          <LineIcon className="w-full h-auto text-transparent" />
-        </div>
-
         {/* AI 정밀 진단 */}
-        {selectedType && (
+        {selectedType && diagnosis && (
           <>
+            <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
+              <LineIcon className="w-full h-auto text-transparent" />
+            </div>
+
             <section className="mt-[clamp(60px,8vw,145px)] animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
@@ -96,7 +85,7 @@ export default function ReportPage() {
               </div>
 
               <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
-                <p className="text-grey-darker typo-p1-regular">{aiAnalysisData[selectedType]}</p>
+                <p className="text-grey-darker typo-p1-regular">{diagnosis}</p>
               </div>
             </section>
 
@@ -112,8 +101,13 @@ export default function ReportPage() {
               </div>
 
               <div className="flex flex-col">
-                {strategyData[selectedType].map((item) => (
-                  <SolutionCard key={item.id} id={item.id} title={item.title} tags={item.tags} />
+                {actionPlans.map((item) => (
+                  <SolutionCard
+                    key={item.actionPlanId}
+                    id={String(item.actionPlanId)}
+                    title={item.title}
+                    tags={item.tags.map((t) => t.content)}
+                  />
                 ))}
               </div>
             </section>

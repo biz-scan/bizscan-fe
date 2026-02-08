@@ -18,17 +18,19 @@ export default function NotesPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user } = useAuthStore();
+  const { user, storeId: persistedStoreId } = useAuthStore();
+
   const nickname = user?.nickname ?? '사용자';
 
-  const storeId = user?.storeId ?? undefined;
+  const storeId = user?.storeId || persistedStoreId;
+  const numericStoreId = storeId ? Number(storeId) : undefined;
 
   const tabParam = searchParams.get('tab');
   const tab: TabValue = isTabValue(tabParam) ? tabParam : DEFAULT_TAB;
 
   const isCompleted = tab === 'completed';
 
-  const query = useActionNotes(storeId, isCompleted);
+  const query = useActionNotes(numericStoreId, isCompleted);
 
   const notes = query.data ?? [];
   const isLoading = query.isLoading;
@@ -106,7 +108,11 @@ export default function NotesPage() {
                     note={note}
                     onClick={() => navigate(`/notes/${note.actionPlanId}`)}
                   />
-                  {tab === 'in_progress' && guideText ? <NextGuideCard text={guideText} /> : <div />}
+                  {tab === 'in_progress' && guideText ? (
+                    <NextGuideCard text={guideText} />
+                  ) : (
+                    <div />
+                  )}
                 </div>
               );
             })

@@ -7,10 +7,20 @@ import type {
   PatchActionDetailResponse,
 } from '@/types/note.type';
 
-
-export async function getActionNotes(params: GetActionNotesRequest): Promise<GetActionNotesResponse> {
+export async function getActionNotes(
+  params: GetActionNotesRequest
+): Promise<GetActionNotesResponse> {
   const res = await axiosInstance.get<GetActionNotesResponse>('/api/v1/action-notes', {
     params,
+  });
+  return res.data;
+}
+
+export async function postActionNote(
+  actionPlanId: number
+): Promise<{ isSuccess: boolean; result: { actionPlanId: number } }> {
+  const res = await axiosInstance.post('/api/v1/action-notes', {
+    actionPlanId,
   });
   return res.data;
 }
@@ -23,7 +33,6 @@ export async function getActionNoteDetail(
   });
   return res.data;
 }
-
 
 export async function patchActionDetail(params: {
   actionDetailId: number;

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import MainIcon from '@/assets/icons/Icon/type=main.svg?react';
 import AtmosphereSection from '@/components/OnboardingPage/AtmosphereSection';
@@ -21,6 +23,7 @@ import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest } from '@/types/store.type';
 
 export default function OnboardingPage() {
+  const navigate = useNavigate();
   const { mutate: postStore, isPending: isPosting } = usePostStore();
   const { user } = useAuthStore();
   const [form, setForm] = useState({
@@ -70,7 +73,17 @@ export default function OnboardingPage() {
       tags: form.features.map((f) => TAG_MAP[f] || f),
     };
 
-    postStore(requestData);
+    postStore(requestData, {
+      onSuccess: (res) => {
+        if (res.isSuccess && res.requestId) {
+          navigate(`/analyze/${res.requestId}`);
+        }
+      },
+      onError: (error) => {
+        console.error('매장 등록 실패:', error);
+        toast.error('매장 등록 중 에러가 발생했습니다. 입력 정보를 확인해주세요.');
+      },
+    });
   };
 
   const isLoading = isPosting;

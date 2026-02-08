@@ -1,24 +1,71 @@
+import axiosInstance from '@/apis/axiosInstance';
 import type {
-  AnalyzeStoreRequest,
-  AnalyzeStoreResponse,
+  PostAnalysisResponse,
   GetAnalysisStatusResponse,
+  GetSwotsResponse,
+  GetSwotDiagnosisResponse,
+  GetCatchphraseResponse,
+  GetActionPlansResponse,
+  GetActionPlanDetailResponse,
 } from '@/types/analysis.type';
 
-import axiosInstance from '../axiosInstance';
-
-/* 매장 분석 요청 */
-export async function analyzeStore(data: AnalyzeStoreRequest): Promise<AnalyzeStoreResponse> {
-  const res = await axiosInstance.post<AnalyzeStoreResponse>('/api/analysis', null, {
-    params: data,
+// 매장 AI 분석 요청
+export const postAnalysis = async (storeId: number) => {
+  const response = await axiosInstance.post<PostAnalysisResponse>('/api/analysis', null, {
+    params: { storeId },
   });
-  return res.data;
-}
+  return response.data;
+};
 
-/* 매장 분석 요청 */
-export async function getAnalysisStatus(requestId: string): Promise<GetAnalysisStatusResponse> {
-  const res = await axiosInstance.get<GetAnalysisStatusResponse>(
+// AI 분석 상태 조회
+export const getAnalysisStatus = async (requestId: string) => {
+  const response = await axiosInstance.get<GetAnalysisStatusResponse>(
     `/api/analysis/${requestId}/status`
   );
-  console.log(res.data);
-  return res.data;
-}
+  return response.data;
+};
+
+// SWOT 대시보드 요약 조회
+export const getSwots = async (storeId: number) => {
+  if (!storeId) return null;
+  const response = await axiosInstance.get<GetSwotsResponse>('/api/analysis/swots', {
+    params: { storeId },
+  });
+  return response.data;
+};
+
+// SWOT 항목별 정밀 진단 조회
+export const getSwotDiagnosis = async (swotId: number) => {
+  if (!swotId) return null;
+  const response = await axiosInstance.get<GetSwotDiagnosisResponse>(
+    `/api/analysis/swots/${swotId}/diagnosis`
+  );
+  return response.data;
+};
+
+// AI 캐치프레이즈 조회
+export const getCatchphrase = async (storeId: number) => {
+  if (!storeId) return null;
+  const response = await axiosInstance.get<GetCatchphraseResponse>('/api/analysis/catchphrase', {
+    params: { storeId },
+  });
+  return response.data;
+};
+
+// 실행 전략 목록 조회
+export const getActionPlans = async (storeId: number) => {
+  if (!storeId) return null;
+  const response = await axiosInstance.get<GetActionPlansResponse>('/api/analysis/action-plans', {
+    params: { storeId },
+  });
+  return response.data;
+};
+
+// 실행 전략 상세 및 단계별 지침 조회
+export const getActionPlanDetail = async (actionPlanId: number) => {
+  if (!actionPlanId) return null;
+  const response = await axiosInstance.get<GetActionPlanDetailResponse>(
+    `/api/analysis/action-plans/${actionPlanId}`
+  );
+  return response.data;
+};
