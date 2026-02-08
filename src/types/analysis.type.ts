@@ -1,16 +1,14 @@
 import type { CommonResponse } from './api.type';
 
-export type ApiResponse<T> = CommonResponse<T>;
-
-// AI 분석 요청 결과
-export interface AnalysisRequestResponse {
+// 분석 요청 시 반환되는 데이터 (requestId)
+export interface AnalysisRequestResult {
   requestId: string;
 }
 
 // 분석 상태 조회
 export type AnalysisStatus = 'WAITING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'REQUEST';
 
-export interface AnalysisStatusResponse {
+export interface AnalysisStatusInfo {
   status: AnalysisStatus;
   progressMessage: string;
   pollingTime: number;
@@ -25,12 +23,12 @@ export interface SwotItem {
 }
 
 // SWOT 정밀 진단
-export interface SwotDiagnosisResponse {
+export interface SwotDiagnosisResult {
   diagnosis: string;
 }
 
 // AI 캐치프레이즈
-export interface CatchphraseResponse {
+export interface CatchphraseResult {
   catchphrase: string | null;
 }
 
@@ -57,10 +55,18 @@ export interface ActionDetail {
   isCompleted: boolean;
 }
 
-export interface ActionPlanDetailResponse {
+export interface ActionPlanDetailResult {
   actionPlanId: number;
   actionPlanTitle: string;
   tags: ActionPlanTag[];
   reason: string;
   actionDetails: ActionDetail[];
 }
+
+export type PostAnalysisResponse = CommonResponse<AnalysisRequestResult>;
+export type GetAnalysisStatusResponse = CommonResponse<AnalysisStatusInfo>;
+export type GetSwotsResponse = CommonResponse<SwotItem[]>;
+export type GetSwotDiagnosisResponse = CommonResponse<SwotDiagnosisResult>;
+export type GetCatchphraseResponse = CommonResponse<CatchphraseResult>;
+export type GetActionPlansResponse = CommonResponse<ActionPlanItem[]>;
+export type GetActionPlanDetailResponse = CommonResponse<ActionPlanDetailResult>;
