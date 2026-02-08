@@ -14,6 +14,9 @@ export function usePostStore() {
   return useAppMutation<RegisterStoreResponse & { requestId: string }, RegisterStoreRequest>(
     async (data: RegisterStoreRequest) => {
       const storeRes = await registerStore(data);
+      if (!storeRes.isSuccess) {
+        return { ...storeRes, requestId: '' };
+      }
       const analyzeRes = await analyzeStore({ storeId: String(storeRes.result.storeId) });
       return { ...storeRes, requestId: analyzeRes.result.requestId };
     },
