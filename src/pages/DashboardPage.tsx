@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
-import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
