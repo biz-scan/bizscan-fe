@@ -1,5 +1,5 @@
 import CheckIcon from '@/assets/icons/Check/Check_Icon.svg?react';
-import type { Status as AnalysisStatus } from '@/types/analysis.type';
+import type { AnalysisStatus } from '@/types/analysis.type';
 
 interface StepperProps {
   status: AnalysisStatus;
