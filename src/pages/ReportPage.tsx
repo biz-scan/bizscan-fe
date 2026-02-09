@@ -8,6 +8,7 @@ import {
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
 import useAuthStore from '@/store/useAuthStore';
 
@@ -35,18 +36,30 @@ export default function ReportPage() {
   };
 
   // SWOT 목록 조회
-  const { data: swotResponse } = useGetSwots(storeId as number);
+  const { data: swotResponse, isLoading: isSwotLoading } = useGetSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   const selectedSwot = swotList.find((item) => item.type === selectedType);
   const swotId = selectedSwot?.swotId;
 
-  const { data: diagnosisResponse } = useGetSwotDiagnosis(swotId as number);
+  const { data: diagnosisResponse, isLoading: isDiagnosisLoading } = useGetSwotDiagnosis(
+    swotId as number
+  );
   const diagnosis = diagnosisResponse?.result?.diagnosis;
 
   // 실행 전략 목록 조회
-  const { data: actionPlanResponse } = useGetActionPlans(storeId as number);
+  const { data: actionPlanResponse, isLoading: isActionPlansLoading } = useGetActionPlans(
+    storeId as number
+  );
   const actionPlans = actionPlanResponse?.result || [];
+
+  if (isSwotLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-grey-light">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <main className="w-full min-h-screen bg-grey-light">
@@ -72,7 +85,7 @@ export default function ReportPage() {
         </div>
 
         {/* AI 정밀 진단 */}
-        {selectedType && diagnosis && (
+        {selectedType && (
           <>
             <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
               <LineIcon className="w-full h-auto text-transparent" />
@@ -84,9 +97,21 @@ export default function ReportPage() {
                 <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">AI 정밀 진단</h2>
               </div>
 
-              <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
-                <p className="text-grey-darker typo-p1-regular">{diagnosis}</p>
-              </div>
+              {isDiagnosisLoading ? (
+                <div className="flex justify-center py-20">
+                  <LoadingSpinner />
+                </div>
+              ) : diagnosis ? (
+                <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
+                  <p className="text-grey-darker typo-p1-regular">{diagnosis}</p>
+                </div>
+              ) : (
+                <div className="w-full max-w-[1348px] min-h-[200px] aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-center justify-center p-[clamp(24px,3vw,48px)]">
+                  <p className="text-grey-normal typo-p1-regular">
+                    진단 내용을 불러올 수 없습니다.
+                  </p>
+                </div>
+              )}
             </section>
 
             <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden animate-in fade-in duration-700">
@@ -100,16 +125,22 @@ export default function ReportPage() {
                 <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">맞춤 실행 전략</h2>
               </div>
 
-              <div className="flex flex-col">
-                {actionPlans.map((item) => (
-                  <SolutionCard
-                    key={item.actionPlanId}
-                    id={String(item.actionPlanId)}
-                    title={item.title}
-                    tags={item.tags.map((t) => t.content)}
-                  />
-                ))}
-              </div>
+              {isActionPlansLoading ? (
+                <div className="flex justify-center py-20">
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  {actionPlans.map((item) => (
+                    <SolutionCard
+                      key={item.actionPlanId}
+                      id={String(item.actionPlanId)}
+                      title={item.title}
+                      tags={item.tags.map((t) => t.content)}
+                    />
+                  ))}
+                </div>
+              )}
             </section>
 
             <div className="h-[clamp(100px,15vw,241px)]" />
