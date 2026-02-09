@@ -53,10 +53,14 @@ export const getCatchphrase = async (storeId: number) => {
 };
 
 // 실행 전략 목록 조회
-export const getActionPlans = async (storeId: number) => {
+export const getActionPlans = async (storeId: number, swotType?: string) => {
   if (!storeId) return null;
+  const params: { storeId: number; swotType?: string } = { storeId };
+  if (swotType) {
+    params.swotType = swotType;
+  }
   const response = await axiosInstance.get<GetActionPlansResponse>('/api/analysis/action-plans', {
-    params: { storeId },
+    params,
   });
   return response.data;
 };

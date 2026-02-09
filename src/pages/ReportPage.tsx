@@ -49,7 +49,8 @@ export default function ReportPage() {
 
   // 실행 전략 목록 조회
   const { data: actionPlanResponse, isLoading: isActionPlansLoading } = useGetActionPlans(
-    storeId as number
+    storeId as number,
+    selectedType || undefined
   );
   const actionPlans = actionPlanResponse?.result || [];
 
