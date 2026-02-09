@@ -43,6 +43,6 @@ export async function updateStoreTags(
   storeId: number,
   data: { tags: string[] }
 ): Promise<UpdateStoreResponse> {
-  const res = await axiosInstance.patch<UpdateStoreResponse>(`/api/stores/${storeId}/tags`,data);
+  const res = await axiosInstance.put<UpdateStoreResponse>(`/api/stores/${storeId}/tags`, data);
   return res.data;
 }
