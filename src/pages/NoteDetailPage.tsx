@@ -66,10 +66,10 @@ export default function NoteDetailPage() {
     });
   };
 
-  const onToggleStep = async (actionDetailId: number, next: boolean) => {
+  const onToggleStep = (actionDetailId: number, next: boolean) => {
     if (storeId == null || actionPlanId == null) return;
 
-    await patchMutation.mutateAsync({
+    patchMutation.mutateAsync({
       storeId,
       actionPlanId,
       actionDetailId,
