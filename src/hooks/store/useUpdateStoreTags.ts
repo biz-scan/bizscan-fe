@@ -1,16 +1,13 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useAppMutation } from '@/apis/apiHooks';
+import { queryClient } from '@/apis/queryClient';
 import { storeKeys } from '@/apis/queryKeys';
 import { updateStoreTags } from '@/apis/store/store';
 
 export function useUpdateStoreTags() {
-  const queryClient = useQueryClient();
-
   return useAppMutation(
-    ({ storeId, tags }: { storeId: number; tags: string[] }) =>
-      updateStoreTags(storeId, { tags }),
+    ({ storeId, tags }: { storeId: number; tags: string[] }) => updateStoreTags(storeId, { tags }),
     {
       onSuccess: (res) => {
         if (res.isSuccess) {

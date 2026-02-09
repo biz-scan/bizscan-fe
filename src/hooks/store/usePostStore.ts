@@ -1,16 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { postAnalysis } from '@/apis/analysis/analysis'; // analyzeStore 대신 이걸 사용
 import { useAppMutation } from '@/apis/apiHooks';
+import { queryClient } from '@/apis/queryClient';
 import { storeKeys } from '@/apis/queryKeys';
 import { registerStore } from '@/apis/store/store';
 import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest, RegisterStoreResponse } from '@/types/store.type';
 
 export function usePostStore() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { setStoreId } = useAuthStore();
 

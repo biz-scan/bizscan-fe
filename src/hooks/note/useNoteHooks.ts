@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+
 import { postActionNote } from '@/apis/note/note.api';
+import { queryClient } from '@/apis/queryClient';
 
 export function usePostActionNote() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (actionPlanId: number) => postActionNote(actionPlanId),
     onSuccess: () => {
