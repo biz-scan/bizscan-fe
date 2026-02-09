@@ -40,7 +40,7 @@ export default function ReportPage() {
   const swotList = swotResponse?.result || [];
 
   const selectedSwot = swotList.find((item) => item.type === selectedType);
-  const swotId = selectedSwot?.swotId;
+  const swotId = selectedSwot?.swotId ?? 0;
 
   const { data: diagnosisResponse, isLoading: isDiagnosisLoading } = useGetSwotDiagnosis(
     swotId as number
@@ -70,7 +70,7 @@ export default function ReportPage() {
           <h2 className="text-blue-dark text-[32px]">AI SWOT 분석</h2>
         </div>
 
-        {/* SWOT 카드 */}
+        {/* SWOT 카드 리스트 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[20px] gap-y-[20px]">
           {swotList.map((item) => (
             <SwotCard
@@ -85,13 +85,14 @@ export default function ReportPage() {
           ))}
         </div>
 
-        {/* AI 정밀 진단 */}
+        {/* 상세 분석 섹션 (카드가 선택되었을 때만 노출) */}
         {selectedType && (
           <>
             <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
               <LineIcon className="w-full h-auto text-transparent" />
             </div>
 
+            {/* AI 정밀 진단 */}
             <section className="mt-[clamp(60px,8vw,145px)] animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
@@ -115,11 +116,11 @@ export default function ReportPage() {
               )}
             </section>
 
-            <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden animate-in fade-in duration-700">
+            <div className="mt-[clamp(60px,8vw,145px)] flex justify-center w-full overflow-hidden">
               <LineIcon className="w-full h-auto text-transparent" />
             </div>
 
-            {/* 맞춤 실행 전략 */}
+            {/* 맞춤 실행 전략 섹션 */}
             <section className="mt-[clamp(60px,8vw,145px)]">
               <div className="flex items-center gap-[20px] mb-[clamp(24px,3vw,48px)]">
                 <SimbolLogo className="w-[42px] h-[42px]" />
@@ -130,8 +131,9 @@ export default function ReportPage() {
                 <div className="flex justify-center py-20">
                   <LoadingSpinner />
                 </div>
-              ) : (
-                <div className="flex flex-col">
+              ) : actionPlans.length > 0 ? (
+                /* 데이터가 있을 때 */
+                <div className="flex flex-col animate-in fade-in duration-500">
                   {actionPlans.map((item) => (
                     <SolutionCard
                       key={item.actionPlanId}
@@ -140,6 +142,19 @@ export default function ReportPage() {
                       tags={item.tags.map((t) => t.content)}
                     />
                   ))}
+                </div>
+              ) : (
+                /* 데이터 없을 때 */
+                <div className="w-full py-[80px] rounded-[20px] bg-white/50 border-2 border-dashed border-grey-normal/20 flex flex-col items-center justify-center animate-in fade-in duration-500">
+                  <SimbolLogo className="w-12 h-12 mb-4 opacity-20 grayscale" />
+                  <p className="text-grey-normal typo-p1-medium text-center">
+                    {selectedType
+                      ? `${SWOT_TITLES[selectedType]} 관련 맞춤 실행 전략이 없습니다.`
+                      : '진행된 분석이 없어 전략을 불러올 수 없습니다.'}
+                  </p>
+                  <p className="text-grey-normal/60 typo-p2-regular mt-2">
+                    분석을 다시 진행하거나 다른 항목을 선택해 주세요.
+                  </p>
                 </div>
               )}
             </section>
