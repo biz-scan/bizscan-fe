@@ -61,6 +61,7 @@ export function useStoreSettingsForm(storeId: number | null) {
 
   useEffect(() => {
     initializedRef.current = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!storeId) setForm(EMPTY_FORM);
   }, [storeId]);
 
@@ -70,6 +71,7 @@ export function useStoreSettingsForm(storeId: number | null) {
 
     initializedRef.current = true;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm({
       storeName: store.name ?? '',
       location: store.address ?? '',
