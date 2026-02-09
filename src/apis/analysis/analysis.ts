@@ -1,12 +1,12 @@
 import axiosInstance from '@/apis/axiosInstance';
 import type {
-  PostAnalysisResponse,
-  GetAnalysisStatusResponse,
-  GetSwotsResponse,
-  GetSwotDiagnosisResponse,
-  GetCatchphraseResponse,
-  GetActionPlansResponse,
   GetActionPlanDetailResponse,
+  GetActionPlansResponse,
+  GetAnalysisStatusResponse,
+  GetCatchphraseResponse,
+  GetSwotDiagnosisResponse,
+  GetSwotsResponse,
+  PostAnalysisResponse,
 } from '@/types/analysis.type';
 
 // 매장 AI 분석 요청

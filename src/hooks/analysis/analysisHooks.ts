@@ -1,23 +1,22 @@
-import { useAppMutation, useAppQuery } from '@/apis/apiHooks';
 import {
-  postAnalysis,
-  getAnalysisStatus,
-  getSwots,
-  getSwotDiagnosis,
-  getCatchphrase,
-  getActionPlans,
   getActionPlanDetail,
+  getActionPlans,
+  getAnalysisStatus,
+  getCatchphrase,
+  getSwotDiagnosis,
+  getSwots,
+  postAnalysis,
 } from '@/apis/analysis/analysis';
+import { useAppMutation, useAppQuery } from '@/apis/apiHooks';
 import { analysisKeys } from '@/apis/queryKeys';
-
 import type {
-  PostAnalysisResponse,
-  GetAnalysisStatusResponse,
-  GetSwotsResponse,
-  GetSwotDiagnosisResponse,
-  GetCatchphraseResponse,
-  GetActionPlansResponse,
   GetActionPlanDetailResponse,
+  GetActionPlansResponse,
+  GetAnalysisStatusResponse,
+  GetCatchphraseResponse,
+  GetSwotDiagnosisResponse,
+  GetSwotsResponse,
+  PostAnalysisResponse,
 } from '@/types/analysis.type';
 
 // POST /api/analysis

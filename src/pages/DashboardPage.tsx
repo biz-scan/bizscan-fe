@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
-import SwotCard from '@/components/DashboardPage/SwotCard';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import SwotCard from '@/components/DashboardPage/SwotCard';
+import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
 import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {

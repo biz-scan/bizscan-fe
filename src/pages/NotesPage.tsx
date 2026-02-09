@@ -45,7 +45,7 @@ export default function NotesPage() {
   const filtered = notes;
   return (
     <div className="w-full min-h-screen bg-grey-light">
-      <div className="mx-auto w-full max-w-[1348px] pt-[120px] px-6 md:px-10 xl:px-[60px]">
+      <div className="mx-auto w-full max-w-[1348px] py-[120px] px-6 md:px-10 xl:px-[60px]">
         <div className="flex items-center gap-[20px] mb-[48px]">
           <Simbol className="h-[42px] w-[42px]" />
           <h3 className="text-blue-dark">{nickname}님의 실행 노트</h3>
@@ -102,7 +102,7 @@ export default function NotesPage() {
               return (
                 <div
                   key={note.actionPlanId}
-                  className="grid grid-cols-1 gap-[20px] lg:grid-cols-[8fr_5fr]"
+                  className="group grid grid-cols-1 gap-[20px] lg:grid-cols-[8fr_5fr]"
                 >
                   <NoteListCard
                     note={note}

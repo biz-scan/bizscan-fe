@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import SwotCard from '@/components/DashboardPage/SwotCard';
+import SolutionCard from '@/components/ReportPage/SolutionCard';
 import {
   useGetActionPlans,
   useGetSwotDiagnosis,
   useGetSwots,
 } from '@/hooks/analysis/analysisHooks';
-import SwotCard from '@/components/DashboardPage/SwotCard';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
-import LineIcon from '@/assets/icons/Line/Line.svg?react';
-import SolutionCard from '@/components/ReportPage/SolutionCard';
 import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
