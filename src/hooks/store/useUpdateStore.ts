@@ -1,14 +1,12 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useAppMutation } from '@/apis/apiHooks';
+import { queryClient } from '@/apis/queryClient';
 import { storeKeys } from '@/apis/queryKeys';
 import { updateStore } from '@/apis/store/store';
 import type { UpdateStoreRequest } from '@/types/store.type';
 
 export function useUpdateStore() {
-  const queryClient = useQueryClient();
-
   return useAppMutation(
     ({ storeId, data }: { storeId: number; data: UpdateStoreRequest }) =>
       updateStore(storeId, data),
