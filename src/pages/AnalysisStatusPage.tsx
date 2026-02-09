@@ -26,7 +26,7 @@ export function AnalysisStatusPage() {
   const storeId = user?.storeId || persistedStoreId;
   const [retrying, setRetrying] = useState(false);
 
-  const { data, error: statusError, isLoading } = useAnalysisStatus(requestId ?? '');
+  const { data, error: statusError } = useAnalysisStatus(requestId ?? '');
   const status = data?.result?.status ?? 'REQUEST';
 
   useEffect(() => {
