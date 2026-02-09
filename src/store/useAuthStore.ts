@@ -42,7 +42,7 @@ const useAuthStore = create<AuthState>()(
 
       logout: () => {
         tokenStorage.remove();
-        set({ user: null, isAuthenticated: false });
+        set({ user: null, isAuthenticated: false, storeId: null });
       },
     }),
     {
