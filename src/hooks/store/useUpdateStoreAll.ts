@@ -1,7 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useAppMutation } from '@/apis/apiHooks';
+import { queryClient } from '@/apis/queryClient';
 import { storeKeys } from '@/apis/queryKeys';
 import { updateStore, updateStoreTags } from '@/apis/store/store';
 import type { UpdateStoreRequest } from '@/types/store.type';
@@ -13,8 +13,6 @@ type Variables = {
 };
 
 export function useUpdateStoreAll() {
-  const queryClient = useQueryClient();
-
   const invalidate = (storeId: number) => {
     queryClient.invalidateQueries({ queryKey: storeKeys.my(storeId) });
     queryClient.invalidateQueries({ queryKey: storeKeys.all });
