@@ -6,6 +6,7 @@ import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
@@ -37,7 +38,7 @@ export default function DashboardPage() {
   };
 
   // SWOT 분석 결과 조회
-  const { data: swotResponse } = useGetSwots(storeId as number);
+  const { data: swotResponse, isLoading: isSwotLoading } = useGetSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   // AI 캐치프레이즈 조회
@@ -91,17 +92,23 @@ export default function DashboardPage() {
         </div>
 
         {/* SWOT 카드 그리드 */}
-        <div className="mt-[48px] grid grid-cols-1 md:grid-cols-2 gap-[20px]">
-          {swotList.map((item) => (
-            <SwotCard
-              key={item.swotId}
-              type={item.type}
-              title={SWOT_TITLES[item.type]}
-              keyword={item.keyword}
-              description={item.description}
-            />
-          ))}
-        </div>
+        {isSwotLoading ? (
+          <div className="flex justify-center py-20">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div className="mt-[48px] grid grid-cols-1 md:grid-cols-2 gap-[20px]">
+            {swotList.map((item) => (
+              <SwotCard
+                key={item.swotId}
+                type={item.type}
+                title={SWOT_TITLES[item.type]}
+                keyword={item.keyword}
+                description={item.description}
+              />
+            ))}
+          </div>
+        )}
 
         {/* 라인 구분선 */}
         <div className="mt-[clamp(60px,10vw,140px)] flex justify-center w-full overflow-hidden">
@@ -118,8 +125,8 @@ export default function DashboardPage() {
 
         {/* 핵심 솔루션 */}
         {isActionPlansLoading ? (
-          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">
-            <p className="text-grey-normal typo-p2-regular">솔루션을 불러오는 중...</p>
+          <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px] flex justify-center">
+            <LoadingSpinner />
           </div>
         ) : isActionPlansError ? (
           <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">

@@ -9,6 +9,7 @@ import CheckIcon from '@/assets/icons/Icon/type=check.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { Button } from '@/components/ui/Button';
 import { useGetActionPlanDetail } from '@/hooks/analysis/analysisHooks';
 import { usePostActionNote } from '@/hooks/note/useNoteHooks';
@@ -94,12 +95,16 @@ export default function SolutionDetailPage() {
             <FieldLabel text="AI 추천 이유" />
           </div>
 
-          <div className="w-full max-w-[1348px] min-h-[200px] aspect-auto md:aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col items-start p-[clamp(24px,3vw,48px)]">
-            <p className="text-grey-darker typo-p1-regular whitespace-pre-wrap">
-              {isLoading
-                ? 'AI 추천 이유를 불러오는 중입니다...'
-                : (actionPlan?.reason ?? '추천 이유 정보를 불러올 수 없어요.')}
-            </p>
+          <div className="w-full max-w-[1348px] min-h-[200px] aspect-auto md:aspect-[1348/360] rounded-[20px] bg-grey-light shadow-normal flex flex-col p-[clamp(24px,3vw,48px)]">
+            {isLoading ? (
+              <div className="flex-1 flex items-center justify-center w-full h-full">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <p className="text-grey-darker typo-p1-regular whitespace-pre-wrap items-start">
+                {actionPlan?.reason ?? '추천 이유 정보를 불러올 수 없어요.'}
+              </p>
+            )}
           </div>
         </section>
 
@@ -110,23 +115,17 @@ export default function SolutionDetailPage() {
           </div>
 
           <div className="flex flex-col gap-[20px] w-full">
-            {isLoading && (
-              <div className="w-full min-h-[110px] py-[20px] px-[clamp(24px,5vw,48px)] rounded-[20px] border border-blue-normal bg-grey-light shadow-normal flex items-center">
-                <span className="text-grey-darker typo-p1-semibold">
-                  실행 가이드를 불러오는 중입니다...
-                </span>
+            {isLoading ? (
+              <div className="w-full min-h-[110px] py-[20px] px-[clamp(24px,5vw,48px)] rounded-[20px] border border-blue-normal bg-grey-light shadow-normal flex items-center justify-center">
+                <LoadingSpinner />
               </div>
-            )}
-
-            {!isLoading && actionPlan?.actionDetails?.length === 0 && (
+            ) : actionPlan?.actionDetails?.length === 0 ? (
               <div className="w-full min-h-[110px] py-[20px] px-[clamp(24px,5vw,48px)] rounded-[20px] border border-blue-normal bg-grey-light shadow-normal flex items-center">
                 <span className="text-grey-darker typo-p1-semibold">
                   등록된 세부 실행 가이드가 없습니다.
                 </span>
               </div>
-            )}
-
-            {!isLoading &&
+            ) : (
               actionPlan?.actionDetails?.map((detail) => (
                 <div
                   key={detail.actionDetailId}
@@ -148,7 +147,8 @@ export default function SolutionDetailPage() {
                     )}
                   </div>
                 </div>
-              ))}
+              ))
+            )}
           </div>
 
           <Button
