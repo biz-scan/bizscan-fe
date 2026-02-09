@@ -36,6 +36,10 @@ export default function DashboardPage() {
     navigate(`/solution/${id}`);
   };
 
+  const handleSwotClick = (type: string) => {
+    navigate(`/report?type=${type}`);
+  };
+
   // SWOT 분석 결과 조회
   const { data: swotResponse, isLoading: isSwotLoading } = useGetSwots(storeId as number);
   const swotList = swotResponse?.result || [];
@@ -104,6 +108,7 @@ export default function DashboardPage() {
                 title={SWOT_TITLES[item.type]}
                 keyword={item.keyword}
                 description={item.description}
+                onClick={() => handleSwotClick(item.type)}
               />
             ))}
           </div>
