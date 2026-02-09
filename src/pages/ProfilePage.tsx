@@ -76,23 +76,23 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-grey-light">
-      <div className="mx-auto w-full max-w-[1348px] px-6 py-16 md:px-10 md:py-20 xl:px-[120px] xl:py-[120px]">
-        <div className="flex items-center gap-3">
+    <div className="w-full min-h-screen bg-grey-light">
+      <div className="mx-auto w-full max-w-[1348px] py-[120px] px-6 md:px-10 xl:px-[60px]">
+        <div className="flex items-center gap-[20px] mb-[48px]">
           <Simbol className="h-[42px] w-[42px]" />
           <h3 className="text-blue-dark">프로필 설정</h3>
         </div>
 
         <div className="mt-12 xl:mt-[48px]">
           <div className="w-full min-h-[718px] rounded-[20px] bg-grey-light shadow-normal px-6 py-10 md:px-10 md:py-14 xl:px-[105px] xl:py-[105px] overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-x-[44px] gap-y-10 md:gap-y-[60px]">
+            <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-x-[44px] gap-y-10 md:gap-y-[60px]">
               <div className="md:pt-2">
                 <FieldLabel text="닉네임" />
               </div>
 
               <div className="min-w-0 md:max-w-[722px]">
                 <Input
-                  className="typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
+                  className="min-w-0 typo-p1-regular bg-grey-light-hover text-grey-darker w-full"
                   placeholder="닉네임을 입력하세요"
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                   </p>
                   <Input
                     type="password"
-                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    className="min-w-0 typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                     placeholder="현재 비밀번호를 입력하세요"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                   </p>
                   <Input
                     type="password"
-                    className="typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
+                    className="min-w-0 typo-p1-regular bg-grey-light-hover text-grey-darker rounded-[8px] w-full"
                     placeholder="새 비밀번호를 입력하세요"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
