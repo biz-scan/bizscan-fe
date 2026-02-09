@@ -26,32 +26,20 @@ export function AnalysisStatusPage() {
   const storeId = user?.storeId || persistedStoreId;
   const [retrying, setRetrying] = useState(false);
 
-  const { data, error: statusError, isLoading } = useAnalysisStatus(requestId ?? '');
+  const { data, error: statusError } = useAnalysisStatus(requestId ?? '');
   const status = data?.result?.status ?? 'REQUEST';
 
-  console.log('🕵️ 현재 페이지 상태 확인:', {
-    requestId,
-    status,
-    isLoading,
-    storeId,
-    dataExists: !!data,
-  });
-
   useEffect(() => {
-    if (isLoading) return;
-
-    if (status === 'COMPLETED') {
-      const timer = setTimeout(() => {
-        navigate('/dashboard', { replace: true });
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-
     if (!requestId) {
-      console.log('데이터 로딩 후에도 requestId가 없어 튕깁니다.');
       navigate('/', { replace: true });
+      return;
     }
-  }, [requestId, status, navigate, isLoading]);
+    if (status === 'COMPLETED') {
+      setTimeout(() => {
+        navigate(`/dashboard`, { replace: true });
+      }, 1000);
+    }
+  }, [requestId, status, navigate]);
 
   const isError = !requestId || status === 'FAILED' || !!statusError;
 

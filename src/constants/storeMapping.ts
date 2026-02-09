@@ -92,7 +92,7 @@ export const PAIN_MAP: Record<string, PainPoint> = {
 export const PAIN_REVERSE_MAP: Record<PainPoint, string> = {
   CUSTOMER_ACQUISITION: '신규 손님이 너무 안 와요 (모객)',
   LOYALTY_MANAGEMENT: '한 번 온 손님이 재방문을 안 해요 (단골 관리)',
-  COMPETITIVE_EDGE: '주변에 경쟁 가게가 너무 많이 생겼어요 ( 경쟁 우위)',
+  COMPETITIVE_EDGE: '주변에 경쟁 가게가 너무 많이 생겼어요 (경쟁 우위)',
   PROFIT_IMPROVEMENT: '매출은 좋은데 남는 게 없어요 (수익성 개선)',
   PRODUCT_PLANNING: '메뉴/가격을 어떻게 정할지 모르겠어요 (상품 기획)',
 };
