@@ -48,6 +48,7 @@ export interface ActionPlanTag {
 export interface ActionPlanItem {
   actionPlanId: number;
   title: string;
+  relatedSwot?: string;
   tags: ActionPlanTag[];
 }
 
