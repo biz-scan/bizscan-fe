@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@/assets/icons/Close/state=Default.svg?react';
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import HashTag from '@/components/NotesPage/HashTag';
 import ProgressBar from '@/components/NotesPage/ProgressBar';
 import StepSection from '@/components/NotesPage/StepSection';
@@ -36,7 +37,6 @@ export default function NoteDetailPage() {
   React.useEffect(() => {
     setExpandedStepIds(new Set());
   }, [actionPlanId]);
-
 
   const computed = React.useMemo(() => {
     const steps = note?.actionDetails ?? [];
@@ -77,6 +77,14 @@ export default function NoteDetailPage() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-grey-light">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full min-h-screen bg-grey-light">
       <div className="mx-auto w-full max-w-[1348px] py-[120px] px-6 md:px-10 xl:px-[60px]">
@@ -87,9 +95,7 @@ export default function NoteDetailPage() {
 
         <div className="mt-[28px] flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h4 className="text-grey-dark-active">
-              {isLoading ? '불러오는 중...' : note?.actionPlanTitle ?? '(노트 없음)'}
-            </h4>
+            <h4 className="text-grey-dark-active">{note?.actionPlanTitle ?? '(노트 없음)'}</h4>
 
             <div className="mt-3 flex flex-wrap gap-2">
               {(note?.tags ?? []).map((t) => (

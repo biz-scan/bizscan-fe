@@ -1,6 +1,7 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import NextGuideCard from '@/components/NotesPage/NextGuideCard';
 import NoteListCard from '@/components/NotesPage/NoteListCard';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
@@ -42,7 +43,16 @@ export default function NotesPage() {
     setSearchParams({ tab: v });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-grey-light">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   const filtered = notes;
+
   return (
     <div className="w-full min-h-screen bg-grey-light">
       <div className="mx-auto w-full max-w-[1348px] py-[120px] px-6 md:px-10 xl:px-[60px]">
@@ -73,11 +83,7 @@ export default function NotesPage() {
         </div>
 
         <div className="mt-[36px] space-y-[20px]">
-          {isLoading ? (
-            <div className="rounded-2xl border border-grey-light-active bg-white px-6 py-8">
-              <p className="typo-p2-semibold text-grey-darker">불러오는 중입니다...</p>
-            </div>
-          ) : isError ? (
+          {isError ? (
             <div className="rounded-2xl border border-red-200 bg-white px-6 py-8">
               <p className="typo-p2-semibold text-red-500">실행 노트 목록 조회에 실패했습니다.</p>
               <p className="typo-p3-regular mt-2 text-grey-normal">
@@ -108,11 +114,7 @@ export default function NotesPage() {
                     note={note}
                     onClick={() => navigate(`/notes/${note.actionPlanId}`)}
                   />
-                  {tab === 'in_progress' && guideText ? (
-                    <NextGuideCard text={guideText} />
-                  ) : (
-                    <div />
-                  )}
+                  {tab === 'in_progress' && guideText ? <NextGuideCard text={guideText} /> : <div />}
                 </div>
               );
             })
