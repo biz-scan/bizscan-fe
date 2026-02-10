@@ -7,7 +7,7 @@ import CheckBlueLightIcon from '@/assets/icons/Check/checkbluelight.svg?react';
 import { cn } from '@/lib/utils';
 
 const checkboxVariants = cva(
-  'shrink-0 rounded  disabled:cursor-not-allowed disabled:opacity-50 bg-grey-light',
+  'shrink-0 rounded cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 bg-grey-light',
   {
     variants: {
       variant: {

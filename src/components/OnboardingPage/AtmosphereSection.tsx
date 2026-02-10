@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { ChipFilter } from '@/components/ui/ChipFilter';
@@ -13,7 +15,7 @@ interface AtmosphereSectionProps {
   onToggleFeature: (name: string) => void;
 }
 
-export default function AtmosphereSection({ features, onToggleFeature }: AtmosphereSectionProps) {
+export default memo(function AtmosphereSection({ features, onToggleFeature }: AtmosphereSectionProps) {
   return (
     <section>
       <FormRow label={<FieldLabel text="매장 분위기 및 운영 형태" />}>
@@ -25,10 +27,10 @@ export default function AtmosphereSection({ features, onToggleFeature }: Atmosph
           {Object.entries(FEATURE_OPTIONS).map(([group, items]) => (
             <div
               key={group}
-              className="flex flex-col gap-[16px] lg:flex-row lg:items-start lg:gap-[12px]"
+              className="flex flex-col gap-2 xl:flex-row xl:items-start xl:gap-[12px]"
             >
               <p className="min-w-[48px] pt-1 typo-p2-semibold text-blue-dark">{group}</p>
-              <div className="flex flex-wrap gap-[12px]">
+              <div className="flex flex-wrap gap-2 lg:gap-[12px]">
                 {items.map((item) => (
                   <ChipFilter
                     key={item}
@@ -45,4 +47,4 @@ export default function AtmosphereSection({ features, onToggleFeature }: Atmosph
       </FormRow>
     </section>
   );
-}
+});

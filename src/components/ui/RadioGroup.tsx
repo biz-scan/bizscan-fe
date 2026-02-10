@@ -25,7 +25,7 @@ function RadioGroupItem({
       data-slot="radio-group-item"
       className={cn(
         // 기본 스타일 (26px)
-        'size-6.5 shrink-0 rounded-full border border-blue-normal bg-transparent',
+        'size-6.5 shrink-0 rounded-full border border-blue-normal bg-transparent cursor-pointer',
         // 선택됐을 때
         'data-[state=checked]:border-blue-normal',
         // disabled

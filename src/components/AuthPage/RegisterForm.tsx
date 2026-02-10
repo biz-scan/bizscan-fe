@@ -13,7 +13,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
-  const { mutate } = useSignup();
+  const { mutate, isPending } = useSignup();
   const {
     register,
     handleSubmit,
@@ -30,7 +30,8 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
     <div className="w-full flex flex-col items-center">
       <h2 className="text-grey-darker mb-16">회원가입</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-[514px] flex flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-[514px]">
+        <fieldset disabled={isPending} className="flex flex-col border-none disabled:opacity-60">
         <Label className="mb-2" htmlFor="email">
           이메일
         </Label>
@@ -82,8 +83,8 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
           <span className="text-error typo-p2-medium mt-2">{errors.passwordConfirm.message}</span>
         )}
 
-        <Button variant="default" type="submit" className="w-full mt-10">
-          가입하고 분석 시작하기
+        <Button variant="default" type="submit" className="w-full mt-10" disabled={isPending}>
+          {isPending ? '가입 중...' : '가입하고 분석 시작하기'}
         </Button>
 
         <div className="flex justify-end mt-5">
@@ -95,6 +96,7 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
             로그인하기
           </p>
         </div>
+      </fieldset>
       </form>
     </div>
   );

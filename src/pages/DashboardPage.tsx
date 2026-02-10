@@ -18,9 +18,9 @@ const SWOT_TITLES = {
 export default function DashboardPage() {
   const navigate = useNavigate();
 
-  const { user, storeId: persistedStoreId } = useAuthStore();
+  const { user } = useAuthStore();
 
-  const storeId = user?.storeId || persistedStoreId;
+  const storeId = user?.storeId;
 
   const displayName = user?.nickname ?? 'OOOO';
 

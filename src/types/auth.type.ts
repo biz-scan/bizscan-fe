@@ -5,6 +5,15 @@ export type User = {
   email: string;
   nickname: string;
   storeId: number | null;
+  requestId: string | null;
+  status:
+    | 'REQUEST'
+    | 'SWOT_PROCESSING'
+    | 'ACTION_PLAN_PROCESSING'
+    | 'ACTION_DETAIL_PROCESSING'
+    | 'COMPLETED'
+    | 'FAILED'
+    | null;
 };
 
 /* REQUEST */
