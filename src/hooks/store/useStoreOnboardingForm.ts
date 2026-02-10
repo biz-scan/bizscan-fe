@@ -10,11 +10,13 @@ import {
   TARGET_MAP,
 } from '@/constants/storeMapping';
 import { usePostStore } from '@/hooks/store';
+import useAuthStore from '@/store/useAuthStore';
 import type { RegisterStoreRequest } from '@/types/store.type';
 
 export function useStoreOnboardingForm() {
   const navigate = useNavigate();
   const { mutate: postStore, isPending: isPosting } = usePostStore();
+  const { user, setUser } = useAuthStore();
 
   const [form, setForm] = useState({
     storeName: '',
@@ -69,6 +71,14 @@ export function useStoreOnboardingForm() {
     postStore(requestData, {
       onSuccess: (res) => {
         if (res.isSuccess && res.requestId) {
+          if (user) {
+            setUser({
+              ...user,
+              storeId: res.result.storeId,
+              requestId: res.requestId,
+              status: 'REQUEST',
+            });
+          }
           navigate(`/analyze/${res.requestId}`);
         }
       },

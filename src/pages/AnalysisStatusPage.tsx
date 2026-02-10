@@ -22,8 +22,8 @@ const statusText: Record<string, string> = {
 export function AnalysisStatusPage() {
   const { requestId } = useParams();
   const navigate = useNavigate();
-  const { user, storeId: persistedStoreId } = useAuthStore();
-  const storeId = user?.storeId || persistedStoreId;
+  const { user } = useAuthStore();
+  const storeId = user?.storeId;
   const [retrying, setRetrying] = useState(false);
 
   const { data, error: statusError } = useAnalysisStatus(requestId ?? '');

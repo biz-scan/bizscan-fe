@@ -6,7 +6,14 @@ export type User = {
   nickname: string;
   storeId: number | null;
   requestId: string | null;
-  status: 'REQUEST';
+  status:
+    | 'REQUEST'
+    | 'SWOT_PROCESSING'
+    | 'ACTION_PLAN_PROCESSING'
+    | 'ACTION_DETAIL_PROCESSING'
+    | 'COMPLETED'
+    | 'FAILED'
+    | null;
 };
 
 /* REQUEST */
