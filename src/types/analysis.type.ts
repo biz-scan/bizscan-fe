@@ -48,6 +48,7 @@ export interface ActionPlanTag {
 export interface ActionPlanItem {
   actionPlanId: number;
   title: string;
+  relatedSwot?: string;
   tags: ActionPlanTag[];
 }
 
@@ -76,3 +77,8 @@ export type GetSwotDiagnosisResponse = CommonResponse<SwotDiagnosisResult>;
 export type GetCatchphraseResponse = CommonResponse<CatchphraseResult>;
 export type GetActionPlansResponse = CommonResponse<ActionPlanItem[]>;
 export type GetActionPlanDetailResponse = CommonResponse<ActionPlanDetailResult>;
+
+export type PostAnalysisRequest = {
+  storeId: number;
+  retry: boolean;
+};

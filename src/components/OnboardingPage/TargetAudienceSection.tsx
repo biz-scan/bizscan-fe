@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
@@ -11,7 +13,7 @@ interface TargetAudienceSectionProps {
   onTargetCustomersChange: (value: string) => void;
 }
 
-export default function TargetAudienceSection({
+export default memo(function TargetAudienceSection({
   targetCustomers,
   onTargetCustomersChange,
 }: TargetAudienceSectionProps) {
@@ -27,7 +29,7 @@ export default function TargetAudienceSection({
             type="single"
             value={targetCustomers}
             onValueChange={(v) => v && onTargetCustomersChange(v)}
-            className="flex flex-wrap gap-[12px]"
+            className="flex flex-wrap gap-2 lg:gap-[12px]"
           >
             {AGE_OPTIONS.map((a) => (
               <ToggleGroupItem key={a} value={a} className={TOGGLE_ITEM_CLASS}>
@@ -39,4 +41,4 @@ export default function TargetAudienceSection({
       </FormRow>
     </section>
   );
-}
+});

@@ -18,10 +18,18 @@ export async function registerStore(data: RegisterStoreRequest): Promise<Registe
 }
 
 /**
- * 매장 조회
+ *  매장 조회
  */
 export async function getStore(storeId: number): Promise<GetStoreResponse> {
   const res = await axiosInstance.get<GetStoreResponse>(`/api/stores/${storeId}`);
+  return res.data;
+}
+
+/**
+ * 내 매장 조회
+ */
+export async function getStoreMe(): Promise<GetStoreResponse> {
+  const res = await axiosInstance.get<GetStoreResponse>(`/api/stores/me`);
   return res.data;
 }
 

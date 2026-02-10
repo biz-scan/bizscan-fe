@@ -1,29 +1,21 @@
-import { useAppMutation, useAppQuery } from '@/apis/apiHooks';
 import {
-  postAnalysis,
-  getAnalysisStatus,
-  getSwots,
-  getSwotDiagnosis,
-  getCatchphrase,
-  getActionPlans,
   getActionPlanDetail,
+  getActionPlans,
+  getAnalysisStatus,
+  getCatchphrase,
+  getSwotDiagnosis,
+  getSwots,
 } from '@/apis/analysis/analysis';
+import { useAppQuery } from '@/apis/apiHooks';
 import { analysisKeys } from '@/apis/queryKeys';
-
 import type {
-  PostAnalysisResponse,
-  GetAnalysisStatusResponse,
-  GetSwotsResponse,
-  GetSwotDiagnosisResponse,
-  GetCatchphraseResponse,
-  GetActionPlansResponse,
   GetActionPlanDetailResponse,
+  GetActionPlansResponse,
+  GetAnalysisStatusResponse,
+  GetCatchphraseResponse,
+  GetSwotDiagnosisResponse,
+  GetSwotsResponse,
 } from '@/types/analysis.type';
-
-// POST /api/analysis
-export const usePostAnalysis = () => {
-  return useAppMutation<PostAnalysisResponse, number>((storeId) => postAnalysis(storeId));
-};
 
 // GET /api/analysis/{requestId}/status
 export const useGetAnalysisStatus = (requestId: string) => {
@@ -64,10 +56,10 @@ export const useGetCatchphrase = (storeId?: number) => {
 
 // GET /api/analysis/action-plans?storeId={storeId}
 // storeId가 없으면 요청은 보내지 않음
-export const useGetActionPlans = (storeId?: number) => {
+export const useGetActionPlans = (storeId?: number, swotType?: string) => {
   return useAppQuery<GetActionPlansResponse | null>(
-    analysisKeys.actionPlans(storeId),
-    () => getActionPlans(storeId!),
+    analysisKeys.actionPlans(storeId, swotType),
+    () => getActionPlans(storeId!, swotType),
     { enabled: !!storeId }
   );
 };

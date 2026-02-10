@@ -1,18 +1,20 @@
 import axiosInstance from '@/apis/axiosInstance';
 import type {
-  PostAnalysisResponse,
-  GetAnalysisStatusResponse,
-  GetSwotsResponse,
-  GetSwotDiagnosisResponse,
-  GetCatchphraseResponse,
-  GetActionPlansResponse,
   GetActionPlanDetailResponse,
+  GetActionPlansResponse,
+  GetAnalysisStatusResponse,
+  GetCatchphraseResponse,
+  GetSwotDiagnosisResponse,
+  GetSwotsResponse,
+  PostAnalysisRequest,
+  PostAnalysisResponse,
 } from '@/types/analysis.type';
 
 // 매장 AI 분석 요청
-export const postAnalysis = async (storeId: number) => {
-  const response = await axiosInstance.post<PostAnalysisResponse>('/api/analysis', null, {
-    params: { storeId },
+export const postAnalysis = async (data: PostAnalysisRequest) => {
+  const response = await axiosInstance.post<PostAnalysisResponse>('/api/analysis', {
+    storeId: data.storeId,
+    retry: data.retry,
   });
   return response.data;
 };
@@ -53,10 +55,14 @@ export const getCatchphrase = async (storeId: number) => {
 };
 
 // 실행 전략 목록 조회
-export const getActionPlans = async (storeId: number) => {
+export const getActionPlans = async (storeId: number, swotType?: string) => {
   if (!storeId) return null;
+  const params: { storeId: number; swotType?: string } = { storeId };
+  if (swotType) {
+    params.swotType = swotType;
+  }
   const response = await axiosInstance.get<GetActionPlansResponse>('/api/analysis/action-plans', {
-    params: { storeId },
+    params,
   });
   return response.data;
 };

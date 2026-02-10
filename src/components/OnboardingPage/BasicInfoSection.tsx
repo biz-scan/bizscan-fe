@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { Input } from '@/components/ui/Input';
@@ -10,7 +12,7 @@ interface BasicInfoSectionProps {
   onLocationChange: (value: string) => void;
 }
 
-export default function BasicInfoSection({
+export default memo(function BasicInfoSection({
   storeName,
   onStoreNameChange,
   location,
@@ -22,7 +24,7 @@ export default function BasicInfoSection({
     <section className="flex flex-col gap-[100px]">
       <FormRow
         label={
-          <div className="lg:flex lg:h-full lg:items-center">
+          <div className="xl:flex xl:h-full xl:items-center">
             <FieldLabel text="매장 이름은 무엇인가요?" />
           </div>
         }
@@ -37,7 +39,7 @@ export default function BasicInfoSection({
 
       <FormRow
         label={
-          <div className="lg:flex lg:h-full lg:items-center">
+          <div className="xl:flex xl:h-full xl:items-center">
             <FieldLabel text="매장 위치는 어디인가요?" />
           </div>
         }
@@ -52,4 +54,4 @@ export default function BasicInfoSection({
       </FormRow>
     </section>
   );
-}
+});

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { postAnalysis } from '@/apis/analysis/analysis'; // analyzeStore 대신 이걸 사용
+import { postAnalysis } from '@/apis/analysis/analysis';
 import { useAppMutation } from '@/apis/apiHooks';
 import { queryClient } from '@/apis/queryClient';
 import { storeKeys } from '@/apis/queryKeys';
@@ -21,7 +21,7 @@ export function usePostStore() {
         return { ...storeRes, requestId: '' };
       }
 
-      const analyzeRes = await postAnalysis(storeRes.result.storeId);
+      const analyzeRes = await postAnalysis({ storeId: storeRes.result.storeId, retry: false });
 
       setStoreId(storeRes.result.storeId);
 
