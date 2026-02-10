@@ -7,6 +7,7 @@ import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import useAuthStore from '@/store/useAuthStore';
+import { Button } from '@/components/ui/Button';
 
 const SWOT_TITLES = {
   S: 'Strengths',
@@ -34,6 +35,10 @@ export default function DashboardPage() {
 
   const handleSolutionClick = (id: number) => {
     navigate(`/solution/${id}`);
+  };
+
+  const handleSwotClick = (type: string) => {
+    navigate(`/report?type=${type}`);
   };
 
   // SWOT 분석 결과 조회
@@ -81,13 +86,10 @@ export default function DashboardPage() {
             <SimbolLogo className="w-[42px] h-[42px] aspect-square shrink-0" />
             <h2 className="text-blue-dark text-[clamp(24px,3vw,32px)]">AI SWOT 분석</h2>
           </div>
-          <button
-            onClick={handleDetailClick}
-            className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
-          >
-            <span className="text-grey-normal typo-p2-semibold whitespace-nowrap">자세히 보기</span>
+          <Button variant="outline" size="sm" onClick={handleDetailClick} className="gap-[10px]">
+            자세히 보기
             <ArrowGray className="w-4 h-4 shrink-0" />
-          </button>
+          </Button>
         </div>
 
         {/* SWOT 카드 그리드 */}
@@ -104,6 +106,7 @@ export default function DashboardPage() {
                 title={SWOT_TITLES[item.type]}
                 keyword={item.keyword}
                 description={item.description}
+                onClick={() => handleSwotClick(item.type)}
               />
             ))}
           </div>
@@ -151,15 +154,15 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => handleSolutionClick(mainSolution.actionPlanId)}
-              className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95"
+              className="gap-[10px]"
             >
-              <span className="text-grey-normal typo-p2-semibold whitespace-nowrap">
-                자세히 보기
-              </span>
+              자세히 보기
               <ArrowGray className="w-4 h-4 shrink-0" />
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="mt-[clamp(24px,4vw,48px)] w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px]">

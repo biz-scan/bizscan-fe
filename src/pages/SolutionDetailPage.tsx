@@ -36,7 +36,11 @@ export default function SolutionDetailPage() {
       toast.error('유효하지 않은 실행 전략입니다.');
       return;
     }
-    addToNote(actionPlanId);
+    addToNote(actionPlanId, {
+      onSuccess: () => {
+        navigate('/notes');
+      },
+    });
   };
 
   return (
