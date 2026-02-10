@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup';
@@ -11,7 +13,7 @@ interface TargetAudienceSectionProps {
   onTargetCustomersChange: (value: string) => void;
 }
 
-export default function TargetAudienceSection({
+export default memo(function TargetAudienceSection({
   targetCustomers,
   onTargetCustomersChange,
 }: TargetAudienceSectionProps) {
@@ -39,4 +41,4 @@ export default function TargetAudienceSection({
       </FormRow>
     </section>
   );
-}
+});

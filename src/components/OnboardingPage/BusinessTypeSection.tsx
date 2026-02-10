@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import {
@@ -26,7 +28,7 @@ interface BusinessTypeSectionProps {
   onSubCategoryChange: (value: string) => void;
 }
 
-export default function BusinessTypeSection({
+export default memo(function BusinessTypeSection({
   bizType,
   onBizTypeChange,
   subCategory,
@@ -83,4 +85,4 @@ export default function BusinessTypeSection({
       </FormRow>
     </section>
   );
-}
+});

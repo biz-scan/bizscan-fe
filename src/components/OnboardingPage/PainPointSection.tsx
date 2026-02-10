@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { Label } from '@/components/ui/Label';
@@ -16,7 +18,7 @@ interface PainPointSectionProps {
   onPainPointChange: (value: string) => void;
 }
 
-export default function PainPointSection({ painPoint, onPainPointChange }: PainPointSectionProps) {
+export default memo(function PainPointSection({ painPoint, onPainPointChange }: PainPointSectionProps) {
   return (
     <section>
       <FormRow label={<FieldLabel text="사장님의 현재 고민" />}>
@@ -42,4 +44,4 @@ export default function PainPointSection({ painPoint, onPainPointChange }: PainP
       </FormRow>
     </section>
   );
-}
+});

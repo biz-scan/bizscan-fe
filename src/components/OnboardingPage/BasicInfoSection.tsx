@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { Input } from '@/components/ui/Input';
@@ -10,7 +12,7 @@ interface BasicInfoSectionProps {
   onLocationChange: (value: string) => void;
 }
 
-export default function BasicInfoSection({
+export default memo(function BasicInfoSection({
   storeName,
   onStoreNameChange,
   location,
@@ -52,4 +54,4 @@ export default function BasicInfoSection({
       </FormRow>
     </section>
   );
-}
+});

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import FieldLabel from '@/components/common/FieldLabel';
 import FormRow from '@/components/SettingsPage/FormRow';
 import { Input } from '@/components/ui/Input';
@@ -14,7 +16,7 @@ interface MenuPriceSectionProps {
   onAvgPriceChange: (value: string) => void;
 }
 
-export default function MenuPriceSection({
+export default memo(function MenuPriceSection({
   menuName,
   onMenuNameChange,
   avgPrice,
@@ -59,4 +61,4 @@ export default function MenuPriceSection({
       </FormRow>
     </section>
   );
-}
+});
