@@ -64,10 +64,10 @@ export const useGetCatchphrase = (storeId?: number) => {
 
 // GET /api/analysis/action-plans?storeId={storeId}
 // storeId가 없으면 요청은 보내지 않음
-export const useGetActionPlans = (storeId?: number) => {
+export const useGetActionPlans = (storeId?: number, swotType?: string) => {
   return useAppQuery<GetActionPlansResponse | null>(
-    analysisKeys.actionPlans(storeId),
-    () => getActionPlans(storeId!),
+    analysisKeys.actionPlans(storeId, swotType),
+    () => getActionPlans(storeId!, swotType),
     { enabled: !!storeId }
   );
 };

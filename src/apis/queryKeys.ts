@@ -26,7 +26,8 @@ export const analysisKeys = {
   swots: (storeId?: number) => [...analysisKeys.all, 'swots', storeId] as const,
   swotDiagnosis: (swotId: number) => [...analysisKeys.all, 'swots', swotId, 'diagnosis'] as const,
   catchphrase: (storeId?: number) => [...analysisKeys.all, 'catchphrase', storeId] as const,
-  actionPlans: (storeId?: number) => [...analysisKeys.all, 'action-plans', storeId] as const,
+  actionPlans: (storeId?: number, swotType?: string) =>
+    [...analysisKeys.all, 'action-plans', storeId, swotType] as const,
   actionPlanDetail: (actionPlanId: number) =>
     [...analysisKeys.actionPlans(actionPlanId), actionPlanId] as const,
 
