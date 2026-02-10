@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -30,14 +30,14 @@ export function useStoreOnboardingForm() {
     painPoint: '',
   });
 
-  const toggleFeature = (name: string) => {
+  const toggleFeature = useCallback((name: string) => {
     setForm((prev) => {
       const has = prev.features.includes(name);
       if (has) return { ...prev, features: prev.features.filter((v) => v !== name) };
       if (prev.features.length >= 3) return prev;
       return { ...prev, features: [...prev.features, name] };
     });
-  };
+  }, []);
 
   const isFormValid = useMemo(() => {
     return (
@@ -53,7 +53,7 @@ export function useStoreOnboardingForm() {
     );
   }, [form]);
 
-  const onSave = () => {
+  const onSave = useCallback(() => {
     if (!isFormValid || isPosting) return;
 
     const requestData: RegisterStoreRequest = {
@@ -86,22 +86,51 @@ export function useStoreOnboardingForm() {
         console.error('매장 등록 실패:', error);
       },
     });
-  };
+  }, [isFormValid, isPosting, form, postStore, user, setUser, navigate]);
 
-  const handleField = (field: keyof typeof form) => (value: string) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleStoreNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, storeName: v })),
+    []
+  );
+  const handleLocationChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, location: v })),
+    []
+  );
+  const handleBizTypeChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })),
+    []
+  );
+  const handleSubCategoryChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, subCategory: v })),
+    []
+  );
+  const handleMenuNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, menuName: v })),
+    []
+  );
+  const handleAvgPriceChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, avgPrice: v })),
+    []
+  );
+  const handleTargetCustomersChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })),
+    []
+  );
+  const handlePainPointChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, painPoint: v })),
+    []
+  );
 
   return {
     form,
-    handleStoreNameChange: handleField('storeName'),
-    handleLocationChange: handleField('location'),
-    handleBizTypeChange: handleField('bizType'),
-    handleSubCategoryChange: handleField('subCategory'),
-    handleMenuNameChange: handleField('menuName'),
-    handleAvgPriceChange: handleField('avgPrice'),
-    handleTargetCustomersChange: handleField('targetCustomers'),
-    handlePainPointChange: handleField('painPoint'),
+    handleStoreNameChange,
+    handleLocationChange,
+    handleBizTypeChange,
+    handleSubCategoryChange,
+    handleMenuNameChange,
+    handleAvgPriceChange,
+    handleTargetCustomersChange,
+    handlePainPointChange,
     toggleFeature,
     isFormValid,
     isPosting,
