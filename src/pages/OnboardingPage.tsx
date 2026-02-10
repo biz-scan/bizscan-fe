@@ -44,7 +44,10 @@ export default function OnboardingPage() {
       {/* 하단 폼 섹션 */}
       <div className="flex-1 flex flex-col mx-auto w-full max-w-[1348px] px-4 sm:px-6 py-15">
         <div className="flex-1 flex flex-col w-full rounded-[20px] shadow-normal bg-grey-light overflow-hidden">
-          <div className="flex flex-col gap-12 xl:gap-[100px] p-4 sm:p-6 md:p-10 xl:p-[100px]">
+          <fieldset
+            disabled={isPosting}
+            className="flex flex-col gap-12 xl:gap-[100px] p-4 sm:p-6 md:p-10 xl:p-[100px] border-none disabled:opacity-60"
+          >
             <BasicInfoSection
               storeName={form.storeName}
               onStoreNameChange={handleStoreNameChange}
@@ -88,7 +91,7 @@ export default function OnboardingPage() {
                 {isPosting ? '저장 중...' : '저장하기'}
               </Button>
             </div>
-          </div>
+          </fieldset>
         </div>
       </div>
     </div>

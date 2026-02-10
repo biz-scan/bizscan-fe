@@ -48,7 +48,10 @@ export default function SettingsPage() {
               <LoadingSpinner />
             </div>
           ) : (
-            <div className="flex flex-col gap-12 xl:gap-[100px] p-4 sm:p-6 md:p-10 xl:p-[80px]">
+            <fieldset
+              disabled={isPatchPending}
+              className="flex flex-col gap-12 xl:gap-[100px] p-4 sm:p-6 md:p-10 xl:p-[80px] border-none disabled:opacity-60"
+            >
               <BasicInfoSection
                 storeName={form.storeName}
                 onStoreNameChange={handleStoreNameChange}
@@ -93,7 +96,7 @@ export default function SettingsPage() {
                   {isPatchPending ? '저장 중...' : '저장하기'}
                 </Button>
               </div>
-            </div>
+            </fieldset>
           )}
         </div>
       </div>
