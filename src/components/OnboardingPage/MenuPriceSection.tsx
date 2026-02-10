@@ -24,11 +24,11 @@ export default function MenuPriceSection({
     <section>
       <FormRow label={<FieldLabel text="시그니처 메뉴와 객단가" />}>
         <div className="flex w-full flex-col gap-[24px]">
-          <div className="flex items-center gap-x-[44px]">
-            <p className="min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:gap-x-[44px] flex-wrap">
+            <p className="xl:min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
               대표 메뉴명
             </p>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-[200px]">
               <Input
                 className="w-full"
                 value={menuName}

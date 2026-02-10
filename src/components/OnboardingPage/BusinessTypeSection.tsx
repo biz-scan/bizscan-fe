@@ -38,8 +38,8 @@ export default function BusinessTypeSection({
     <section>
       <FormRow label={<FieldLabel text="어떤 종류의 매장을 운영하시나요?" />}>
         <div className="flex flex-col gap-[24px]">
-          <div className="flex items-center gap-x-[44px]">
-            <p className="min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:gap-x-[44px]">
+            <p className="xl:min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
               업종 선택
             </p>
 
@@ -59,8 +59,8 @@ export default function BusinessTypeSection({
             </div>
           </div>
 
-          <div className="flex items-center gap-x-[44px]">
-            <p className="min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:gap-x-[44px]">
+            <p className="xl:min-w-[158px] whitespace-nowrap typo-lead-semibold text-grey-darker">
               소분류
             </p>
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useAppQuery } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
@@ -45,32 +45,18 @@ const EMPTY_FORM: FormState = {
 };
 
 export function useStoreSettingsForm(storeId: number | null) {
-  const { data: storeRes } = useAppQuery(
+  const { data: storeRes, isPending: isStorePending } = useAppQuery(
     storeKeys.my(storeId ?? 0),
     () => getStore(storeId ?? 0),
     { enabled: !!storeId }
   );
 
   const store = storeRes?.result;
-  const isStoreReady = !!storeId && !!storeRes?.isSuccess && !!store;
 
-  const { mutate: patchAll, isPending } = useUpdateStoreAll();
-
-  const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const initializedRef = useRef(false);
-
-  useEffect(() => {
-    initializedRef.current = false;
-    if (!storeId) setForm(EMPTY_FORM);
-  }, [storeId]);
-
-  useEffect(() => {
-    if (!isStoreReady) return;
-    if (initializedRef.current) return;
-
-    initializedRef.current = true;
-
-    setForm({
+  // 1.  FormState 구조
+  const initialForm = useMemo((): FormState => {
+    if (!store) return EMPTY_FORM;
+    return {
       storeName: store.name ?? '',
       location: store.address ?? '',
       bizType: CATEGORY_REVERSE_MAP[store.category] ?? '',
@@ -82,8 +68,44 @@ export function useStoreSettingsForm(storeId: number | null) {
       features: (store.tags ?? [])
         .map((t) => TAG_REVERSE_MAP[`${t.type}_${t.name}`])
         .filter(Boolean) as string[],
-    });
-  }, [isStoreReady, store]);
+    };
+  }, [store]);
+
+  const [prevStoreId, setPrevStoreId] = useState<number | null>(storeId);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+
+  // 2. storeId 변경 시 상태 리셋
+  if (storeId !== prevStoreId) {
+    setPrevStoreId(storeId);
+    setForm(EMPTY_FORM);
+  }
+
+  // 3. 데이터 로드 시 폼 초기값 설정
+  if (store && form.storeName === '' && storeId === prevStoreId) {
+    setForm(initialForm);
+  }
+
+  const { mutate: patchAll, isPending: isPatchPending } = useUpdateStoreAll();
+
+  // 4. 변경 여부(isDirty) 및 유효성(isValid) 계산
+  const isDirty = useMemo(() => {
+    return JSON.stringify(form) !== JSON.stringify(initialForm);
+  }, [form, initialForm]);
+
+  const isFormValid = useMemo(() => {
+    const requiredFields: (keyof FormState)[] = [
+      'storeName',
+      'location',
+      'bizType',
+      'subCategory',
+      'menuName',
+      'avgPrice',
+      'targetCustomers',
+      'painPoint',
+    ];
+    const hasAllFields = requiredFields.every((field) => (form[field] as string).trim() !== '');
+    return hasAllFields && form.features.length > 0;
+  }, [form]);
 
   const toggleFeature = (name: string) => {
     setForm((prev) => {
@@ -94,57 +116,38 @@ export function useStoreSettingsForm(storeId: number | null) {
     });
   };
 
-  const isFormValid =
-    form.storeName.trim() !== '' &&
-    form.location.trim() !== '' &&
-    form.bizType.trim() !== '' &&
-    form.subCategory.trim() !== '' &&
-    form.menuName.trim() !== '' &&
-    form.avgPrice.trim() !== '' &&
-    form.features.length > 0 &&
-    form.targetCustomers.trim() !== '' &&
-    form.painPoint.trim() !== '';
-
   const onSave = () => {
-    if (!isFormValid) return;
-    if (!storeId) return;
-    if (isPending) return;
+    if (!isFormValid || !isDirty || !storeId || isPatchPending) return;
 
-    const category = CATEGORY_MAP[form.bizType];
-    const categoryDetail = DETAIL_MAP[form.subCategory];
-    const price = PRICE_MAP[form.avgPrice];
-    const target = TARGET_MAP[form.targetCustomers];
-    const painPoint = PAIN_MAP[form.painPoint];
+    try {
+      const data: UpdateStoreRequest = {
+        name: form.storeName,
+        address: form.location,
+        category: CATEGORY_MAP[form.bizType],
+        categoryDetail: DETAIL_MAP[form.subCategory],
+        signature: form.menuName,
+        price: PRICE_MAP[form.avgPrice],
+        target: TARGET_MAP[form.targetCustomers],
+        painPoint: PAIN_MAP[form.painPoint],
+      };
 
-    if (!category || !categoryDetail || !price || !target || !painPoint) return;
-
-    const data: UpdateStoreRequest = {
-      name: form.storeName,
-      address: form.location,
-      category,
-      categoryDetail,
-      signature: form.menuName,
-      price,
-      target,
-      painPoint,
-    };
-
-    const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
-      0,
-      3
-    );
-
-    if (tags.length === 0) return;
-
-    patchAll({ storeId, data, tags });
+      const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
+        0,
+        3
+      );
+      patchAll({ storeId, data, tags });
+    } catch (e) {
+      console.error('저장 중 오류 발생:', e);
+    }
   };
 
   return {
     form,
     setForm,
     toggleFeature,
-    isFormValid,
-    isSaving: isPending,
+    isFormValid: isFormValid && isDirty, // 유효하고 "변경사항"이 있을 때만 true
+    isPatchPending,
+    isStorePending,
     onSave,
   };
 }

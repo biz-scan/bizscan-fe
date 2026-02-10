@@ -25,7 +25,7 @@ export default function PainPointSection({ painPoint, onPainPointChange }: PainP
             지금 가장 해결하고 싶은 문제는 무엇인가요? (하나만 선택)
           </p>
 
-          <RadioGroup value={painPoint} onValueChange={onPainPointChange} className="gap-[16px]">
+          <RadioGroup value={painPoint} onValueChange={onPainPointChange} className="gap-3 lg:gap-[16px]">
             {PAIN_OPTIONS.map((opt) => {
               const id = `pain-${opt}`;
               return (

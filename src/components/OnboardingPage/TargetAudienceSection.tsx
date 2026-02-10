@@ -27,7 +27,7 @@ export default function TargetAudienceSection({
             type="single"
             value={targetCustomers}
             onValueChange={(v) => v && onTargetCustomersChange(v)}
-            className="flex flex-wrap gap-[12px]"
+            className="flex flex-wrap gap-2 lg:gap-[12px]"
           >
             {AGE_OPTIONS.map((a) => (
               <ToggleGroupItem key={a} value={a} className={TOGGLE_ITEM_CLASS}>
