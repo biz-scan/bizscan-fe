@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { useAppQuery } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
-import { getStore } from '@/apis/store/store';
+import { getStoreMe } from '@/apis/store/store';
 import {
   CATEGORY_MAP,
   CATEGORY_REVERSE_MAP,
@@ -45,10 +45,8 @@ const EMPTY_FORM: FormState = {
 };
 
 export function useStoreSettingsForm(storeId: number | null) {
-  const { data: storeRes, isPending: isStorePending } = useAppQuery(
-    storeKeys.my(storeId ?? 0),
-    () => getStore(storeId ?? 0),
-    { enabled: !!storeId }
+  const { data: storeRes, isPending: isStorePending } = useAppQuery(storeKeys.me(), () =>
+    getStoreMe()
   );
 
   const store = storeRes?.result;
@@ -73,16 +71,19 @@ export function useStoreSettingsForm(storeId: number | null) {
 
   const [prevStoreId, setPrevStoreId] = useState<number | null>(storeId);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // 2. storeId 변경 시 상태 리셋
   if (storeId !== prevStoreId) {
     setPrevStoreId(storeId);
     setForm(EMPTY_FORM);
+    setIsInitialized(false);
   }
 
-  // 3. 데이터 로드 시 폼 초기값 설정
-  if (store && form.storeName === '' && storeId === prevStoreId) {
+  // 3. 데이터 로드 시 폼 초기값 설정 (1회만)
+  if (store && !isInitialized && storeId === prevStoreId) {
     setForm(initialForm);
+    setIsInitialized(true);
   }
 
   const { mutate: patchAll, isPending: isPatchPending } = useUpdateStoreAll();

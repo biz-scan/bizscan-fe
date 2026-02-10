@@ -1,6 +1,7 @@
 export const storeKeys = {
   all: ['store'] as const,
   my: (storeId: number) => [...storeKeys.all, 'my', storeId] as const,
+  me: () => [...storeKeys.all, 'me'] as const,
 };
 
 export const authKeys = {
