@@ -19,11 +19,6 @@ export function useUpdateStoreAll() {
   const navigate = useNavigate();
   const { setStoreId } = useAuthStore();
 
-  const invalidate = (storeId: number) => {
-    queryClient.invalidateQueries({ queryKey: storeKeys.my(storeId) });
-    queryClient.invalidateQueries({ queryKey: storeKeys.all });
-  };
-
   return useAppMutation<{ isSuccess: boolean; requestId: string }, Variables>(
     async ({ storeId, data, tags }: Variables) => {
       const baseRes = await updateStore(storeId, data);
@@ -33,7 +28,7 @@ export function useUpdateStoreAll() {
 
       if (!tagsRes.isSuccess) {
         toast.warning('매장 기본정보는 저장되었지만 태그 저장에 실패했습니다.');
-        invalidate(storeId);
+        queryClient.invalidateQueries({ queryKey: storeKeys.all });
         return { ...tagsRes, requestId: '' };
       }
 
@@ -48,7 +43,7 @@ export function useUpdateStoreAll() {
         if (!res?.isSuccess) return;
 
         toast.success('매장 정보가 수정되었습니다.');
-        invalidate(variables.storeId);
+        queryClient.invalidateQueries({ queryKey: storeKeys.me() });
 
         if (res.requestId) {
           navigate(`/analyze/${res.requestId}`, { replace: true });
