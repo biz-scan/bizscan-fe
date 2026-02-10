@@ -5,9 +5,8 @@ import {
   getCatchphrase,
   getSwotDiagnosis,
   getSwots,
-  postAnalysis,
 } from '@/apis/analysis/analysis';
-import { useAppMutation, useAppQuery } from '@/apis/apiHooks';
+import { useAppQuery } from '@/apis/apiHooks';
 import { analysisKeys } from '@/apis/queryKeys';
 import type {
   GetActionPlanDetailResponse,
@@ -16,7 +15,6 @@ import type {
   GetCatchphraseResponse,
   GetSwotDiagnosisResponse,
   GetSwotsResponse,
-  PostAnalysisResponse,
 } from '@/types/analysis.type';
 
 // GET /api/analysis/{requestId}/status

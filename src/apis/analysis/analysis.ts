@@ -6,6 +6,7 @@ import type {
   GetCatchphraseResponse,
   GetSwotDiagnosisResponse,
   GetSwotsResponse,
+  PostAnalysisRequest,
   PostAnalysisResponse,
 } from '@/types/analysis.type';
 

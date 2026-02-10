@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useAppQuery } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
-import { getStore } from '@/apis/store/store';
+import { getStoreMe } from '@/apis/store/store';
 import {
   CATEGORY_MAP,
   CATEGORY_REVERSE_MAP,
@@ -45,34 +45,16 @@ const EMPTY_FORM: FormState = {
 };
 
 export function useStoreSettingsForm(storeId: number | null) {
-  const { data: storeRes } = useAppQuery(
-    storeKeys.my(storeId ?? 0),
-    () => getStore(storeId ?? 0),
-    { enabled: !!storeId }
+  const { data: storeRes, isPending: isStorePending } = useAppQuery(storeKeys.me(), () =>
+    getStoreMe()
   );
 
   const store = storeRes?.result;
-  const isStoreReady = !!storeId && !!storeRes?.isSuccess && !!store;
 
-  const { mutate: patchAll, isPending } = useUpdateStoreAll();
-
-  const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const initializedRef = useRef(false);
-
-  useEffect(() => {
-    initializedRef.current = false;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!storeId) setForm(EMPTY_FORM);
-  }, [storeId]);
-
-  useEffect(() => {
-    if (!isStoreReady) return;
-    if (initializedRef.current) return;
-
-    initializedRef.current = true;
-
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setForm({
+  // 1.  FormState 구조
+  const initialForm = useMemo((): FormState => {
+    if (!store) return EMPTY_FORM;
+    return {
       storeName: store.name ?? '',
       location: store.address ?? '',
       bizType: CATEGORY_REVERSE_MAP[store.category] ?? '',
@@ -81,72 +63,132 @@ export function useStoreSettingsForm(storeId: number | null) {
       avgPrice: PRICE_REVERSE_MAP[store.price] ?? '',
       targetCustomers: TARGET_REVERSE_MAP[store.target] ?? '',
       painPoint: PAIN_REVERSE_MAP[store.painPoint] ?? '',
-      features: ((store.tags ?? [])
-       .map((t) => TAG_REVERSE_MAP[`${t.type}_${t.name}`])
-       .filter(Boolean)) as string[],
-    });
-  }, [isStoreReady, store]);
+      features: (store.tags ?? [])
+        .map((t) => TAG_REVERSE_MAP[`${t.type}_${t.name}`])
+        .filter(Boolean) as string[],
+    };
+  }, [store]);
 
-  const toggleFeature = (name: string) => {
+  const [prevStoreId, setPrevStoreId] = useState<number | null>(storeId);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // 2. storeId 변경 시 상태 리셋
+  if (storeId !== prevStoreId) {
+    setPrevStoreId(storeId);
+    setForm(EMPTY_FORM);
+    setIsInitialized(false);
+  }
+
+  // 3. 데이터 로드 시 폼 초기값 설정 (1회만)
+  if (store && !isInitialized && storeId === prevStoreId) {
+    setForm(initialForm);
+    setIsInitialized(true);
+  }
+
+  const { mutate: patchAll, isPending: isPatchPending } = useUpdateStoreAll();
+
+  // 4. 변경 여부(isDirty) 및 유효성(isValid) 계산
+  const isDirty = useMemo(() => {
+    return JSON.stringify(form) !== JSON.stringify(initialForm);
+  }, [form, initialForm]);
+
+  const isFormValid = useMemo(() => {
+    const requiredFields: (keyof FormState)[] = [
+      'storeName',
+      'location',
+      'bizType',
+      'subCategory',
+      'menuName',
+      'avgPrice',
+      'targetCustomers',
+      'painPoint',
+    ];
+    const hasAllFields = requiredFields.every((field) => (form[field] as string).trim() !== '');
+    return hasAllFields && form.features.length > 0;
+  }, [form]);
+
+  const handleStoreNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, storeName: v })),
+    []
+  );
+  const handleLocationChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, location: v })),
+    []
+  );
+  const handleBizTypeChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })),
+    []
+  );
+  const handleSubCategoryChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, subCategory: v })),
+    []
+  );
+  const handleMenuNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, menuName: v })),
+    []
+  );
+  const handleAvgPriceChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, avgPrice: v })),
+    []
+  );
+  const handleTargetCustomersChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })),
+    []
+  );
+  const handlePainPointChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, painPoint: v })),
+    []
+  );
+
+  const toggleFeature = useCallback((name: string) => {
     setForm((prev) => {
       const has = prev.features.includes(name);
       if (has) return { ...prev, features: prev.features.filter((v) => v !== name) };
       if (prev.features.length >= 3) return prev;
       return { ...prev, features: [...prev.features, name] };
     });
-  };
-
-  const isFormValid =
-    form.storeName.trim() !== '' &&
-    form.location.trim() !== '' &&
-    form.bizType.trim() !== '' &&
-    form.subCategory.trim() !== '' &&
-    form.menuName.trim() !== '' &&
-    form.avgPrice.trim() !== '' &&
-    form.features.length > 0 &&
-    form.targetCustomers.trim() !== '' &&
-    form.painPoint.trim() !== '';
+  }, []);
 
   const onSave = () => {
-    if (!isFormValid) return;
-    if (!storeId) return;
-    if (isPending) return;
+    if (!isFormValid || !isDirty || !storeId || isPatchPending) return;
 
-    const category = CATEGORY_MAP[form.bizType];
-    const categoryDetail = DETAIL_MAP[form.subCategory];
-    const price = PRICE_MAP[form.avgPrice];
-    const target = TARGET_MAP[form.targetCustomers];
-    const painPoint = PAIN_MAP[form.painPoint];
+    try {
+      const data: UpdateStoreRequest = {
+        name: form.storeName,
+        address: form.location,
+        category: CATEGORY_MAP[form.bizType],
+        categoryDetail: DETAIL_MAP[form.subCategory],
+        signature: form.menuName,
+        price: PRICE_MAP[form.avgPrice],
+        target: TARGET_MAP[form.targetCustomers],
+        painPoint: PAIN_MAP[form.painPoint],
+      };
 
-    if (!category || !categoryDetail || !price || !target || !painPoint) return;
-
-    const data: UpdateStoreRequest = {
-      name: form.storeName,
-      address: form.location,
-      category,
-      categoryDetail,
-      signature: form.menuName,
-      price,
-      target,
-      painPoint,
-    };
-
-    const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
-      0,
-      3
-    );
-
-    if (tags.length === 0) return;
-
-    patchAll({ storeId, data, tags });
+      const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
+        0,
+        3
+      );
+      patchAll({ storeId, data, tags });
+    } catch (e) {
+      console.error('저장 중 오류 발생:', e);
+    }
   };
 
   return {
     form,
-    setForm,
+    handleStoreNameChange,
+    handleLocationChange,
+    handleBizTypeChange,
+    handleSubCategoryChange,
+    handleMenuNameChange,
+    handleAvgPriceChange,
+    handleTargetCustomersChange,
+    handlePainPointChange,
     toggleFeature,
-    isFormValid,
-    isSaving: isPending,
+    isFormValid: isFormValid && isDirty, // 유효하고 "변경사항"이 있을 때만 true
+    isPatchPending,
+    isStorePending,
     onSave,
   };
 }
