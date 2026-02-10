@@ -9,6 +9,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { Button } from '@/components/ui/Button';
 import { useAnalysisStatus } from '@/hooks/analysis/useAnalysisStatus';
 import useAuthStore from '@/store/useAuthStore';
+import type { User } from '@/types/auth.type';
 
 const statusText: Record<string, string> = {
   REQUEST: '분석 요청 접수중',
@@ -22,12 +23,24 @@ const statusText: Record<string, string> = {
 export function AnalysisStatusPage() {
   const { requestId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const storeId = user?.storeId;
   const [retrying, setRetrying] = useState(false);
 
   const { data, error: statusError } = useAnalysisStatus(requestId ?? '');
   const status = data?.result?.status ?? 'REQUEST';
+
+  useEffect(() => {
+    if (requestId && user && user.requestId !== requestId) {
+      setUser({ ...user, requestId });
+    }
+  }, [requestId, user, setUser]);
+
+  useEffect(() => {
+    if (status && user && user.status !== status) {
+      setUser({ ...user, status: status as User['status'] });
+    }
+  }, [status, user, setUser]);
 
   useEffect(() => {
     if (!requestId) {
