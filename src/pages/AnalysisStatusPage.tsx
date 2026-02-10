@@ -52,7 +52,7 @@ export function AnalysisStatusPage() {
     if (!storeId || retrying) return;
     try {
       setRetrying(true);
-      const res = await postAnalysis(storeId);
+      const res = await postAnalysis({ storeId, retry: false });
       navigate(`/analyze/${res.result.requestId}`, { replace: true });
     } catch {
       toast.error('재분석 요청에 실패했습니다.');
