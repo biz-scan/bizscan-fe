@@ -14,8 +14,22 @@ export default function SettingsPage() {
   const { user } = useAuthStore();
   const storeId = user?.storeId ?? null;
 
-  const { form, setForm, toggleFeature, isFormValid, isPatchPending, isStorePending, onSave } =
-    useStoreSettingsForm(storeId);
+  const {
+    form,
+    handleStoreNameChange,
+    handleLocationChange,
+    handleBizTypeChange,
+    handleSubCategoryChange,
+    handleMenuNameChange,
+    handleAvgPriceChange,
+    handleTargetCustomersChange,
+    handlePainPointChange,
+    toggleFeature,
+    isFormValid,
+    isPatchPending,
+    isStorePending,
+    onSave,
+  } = useStoreSettingsForm(storeId);
 
   return (
     <div className="flex flex-col w-full min-h-screen bg-grey-light">
@@ -37,39 +51,35 @@ export default function SettingsPage() {
             <div className="flex flex-col gap-12 xl:gap-[100px] p-4 sm:p-6 md:p-10 xl:p-[80px]">
               <BasicInfoSection
                 storeName={form.storeName}
-                onStoreNameChange={(v) => setForm((prev) => ({ ...prev, storeName: v }))}
+                onStoreNameChange={handleStoreNameChange}
                 location={form.location}
-                onLocationChange={(v) => setForm((prev) => ({ ...prev, location: v }))}
+                onLocationChange={handleLocationChange}
               />
 
               <BusinessTypeSection
                 bizType={form.bizType}
-                onBizTypeChange={(v) =>
-                  setForm((prev) => ({ ...prev, bizType: v, subCategory: '' }))
-                }
+                onBizTypeChange={handleBizTypeChange}
                 subCategory={form.subCategory}
-                onSubCategoryChange={(v) => setForm((prev) => ({ ...prev, subCategory: v }))}
+                onSubCategoryChange={handleSubCategoryChange}
               />
 
               <MenuPriceSection
                 menuName={form.menuName}
-                onMenuNameChange={(v) => setForm((prev) => ({ ...prev, menuName: v }))}
+                onMenuNameChange={handleMenuNameChange}
                 avgPrice={form.avgPrice}
-                onAvgPriceChange={(v) => setForm((prev) => ({ ...prev, avgPrice: v }))}
+                onAvgPriceChange={handleAvgPriceChange}
               />
 
               <AtmosphereSection features={form.features} onToggleFeature={toggleFeature} />
 
               <TargetAudienceSection
                 targetCustomers={form.targetCustomers}
-                onTargetCustomersChange={(v) =>
-                  setForm((prev) => ({ ...prev, targetCustomers: v }))
-                }
+                onTargetCustomersChange={handleTargetCustomersChange}
               />
 
               <PainPointSection
                 painPoint={form.painPoint}
-                onPainPointChange={(v) => setForm((prev) => ({ ...prev, painPoint: v }))}
+                onPainPointChange={handlePainPointChange}
               />
 
               {/* 하단 저장 버튼 */}

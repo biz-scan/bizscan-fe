@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useAppQuery } from '@/apis/apiHooks';
 import { storeKeys } from '@/apis/queryKeys';
@@ -108,14 +108,23 @@ export function useStoreSettingsForm(storeId: number | null) {
     return hasAllFields && form.features.length > 0;
   }, [form]);
 
-  const toggleFeature = (name: string) => {
+  const handleStoreNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, storeName: v })), []);
+  const handleLocationChange = useCallback((v: string) => setForm((prev) => ({ ...prev, location: v })), []);
+  const handleBizTypeChange = useCallback((v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })), []);
+  const handleSubCategoryChange = useCallback((v: string) => setForm((prev) => ({ ...prev, subCategory: v })), []);
+  const handleMenuNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, menuName: v })), []);
+  const handleAvgPriceChange = useCallback((v: string) => setForm((prev) => ({ ...prev, avgPrice: v })), []);
+  const handleTargetCustomersChange = useCallback((v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })), []);
+  const handlePainPointChange = useCallback((v: string) => setForm((prev) => ({ ...prev, painPoint: v })), []);
+
+  const toggleFeature = useCallback((name: string) => {
     setForm((prev) => {
       const has = prev.features.includes(name);
       if (has) return { ...prev, features: prev.features.filter((v) => v !== name) };
       if (prev.features.length >= 3) return prev;
       return { ...prev, features: [...prev.features, name] };
     });
-  };
+  }, []);
 
   const onSave = () => {
     if (!isFormValid || !isDirty || !storeId || isPatchPending) return;
@@ -144,7 +153,14 @@ export function useStoreSettingsForm(storeId: number | null) {
 
   return {
     form,
-    setForm,
+    handleStoreNameChange,
+    handleLocationChange,
+    handleBizTypeChange,
+    handleSubCategoryChange,
+    handleMenuNameChange,
+    handleAvgPriceChange,
+    handleTargetCustomersChange,
+    handlePainPointChange,
     toggleFeature,
     isFormValid: isFormValid && isDirty, // 유효하고 "변경사항"이 있을 때만 true
     isPatchPending,
