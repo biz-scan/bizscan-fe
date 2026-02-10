@@ -39,7 +39,7 @@ export function useUpdateStoreAll() {
       return { ...tagsRes, requestId: analyzeRes.result.requestId };
     },
     {
-      onSuccess: (res, variables) => {
+      onSuccess: (res) => {
         if (!res?.isSuccess) return;
 
         toast.success('매장 정보가 수정되었습니다.');
