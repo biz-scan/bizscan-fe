@@ -35,7 +35,7 @@ const useAuthStore = create<AuthState>()(
 
       setAuth: (user, token, persistToken = false) => {
         tokenStorage.set(token, persistToken);
-        set({ user, isAuthenticated: true });
+        set({ user, storeId: user.storeId ?? null, isAuthenticated: true });
       },
 
       setInitialized: (initialized) => set({ isInitialized: initialized }),
