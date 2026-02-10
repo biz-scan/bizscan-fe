@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
+import { Button } from '@/components/ui/Button';
 
 interface SolutionCardProps {
   id: string;
@@ -32,13 +33,10 @@ export default function SolutionCard({ id, title, tags }: SolutionCardProps) {
         </div>
       </div>
 
-      <button
-        onClick={handleDetailClick}
-        className="flex px-[20px] py-[10px] justify-center items-center gap-[10px] border border-grey-normal rounded-[8px] transition-all hover:bg-gray-50 active:scale-95 group"
-      >
-        <span className="typo-p2-semibold text-grey-normal whitespace-nowrap">자세히 보기</span>
-        <ArrowGray className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1" />
-      </button>
+      <Button variant="outline" size="sm" onClick={handleDetailClick} className="gap-[10px]">
+        <span className="whitespace-nowrap">자세히 보기</span>
+        <ArrowGray className="w-4 h-4 shrink-0 transition-transform" />
+      </Button>
     </div>
   );
 }

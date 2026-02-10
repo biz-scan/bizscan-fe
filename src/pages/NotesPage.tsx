@@ -19,11 +19,11 @@ export default function NotesPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user, storeId: persistedStoreId } = useAuthStore();
+  const { user } = useAuthStore();
 
   const nickname = user?.nickname ?? '사용자';
 
-  const storeId = user?.storeId || persistedStoreId;
+  const storeId = user?.storeId;
   const numericStoreId = storeId ? Number(storeId) : undefined;
 
   const tabParam = searchParams.get('tab');

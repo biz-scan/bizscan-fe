@@ -35,10 +35,11 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 
   if (isPassword) {
     return (
-      <div className={cn('relative w-full', className)}>
+      <div className={cn('relative w-full min-w-0 overflow-hidden', className)}>
         {inputElement}
         <button
           type="button"
+          tabIndex={-1}
           onClick={() => setShowPassword(!showPassword)}
           className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
         >

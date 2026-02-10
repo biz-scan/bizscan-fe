@@ -1,3 +1,5 @@
+import { keepPreviousData } from '@tanstack/react-query';
+
 import { getAnalysisStatus } from '@/apis/analysis/analysis';
 import { useAppQuery } from '@/apis/apiHooks';
 import { analysisKeys } from '@/apis/queryKeys';
@@ -9,6 +11,7 @@ export function useAnalysisStatus(requestId: string) {
     () => getAnalysisStatus(requestId),
     {
       enabled: !!requestId,
+      placeholderData: keepPreviousData,
       refetchInterval: (query) => {
         if (query.state.error) return false;
         const status = query.state.data?.result?.status;

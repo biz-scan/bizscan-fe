@@ -19,11 +19,6 @@ import type {
   PostAnalysisResponse,
 } from '@/types/analysis.type';
 
-// POST /api/analysis
-export const usePostAnalysis = () => {
-  return useAppMutation<PostAnalysisResponse, number>((storeId) => postAnalysis(storeId));
-};
-
 // GET /api/analysis/{requestId}/status
 export const useGetAnalysisStatus = (requestId: string) => {
   return useAppQuery<GetAnalysisStatusResponse>(

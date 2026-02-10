@@ -23,8 +23,8 @@ const SWOT_TITLES = {
 export default function ReportPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user, storeId: persistedStoreId } = useAuthStore();
-  const storeId = user?.storeId || persistedStoreId;
+  const { user } = useAuthStore();
+  const storeId = user?.storeId;
 
   useEffect(() => {
     window.scrollTo(0, 0);
