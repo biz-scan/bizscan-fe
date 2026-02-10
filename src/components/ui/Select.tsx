@@ -26,7 +26,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       className={cn(
         // 기본 스타일
-        'group flex w-fit items-center justify-between gap-2 rounded-lg bg-grey-light-hover px-7 py-4',
+        'group flex w-fit items-center justify-between gap-2 rounded-lg bg-grey-light-hover px-7 py-4 cursor-pointer',
         // placeholder
         'data-[placeholder]:typo-p1-regular data-[placeholder]:text-grey-normal',
         // disabled

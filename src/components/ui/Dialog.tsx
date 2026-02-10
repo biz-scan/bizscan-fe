@@ -72,7 +72,7 @@ function DialogContent({
             data-slot="dialog-close"
             className={cn(
               // 기본 스타일
-              'absolute top-4 right-4 rounded-xs',
+              'absolute top-4 right-4 rounded-xs cursor-pointer',
               // 상태 스타일
               'opacity-70 transition-opacity hover:opacity-100',
               // focus 스타일
