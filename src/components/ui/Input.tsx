@@ -35,7 +35,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
 
   if (isPassword) {
     return (
-      <div className={cn('relative w-full', className)}>
+      <div className={cn('relative w-full min-w-0 overflow-hidden', className)}>
         {inputElement}
         <button
           type="button"
