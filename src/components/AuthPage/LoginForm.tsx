@@ -16,7 +16,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ handleTabChange }: LoginFormProps) {
   const [rememberMe, setRememberMe] = useState(false);
-  const { mutate } = useLogin({ rememberMe });
+  const { mutate, isPending } = useLogin({ rememberMe });
   const {
     register,
     handleSubmit,
@@ -73,8 +73,8 @@ export default function LoginForm({ handleTabChange }: LoginFormProps) {
           <Label htmlFor="remember-me">로그인 상태 유지</Label>
         </div>
 
-        <Button variant="default" type="submit" className="w-full">
-          로그인
+        <Button variant="default" type="submit" className="w-full" disabled={isPending}>
+          {isPending ? '로그인 중...' : '로그인'}
         </Button>
 
         <p

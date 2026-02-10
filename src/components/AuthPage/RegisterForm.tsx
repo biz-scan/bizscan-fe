@@ -13,7 +13,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
-  const { mutate } = useSignup();
+  const { mutate, isPending } = useSignup();
   const {
     register,
     handleSubmit,
@@ -82,8 +82,8 @@ export default function RegisterForm({ handleTabChange }: RegisterFormProps) {
           <span className="text-error typo-p2-medium mt-2">{errors.passwordConfirm.message}</span>
         )}
 
-        <Button variant="default" type="submit" className="w-full mt-10">
-          가입하고 분석 시작하기
+        <Button variant="default" type="submit" className="w-full mt-10" disabled={isPending}>
+          {isPending ? '가입 중...' : '가입하고 분석 시작하기'}
         </Button>
 
         <div className="flex justify-end mt-5">
