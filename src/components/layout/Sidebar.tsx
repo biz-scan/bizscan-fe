@@ -68,11 +68,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside
         className={clsx(
           'bg-blue-light h-screen shrink-0 flex flex-col items-center',
-
           'fixed top-0 left-0 z-30 w-[332px] pt-20 lg:pt-[40px]',
-
           isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full',
-
           'lg:sticky lg:top-0 lg:translate-x-0 lg:z-0 lg:w-[88px] lg:shadow-none',
           'xl:w-[332px]'
         )}
@@ -107,7 +104,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                           'lg:px-0 lg:justify-center',
                           'xl:pl-[24px] xl:justify-start',
                           active
-                            ? 'bg-gra2 shadow-normal'
+                            ? 'bg-gra2-h shadow-normal'
                             : 'bg-blue-light-hover hover:bg-blue-light-active shadow-none'
                         )}
                       >
