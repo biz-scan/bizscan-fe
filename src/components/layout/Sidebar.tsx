@@ -106,7 +106,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                         'lg:px-0 lg:justify-center',
                         'xl:pl-[24px] xl:justify-start',
                         active
-                          ? 'bg-gra2 shadow-normal'
+                          ? 'bg-gra2-h shadow-normal'
                           : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
                       )}
                     >
