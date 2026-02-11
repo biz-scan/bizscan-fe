@@ -57,7 +57,7 @@ export default function Sidebar() {
                       'flex items-center w-[276px] h-[56px] px-[20px] rounded-[8px]',
                       'transition-[background-color,color] duration-200',
                       active
-                        ? 'bg-gra2 shadow-normal'
+                        ? 'bg-gra2-h shadow-normal'
                         : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
                     )}
                   >
