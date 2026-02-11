@@ -67,7 +67,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       />
       <aside
         className={clsx(
-          'bg-blue-light h-screen shrink-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out pt-20',
+          'bg-blue-light h-screen shrink-0 flex flex-col items-center overflow-hidden',
 
           'fixed top-0 left-0 z-30 w-[332px] pt-20 lg:pt-[40px]',
 
