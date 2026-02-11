@@ -16,6 +16,19 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
 
+  const sidebarPaths = [
+    '/dashboard',
+    '/report',
+    '/solution',
+    '/notes',
+    '/settings',
+    '/profile',
+    '/analyze',
+  ];
+
+  const showMenuButton =
+    onMenuClick && sidebarPaths.some((path) => location.pathname.startsWith(path));
+
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
@@ -23,9 +36,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
   return (
     <header className="bg-grey-light h-20 flex items-center px-12 justify-between shadow-header relative z-50">
       <div className="flex items-center gap-3 lg:gap-0">
-        <button type="button" onClick={onMenuClick} className="lg:hidden p-1 mr-2">
-          <MenuIcon className="w-6 h-6 text-grey-dark cursor-pointer" />
-        </button>
+        {showMenuButton && (
+          <button type="button" onClick={onMenuClick} className="lg:hidden p-1 mr-2">
+            <MenuIcon className="w-6 h-6 text-grey-dark cursor-pointer" />
+          </button>
+        )}
 
         {location.pathname === '/' ||
         location.pathname.includes('/auth') ||
