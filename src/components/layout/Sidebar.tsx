@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 
+import SidebarTooltip from '../SideBar/SidebarTooltip';
 import AnalysisActive from '@/assets/icons/IconNav/icon=graph-bar, state=active.svg?react';
 import AnalysisDefault from '@/assets/icons/IconNav/icon=graph-bar, state=Default.svg?react';
 import HomeActive from '@/assets/icons/IconNav/icon=home, state=active.svg?react';
@@ -27,7 +28,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -67,7 +67,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       />
       <aside
         className={clsx(
-          'bg-blue-light h-screen shrink-0 flex flex-col items-center overflow-hidden',
+          'bg-blue-light h-screen shrink-0 flex flex-col items-center',
 
           'fixed top-0 left-0 z-30 w-[332px] pt-20 lg:pt-[40px]',
 
@@ -88,7 +88,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 to={item.to}
                 onClick={onClose}
                 className={clsx(
-                  'h-[56px] flex items-center rounded-[8px] transition-all duration-200',
+                  'group relative h-[56px] flex items-center rounded-[8px]',
                   'w-[276px]',
                   'lg:w-[56px] lg:justify-center',
                   'xl:w-[276px]'
@@ -99,30 +99,34 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   const Icon = active ? item.ActiveIcon : item.DefaultIcon;
 
                   return (
-                    <div
-                      className={clsx(
-                        'flex items-center w-full h-full rounded-[8px] transition-colors duration-200',
-                        'pl-[24px]',
-                        'lg:px-0 lg:justify-center',
-                        'xl:pl-[24px] xl:justify-start',
-                        active
-                          ? 'bg-gra2 shadow-normal'
-                          : 'bg-blue-light-hover hover:bg-white/40 shadow-none'
-                      )}
-                    >
-                      <div className="flex items-center gap-[12px]">
-                        <Icon className="w-6 h-6 shrink-0" />
-                        <span
-                          className={clsx(
-                            'typo-p1-semibold whitespace-nowrap tracking-[-1px] transition-opacity duration-200',
-                            active ? 'text-blue-light' : 'text-blue-normal-hover',
-                            'block lg:hidden xl:block'
-                          )}
-                        >
-                          {item.label}
-                        </span>
+                    <>
+                      <div
+                        className={clsx(
+                          'flex items-center w-full h-full rounded-[8px] transition-colors duration-200',
+                          'pl-[24px]',
+                          'lg:px-0 lg:justify-center',
+                          'xl:pl-[24px] xl:justify-start',
+                          active
+                            ? 'bg-gra2 shadow-normal'
+                            : 'bg-blue-light-hover hover:bg-blue-light-active shadow-none'
+                        )}
+                      >
+                        <div className="flex items-center gap-[12px]">
+                          <Icon className="w-6 h-6 shrink-0" />
+                          <span
+                            className={clsx(
+                              'typo-p1-semibold whitespace-nowrap tracking-[-1px] transition-opacity duration-200',
+                              active ? 'text-blue-light' : 'text-blue-normal-hover',
+                              'block lg:hidden xl:block'
+                            )}
+                          >
+                            {item.label}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+
+                      <SidebarTooltip label={item.label} />
+                    </>
                   );
                 }}
               </NavLink>
