@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import LogoutIcon from '@/assets/icons/Arrow/logout.svg?react';
 import { Button } from '@/components/ui/Button';
 import {
   Dialog,
@@ -13,9 +12,10 @@ import {
 interface LogoutDialogProps {
   nickname: string;
   onConfirm: () => void | Promise<void>;
+  children: React.ReactNode;
 }
 
-export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps) {
+export default function LogoutDialog({ nickname, onConfirm, children }: LogoutDialogProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleConfirm = async () => {
@@ -28,13 +28,7 @@ export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-md border border-grey-light-active px-4 py-2 typo-p2-semibold text-grey-normal hover:bg-grey-light"
-        >
-          로그아웃
-          <LogoutIcon className="h-4 w-4" />
-        </button>
+        {children}
       </DialogTrigger>
 
       <DialogContent
