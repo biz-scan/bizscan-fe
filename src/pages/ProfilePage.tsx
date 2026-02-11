@@ -1,13 +1,12 @@
-import * as React from 'react';
+import { useState } from 'react';
 
+import LogoutIcon from '@/assets/icons/Arrow/logout.svg?react';
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
 import LogoutDialog from '@/components/ProfilePage/LogoutDialog';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useLogout } from '@/hooks/auth/useLogout';
-import { useMe } from '@/hooks/auth/useMe';
-import { useUpdateMe } from '@/hooks/auth/useUpdateMe';
+import { useLogout, useMe, useUpdateMe } from '@/hooks/auth';
 import type { UpdateMeRequest, User } from '@/types/auth.type';
 
 export default function ProfilePage() {
@@ -15,35 +14,36 @@ export default function ProfilePage() {
   const me = meResponse?.result as User | undefined;
   const memberId = me?.id;
 
-  const [nickname, setNickname] = React.useState('');
-  const [currentPassword, setCurrentPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
+  const [nickname, setNickname] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
-  const updateProfile = useUpdateMe(memberId ?? 0);
-  const logoutMutation = useLogout();
+  const { mutate: updateMe, isPending: isUpdating } = useUpdateMe(memberId ?? 0);
+  const { mutate: logout } = useLogout();
 
-  React.useEffect(() => {
+  const [prevNickname, setPrevNickname] = useState(me?.nickname);
+
+  if (me?.nickname !== prevNickname) {
+    setPrevNickname(me?.nickname);
     if (me?.nickname) {
       setNickname(me.nickname);
     }
-  }, [me?.nickname]);
+  }
 
   const originNickname = (me?.nickname ?? '').trim();
   const finalNickname = nickname.trim();
 
   const nicknameChanged = finalNickname !== originNickname;
 
-  const hasPasswordInput =
-    currentPassword.trim().length > 0 || newPassword.trim().length > 0;
-  const isPasswordComplete =
-    currentPassword.trim().length > 0 && newPassword.trim().length > 0;
+  const hasPasswordInput = currentPassword.trim().length > 0 || newPassword.trim().length > 0;
+  const isPasswordComplete = currentPassword.trim().length > 0 && newPassword.trim().length > 0;
   const isPasswordValid = !hasPasswordInput || isPasswordComplete;
 
   const canSave =
     !!memberId &&
     !!me &&
     !isLoading &&
-    !updateProfile.isPending &&
+    !isUpdating &&
     isPasswordValid &&
     (nicknameChanged || isPasswordComplete);
 
@@ -63,7 +63,7 @@ export default function ProfilePage() {
       data.newPassword = newPassword.trim();
     }
 
-    updateProfile.mutate(data, {
+    updateMe(data, {
       onSuccess: () => {
         setCurrentPassword('');
         setNewPassword('');
@@ -71,8 +71,8 @@ export default function ProfilePage() {
     });
   };
 
-  const handleLogout = async () => {
-    await logoutMutation.mutateAsync();
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -157,7 +157,12 @@ export default function ProfilePage() {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout} />
+          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout}>
+            <Button variant="outline" className="gap-2">
+              로그아웃
+              <LogoutIcon />
+            </Button>
+          </LogoutDialog>
         </div>
       </div>
     </div>

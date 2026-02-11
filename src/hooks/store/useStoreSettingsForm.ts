@@ -108,14 +108,38 @@ export function useStoreSettingsForm(storeId: number | null) {
     return hasAllFields && form.features.length > 0;
   }, [form]);
 
-  const handleStoreNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, storeName: v })), []);
-  const handleLocationChange = useCallback((v: string) => setForm((prev) => ({ ...prev, location: v })), []);
-  const handleBizTypeChange = useCallback((v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })), []);
-  const handleSubCategoryChange = useCallback((v: string) => setForm((prev) => ({ ...prev, subCategory: v })), []);
-  const handleMenuNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, menuName: v })), []);
-  const handleAvgPriceChange = useCallback((v: string) => setForm((prev) => ({ ...prev, avgPrice: v })), []);
-  const handleTargetCustomersChange = useCallback((v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })), []);
-  const handlePainPointChange = useCallback((v: string) => setForm((prev) => ({ ...prev, painPoint: v })), []);
+  const handleStoreNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, storeName: v })),
+    []
+  );
+  const handleLocationChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, location: v })),
+    []
+  );
+  const handleBizTypeChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })),
+    []
+  );
+  const handleSubCategoryChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, subCategory: v })),
+    []
+  );
+  const handleMenuNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, menuName: v })),
+    []
+  );
+  const handleAvgPriceChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, avgPrice: v })),
+    []
+  );
+  const handleTargetCustomersChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })),
+    []
+  );
+  const handlePainPointChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, painPoint: v })),
+    []
+  );
 
   const toggleFeature = useCallback((name: string) => {
     setForm((prev) => {
@@ -129,26 +153,22 @@ export function useStoreSettingsForm(storeId: number | null) {
   const onSave = () => {
     if (!isFormValid || !isDirty || !storeId || isPatchPending) return;
 
-    try {
-      const data: UpdateStoreRequest = {
-        name: form.storeName,
-        address: form.location,
-        category: CATEGORY_MAP[form.bizType],
-        categoryDetail: DETAIL_MAP[form.subCategory],
-        signature: form.menuName,
-        price: PRICE_MAP[form.avgPrice],
-        target: TARGET_MAP[form.targetCustomers],
-        painPoint: PAIN_MAP[form.painPoint],
-      };
+    const data: UpdateStoreRequest = {
+      name: form.storeName,
+      address: form.location,
+      category: CATEGORY_MAP[form.bizType],
+      categoryDetail: DETAIL_MAP[form.subCategory],
+      signature: form.menuName,
+      price: PRICE_MAP[form.avgPrice],
+      target: TARGET_MAP[form.targetCustomers],
+      painPoint: PAIN_MAP[form.painPoint],
+    };
 
-      const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
-        0,
-        3
-      );
-      patchAll({ storeId, data, tags });
-    } catch (e) {
-      console.error('저장 중 오류 발생:', e);
-    }
+    const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
+      0,
+      3
+    );
+    patchAll({ storeId, data, tags });
   };
 
   return {

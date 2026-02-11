@@ -1,6 +1,5 @@
-import * as React from 'react';
+import { useState } from 'react';
 
-import LogoutIcon from '@/assets/icons/Arrow/logout.svg?react';
 import { Button } from '@/components/ui/Button';
 import {
   Dialog,
@@ -13,10 +12,11 @@ import {
 interface LogoutDialogProps {
   nickname: string;
   onConfirm: () => void | Promise<void>;
+  children: React.ReactNode;
 }
 
-export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps) {
-  const [open, setOpen] = React.useState(false);
+export default function LogoutDialog({ nickname, onConfirm, children }: LogoutDialogProps) {
+  const [open, setOpen] = useState(false);
 
   const handleConfirm = async () => {
     await onConfirm();
@@ -27,21 +27,12 @@ export default function LogoutDialog({ nickname, onConfirm }: LogoutDialogProps)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-md border border-grey-light-active px-4 py-2 typo-p2-semibold text-grey-normal hover:bg-grey-light"
-        >
-          로그아웃
-          <LogoutIcon className="h-4 w-4" />
-        </button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
         showCloseButton={false}
         className="w-[544px] h-[303px] max-w-none rounded-[20px] border-0 bg-grey-light shadow-normal px-[48px] py-[40px] flex flex-col"
       >
-
         <DialogTitle className="sr-only">로그아웃</DialogTitle>
 
         <div className="flex flex-col items-center text-center">

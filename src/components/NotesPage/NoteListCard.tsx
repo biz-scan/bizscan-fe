@@ -1,6 +1,8 @@
 import HashTag from '@/components/NotesPage/HashTag';
 import ProgressBar from '@/components/NotesPage/ProgressBar';
 import type { ActionNoteListItem } from '@/types/note.type';
+import { formatDateDot } from '@/utils/note/date';
+
 
 function clamp(n: number, min = 0, max = 100) {
   return Math.max(min, Math.min(max, n));
@@ -19,10 +21,10 @@ export default function NoteListCard({
     <button
       type="button"
       onClick={onClick}
-      className="w-full rounded-[20px] bg-white text-left shadow-normal"
+      className="w-full rounded-[20px] bg-grey-light group-hover:bg-grey-light-hover group-active:bg-blue-light text-left shadow-normal"
     >
       <div className="px-[48px] py-[32px]">
-        <p className="typo-p2-medium text-grey-normal">{note.createdAt}. 시작</p>
+        <p className="typo-p2-medium text-grey-normal">{formatDateDot(note.createdAt)}. 시작</p>
 
         <div className="mt-[14px] grid grid-cols-[2fr_1fr] items-end gap-[85px]">
           <div className="min-w-0">

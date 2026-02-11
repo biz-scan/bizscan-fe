@@ -1,9 +1,10 @@
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CloseIcon from '@/assets/icons/Close/state=Default.svg?react';
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import HashTag from '@/components/NotesPage/HashTag';
 import ProgressBar from '@/components/NotesPage/ProgressBar';
 import StepSection from '@/components/NotesPage/StepSection';
@@ -23,22 +24,20 @@ export default function NoteDetailPage() {
 
   const actionPlanId = noteId ? Number(noteId) : undefined;
 
-  const detailQuery = useActionNoteDetail(actionPlanId);
-  const note = detailQuery.data;
-  const isLoading = detailQuery.isLoading;
-  const isError = detailQuery.isError;
-  const error = detailQuery.error;
+  const { data: noteData, isLoading, isError, error } = useActionNoteDetail(actionPlanId);
+  const note = noteData;
 
-  const patchMutation = usePatchActionDetail();
+  const { mutate: patchDetail } = usePatchActionDetail();
 
-  const [expandedStepIds, setExpandedStepIds] = React.useState<Set<number>>(() => new Set());
+  const [prevActionPlanId, setPrevActionPlanId] = useState(actionPlanId);
+  const [expandedStepIds, setExpandedStepIds] = useState<Set<number>>(() => new Set());
 
-  React.useEffect(() => {
+  if (actionPlanId !== prevActionPlanId) {
+    setPrevActionPlanId(actionPlanId);
     setExpandedStepIds(new Set());
-  }, [actionPlanId]);
+  }
 
-
-  const computed = React.useMemo(() => {
+  const computed = useMemo(() => {
     const steps = note?.actionDetails ?? [];
     const total = steps.length;
     const done = steps.reduce((acc, s) => (s.isCompleted ? acc + 1 : acc), 0);
@@ -66,10 +65,10 @@ export default function NoteDetailPage() {
     });
   };
 
-  const onToggleStep = async (actionDetailId: number, next: boolean) => {
+  const onToggleStep = (actionDetailId: number, next: boolean) => {
     if (storeId == null || actionPlanId == null) return;
 
-    await patchMutation.mutateAsync({
+    patchDetail({
       storeId,
       actionPlanId,
       actionDetailId,
@@ -77,19 +76,25 @@ export default function NoteDetailPage() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-grey-light">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-grey-light px-[120px] py-[120px]">
-      <div className="mx-auto w-full max-w-[1100px]">
-        <div className="flex items-center gap-[8px]">
-          <Simbol className="h-[32px] w-[32px]" />
+    <div className="w-full min-h-screen bg-grey-light">
+      <div className="mx-auto w-full max-w-[1348px] py-[120px] px-6 md:px-10 xl:px-[60px]">
+        <div className="flex items-center gap-[20px] mb-[48px]">
+          <Simbol className="h-[42px] w-[42px]" />
           <h3 className="text-blue-dark">{nickname}님의 실행 노트</h3>
         </div>
 
         <div className="mt-[28px] flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h4 className="text-grey-dark-active">
-              {isLoading ? '불러오는 중...' : note?.actionPlanTitle ?? '(노트 없음)'}
-            </h4>
+            <h4 className="text-grey-dark-active">{note?.actionPlanTitle ?? '(노트 없음)'}</h4>
 
             <div className="mt-3 flex flex-wrap gap-2">
               {(note?.tags ?? []).map((t) => (
