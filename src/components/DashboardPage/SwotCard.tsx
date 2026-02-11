@@ -1,12 +1,14 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
+
 import Swot_O from '@/assets/icons/SwotCard/Swot_O.svg';
-import Swot_S from '@/assets/icons/SwotCard/Swot_S.svg';
-import Swot_T from '@/assets/icons/SwotCard/Swot_T.svg';
-import Swot_W from '@/assets/icons/SwotCard/Swot_W.svg';
-import Swot_S_B from '@/assets/icons/SwotCard/Swot_S_B.svg';
-import Swot_W_B from '@/assets/icons/SwotCard/Swot_W_B.svg';
 import Swot_O_B from '@/assets/icons/SwotCard/Swot_O_B.svg';
+import Swot_S from '@/assets/icons/SwotCard/Swot_S.svg';
+import Swot_S_B from '@/assets/icons/SwotCard/Swot_S_B.svg';
+import Swot_T from '@/assets/icons/SwotCard/Swot_T.svg';
 import Swot_T_B from '@/assets/icons/SwotCard/Swot_T_B.svg';
+import Swot_W from '@/assets/icons/SwotCard/Swot_W.svg';
+import Swot_W_B from '@/assets/icons/SwotCard/Swot_W_B.svg';
+
 import Tooltip from './Tooltip';
 
 interface SwotCardProps {

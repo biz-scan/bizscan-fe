@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Footer, Header, Sidebar } from '@/components/layout';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
