@@ -6,9 +6,9 @@ import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
+import { Button } from '@/components/ui/Button';
 import { useActionPlans, useCatchphrase, useSwots } from '@/hooks/analysis';
 import useAuthStore from '@/store/useAuthStore';
-import { Button } from '@/components/ui/Button';
 
 const SWOT_TITLES = {
   S: 'Strengths',
