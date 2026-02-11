@@ -108,14 +108,38 @@ export function useStoreSettingsForm(storeId: number | null) {
     return hasAllFields && form.features.length > 0;
   }, [form]);
 
-  const handleStoreNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, storeName: v })), []);
-  const handleLocationChange = useCallback((v: string) => setForm((prev) => ({ ...prev, location: v })), []);
-  const handleBizTypeChange = useCallback((v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })), []);
-  const handleSubCategoryChange = useCallback((v: string) => setForm((prev) => ({ ...prev, subCategory: v })), []);
-  const handleMenuNameChange = useCallback((v: string) => setForm((prev) => ({ ...prev, menuName: v })), []);
-  const handleAvgPriceChange = useCallback((v: string) => setForm((prev) => ({ ...prev, avgPrice: v })), []);
-  const handleTargetCustomersChange = useCallback((v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })), []);
-  const handlePainPointChange = useCallback((v: string) => setForm((prev) => ({ ...prev, painPoint: v })), []);
+  const handleStoreNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, storeName: v })),
+    []
+  );
+  const handleLocationChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, location: v })),
+    []
+  );
+  const handleBizTypeChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, bizType: v, subCategory: '' })),
+    []
+  );
+  const handleSubCategoryChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, subCategory: v })),
+    []
+  );
+  const handleMenuNameChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, menuName: v })),
+    []
+  );
+  const handleAvgPriceChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, avgPrice: v })),
+    []
+  );
+  const handleTargetCustomersChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, targetCustomers: v })),
+    []
+  );
+  const handlePainPointChange = useCallback(
+    (v: string) => setForm((prev) => ({ ...prev, painPoint: v })),
+    []
+  );
 
   const toggleFeature = useCallback((name: string) => {
     setForm((prev) => {

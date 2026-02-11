@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
 import CloseActive from '@/assets/icons/Close/state=active.svg?react';
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { Button } from '@/components/ui/Button';
 import { useGetActionPlanDetail } from '@/hooks/analysis/analysisHooks';
 import { usePostActionNote } from '@/hooks/note/useNoteHooks';
-import { toast } from 'sonner';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
