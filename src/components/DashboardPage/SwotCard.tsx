@@ -40,7 +40,7 @@ export default function SwotCard({
     <button
       type="button"
       onClick={onClick}
-      className={`relative flex flex-col w-full max-w-[664px] h-[160px] rounded-[20px] overflow-hidden pt-[25px] px-[clamp(20px,5vw,48px)] transition-all duration-200 text-left shadow-normal
+      className={`cursor-pointer relative flex flex-col w-full max-w-[664px] h-[160px] rounded-[20px] overflow-hidden pt-[25px] px-[clamp(20px,5vw,48px)] transition-all duration-200 text-left shadow-normal
     ${isActive ? 'bg-blue-light ring-1 ring-blue-normal' : 'bg-grey-light'}`}
     >
       <h3 className={`z-10 mb-[16px] w-full ${isReverse ? 'text-right' : 'text-left'}`}>

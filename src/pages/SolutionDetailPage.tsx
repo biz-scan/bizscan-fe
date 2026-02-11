@@ -57,7 +57,7 @@ export default function SolutionDetailPage() {
             onClick={() => navigate(-1)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="transition-transform active:scale-95"
+            className="cursor-pointer transition-transform active:scale-95"
           >
             {isHovered ? (
               <CloseHover className="w-[32px] h-[32px]" />
