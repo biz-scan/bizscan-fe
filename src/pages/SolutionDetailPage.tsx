@@ -11,8 +11,8 @@ import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { Button } from '@/components/ui/Button';
-import { useGetActionPlanDetail } from '@/hooks/analysis/analysisHooks';
-import { usePostActionNote } from '@/hooks/note/useNoteHooks';
+import { useActionPlanDetail } from '@/hooks/analysis';
+import { usePostActionNote } from '@/hooks/note';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
@@ -25,7 +25,7 @@ export default function SolutionDetailPage() {
 
   const actionPlanId = id ? Number(id) : NaN;
 
-  const { data: actionPlanDetailResponse, isLoading } = useGetActionPlanDetail(actionPlanId);
+  const { data: actionPlanDetailResponse, isLoading } = useActionPlanDetail(actionPlanId);
 
   const { mutate: addToNote, isPending: isAdding } = usePostActionNote();
 

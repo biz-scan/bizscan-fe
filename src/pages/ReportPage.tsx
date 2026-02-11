@@ -6,11 +6,7 @@ import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import SolutionCard from '@/components/ReportPage/SolutionCard';
-import {
-  useGetActionPlans,
-  useGetSwotDiagnosis,
-  useGetSwots,
-} from '@/hooks/analysis/analysisHooks';
+import { useActionPlans, useSwotDiagnosis, useSwots } from '@/hooks/analysis';
 import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
@@ -37,19 +33,19 @@ export default function ReportPage() {
   };
 
   // SWOT 목록 조회
-  const { data: swotResponse, isLoading: isSwotLoading } = useGetSwots(storeId as number);
+  const { data: swotResponse, isLoading: isSwotLoading } = useSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   const selectedSwot = swotList.find((item) => item.type === selectedType);
   const swotId = selectedSwot?.swotId ?? 0;
 
-  const { data: diagnosisResponse, isLoading: isDiagnosisLoading } = useGetSwotDiagnosis(
+  const { data: diagnosisResponse, isLoading: isDiagnosisLoading } = useSwotDiagnosis(
     swotId as number
   );
   const diagnosis = diagnosisResponse?.result?.diagnosis;
 
   // 실행 전략 목록 조회
-  const { data: actionPlanResponse, isLoading: isActionPlansLoading } = useGetActionPlans(
+  const { data: actionPlanResponse, isLoading: isActionPlansLoading } = useActionPlans(
     storeId as number,
     selectedType || undefined
   );

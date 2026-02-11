@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CloseIcon from '@/assets/icons/Close/state=Default.svg?react';
@@ -24,21 +24,20 @@ export default function NoteDetailPage() {
 
   const actionPlanId = noteId ? Number(noteId) : undefined;
 
-  const detailQuery = useActionNoteDetail(actionPlanId);
-  const note = detailQuery.data;
-  const isLoading = detailQuery.isLoading;
-  const isError = detailQuery.isError;
-  const error = detailQuery.error;
+  const { data: noteData, isLoading, isError, error } = useActionNoteDetail(actionPlanId);
+  const note = noteData;
 
-  const patchMutation = usePatchActionDetail();
+  const { mutate: patchDetail } = usePatchActionDetail();
 
-  const [expandedStepIds, setExpandedStepIds] = React.useState<Set<number>>(() => new Set());
+  const [prevActionPlanId, setPrevActionPlanId] = useState(actionPlanId);
+  const [expandedStepIds, setExpandedStepIds] = useState<Set<number>>(() => new Set());
 
-  React.useEffect(() => {
+  if (actionPlanId !== prevActionPlanId) {
+    setPrevActionPlanId(actionPlanId);
     setExpandedStepIds(new Set());
-  }, [actionPlanId]);
+  }
 
-  const computed = React.useMemo(() => {
+  const computed = useMemo(() => {
     const steps = note?.actionDetails ?? [];
     const total = steps.length;
     const done = steps.reduce((acc, s) => (s.isCompleted ? acc + 1 : acc), 0);
@@ -69,7 +68,7 @@ export default function NoteDetailPage() {
   const onToggleStep = (actionDetailId: number, next: boolean) => {
     if (storeId == null || actionPlanId == null) return;
 
-    patchMutation.mutateAsync({
+    patchDetail({
       storeId,
       actionPlanId,
       actionDetailId,

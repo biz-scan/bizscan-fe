@@ -6,9 +6,9 @@ import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
-import { useGetActionPlans, useGetCatchphrase, useGetSwots } from '@/hooks/analysis/analysisHooks';
-import useAuthStore from '@/store/useAuthStore';
 import { Button } from '@/components/ui/Button';
+import { useActionPlans, useCatchphrase, useSwots } from '@/hooks/analysis';
+import useAuthStore from '@/store/useAuthStore';
 
 const SWOT_TITLES = {
   S: 'Strengths',
@@ -43,11 +43,11 @@ export default function DashboardPage() {
   };
 
   // SWOT 분석 결과 조회
-  const { data: swotResponse, isLoading: isSwotLoading } = useGetSwots(storeId as number);
+  const { data: swotResponse, isLoading: isSwotLoading } = useSwots(storeId as number);
   const swotList = swotResponse?.result || [];
 
   // AI 캐치프레이즈 조회
-  const { data: catchphraseResponse } = useGetCatchphrase(storeId as number);
+  const { data: catchphraseResponse } = useCatchphrase(storeId as number);
   const catchphrase = catchphraseResponse?.result?.catchphrase;
 
   // 실행 전략 목록 조회
@@ -55,7 +55,7 @@ export default function DashboardPage() {
     data: actionPlanResponse,
     isLoading: isActionPlansLoading,
     isError: isActionPlansError,
-  } = useGetActionPlans(storeId as number);
+  } = useActionPlans(storeId as number);
   const actionPlans = actionPlanResponse?.result || [];
   const mainSolution = actionPlans[0];
 
