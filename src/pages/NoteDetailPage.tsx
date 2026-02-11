@@ -24,13 +24,10 @@ export default function NoteDetailPage() {
 
   const actionPlanId = noteId ? Number(noteId) : undefined;
 
-  const detailQuery = useActionNoteDetail(actionPlanId);
-  const note = detailQuery.data;
-  const isLoading = detailQuery.isLoading;
-  const isError = detailQuery.isError;
-  const error = detailQuery.error;
+  const { data: noteData, isLoading, isError, error } = useActionNoteDetail(actionPlanId);
+  const note = noteData;
 
-  const patchMutation = usePatchActionDetail();
+  const { mutate: patchDetail } = usePatchActionDetail();
 
   const [prevActionPlanId, setPrevActionPlanId] = useState(actionPlanId);
   const [expandedStepIds, setExpandedStepIds] = useState<Set<number>>(() => new Set());
@@ -71,7 +68,7 @@ export default function NoteDetailPage() {
   const onToggleStep = (actionDetailId: number, next: boolean) => {
     if (storeId == null || actionPlanId == null) return;
 
-    patchMutation.mutateAsync({
+    patchDetail({
       storeId,
       actionPlanId,
       actionDetailId,

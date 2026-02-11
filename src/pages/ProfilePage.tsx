@@ -18,8 +18,8 @@ export default function ProfilePage() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const updateProfile = useUpdateMe(memberId ?? 0);
-  const logoutMutation = useLogout();
+  const { mutate: updateMe, isPending: isUpdating } = useUpdateMe(memberId ?? 0);
+  const { mutate: logout } = useLogout();
 
   const [prevNickname, setPrevNickname] = useState(me?.nickname);
 
@@ -43,7 +43,7 @@ export default function ProfilePage() {
     !!memberId &&
     !!me &&
     !isLoading &&
-    !updateProfile.isPending &&
+    !isUpdating &&
     isPasswordValid &&
     (nicknameChanged || isPasswordComplete);
 
@@ -63,7 +63,7 @@ export default function ProfilePage() {
       data.newPassword = newPassword.trim();
     }
 
-    updateProfile.mutate(data, {
+    updateMe(data, {
       onSuccess: () => {
         setCurrentPassword('');
         setNewPassword('');
@@ -71,8 +71,8 @@ export default function ProfilePage() {
     });
   };
 
-  const handleLogout = async () => {
-    await logoutMutation.mutateAsync();
+  const handleLogout = () => {
+    logout();
   };
 
   return (
