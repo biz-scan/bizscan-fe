@@ -1,12 +1,17 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Logo from '@/assets/icons/Logo/Logo.svg?react';
+import MenuIcon from '@/assets/icons/SideBar/menu.svg?react';
 import { Button } from '@/components/ui/Button';
 import useAuthStore from '@/store/useAuthStore';
 
 import HeaderConfirmDialog from './HeaderConfirmDialog';
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
@@ -16,22 +21,28 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-grey-light h-20 flex items-center px-12 justify-between shadow-header relative z-10">
-      {location.pathname === '/' ||
-      location.pathname.includes('/auth') ||
-      location.pathname.includes('/analyze/') ? (
-        <Link to="/">
-          <Logo />
-        </Link>
-      ) : location.pathname === '/onboarding' ? (
-        <HeaderConfirmDialog>
-          <Logo className="cursor-pointer" />
-        </HeaderConfirmDialog>
-      ) : (
-        <Link to="/dashboard">
-          <Logo />
-        </Link>
-      )}
+    <header className="bg-grey-light h-20 flex items-center px-12 justify-between shadow-header relative z-50">
+      <div className="flex items-center gap-3 lg:gap-0">
+        <button type="button" onClick={onMenuClick} className="lg:hidden p-1 mr-2">
+          <MenuIcon className="w-6 h-6 text-grey-dark cursor-pointer" />
+        </button>
+
+        {location.pathname === '/' ||
+        location.pathname.includes('/auth') ||
+        location.pathname.includes('/analyze/') ? (
+          <Link to="/">
+            <Logo />
+          </Link>
+        ) : location.pathname === '/onboarding' ? (
+          <HeaderConfirmDialog>
+            <Logo className="cursor-pointer" />
+          </HeaderConfirmDialog>
+        ) : (
+          <Link to="/dashboard">
+            <Logo />
+          </Link>
+        )}
+      </div>
 
       {isAuthenticated ? (
         <div>
