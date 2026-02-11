@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CloseIcon from '@/assets/icons/Close/state=Default.svg?react';
@@ -32,13 +32,15 @@ export default function NoteDetailPage() {
 
   const patchMutation = usePatchActionDetail();
 
-  const [expandedStepIds, setExpandedStepIds] = React.useState<Set<number>>(() => new Set());
+  const [prevActionPlanId, setPrevActionPlanId] = useState(actionPlanId);
+  const [expandedStepIds, setExpandedStepIds] = useState<Set<number>>(() => new Set());
 
-  React.useEffect(() => {
+  if (actionPlanId !== prevActionPlanId) {
+    setPrevActionPlanId(actionPlanId);
     setExpandedStepIds(new Set());
-  }, [actionPlanId]);
+  }
 
-  const computed = React.useMemo(() => {
+  const computed = useMemo(() => {
     const steps = note?.actionDetails ?? [];
     const total = steps.length;
     const done = steps.reduce((acc, s) => (s.isCompleted ? acc + 1 : acc), 0);
