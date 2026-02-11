@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '@/assets/icons/Logo/Logo.svg?react';
 import MenuIcon from '@/assets/icons/SideBar/menu.svg?react';
 import { Button } from '@/components/ui/Button';
+import { useLogout } from '@/hooks/auth/useLogout';
 import useAuthStore from '@/store/useAuthStore';
 
 import HeaderConfirmDialog from './HeaderConfirmDialog';
@@ -15,6 +16,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
+  const { mutate: handleLogout } = useLogout();
 
   const sidebarPaths = [
     '/dashboard',
@@ -60,8 +62,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       {isAuthenticated ? (
-        <div>
+        <div className="flex items-center gap-3">
           <p className="typo-p2-semibold text-grey-dark">안녕하세요! {user?.nickname}님</p>
+          <Button variant="default" onClick={() => handleLogout()}>
+            로그아웃
+          </Button>
         </div>
       ) : (
         <div className="flex gap-3">
