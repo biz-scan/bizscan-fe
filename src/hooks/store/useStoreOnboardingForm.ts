@@ -82,9 +82,6 @@ export function useStoreOnboardingForm() {
           navigate(`/analyze/${res.requestId}`);
         }
       },
-      onError: (error) => {
-        console.error('매장 등록 실패:', error);
-      },
     });
   }, [isFormValid, isPosting, form, postStore, user, setUser, navigate]);
 

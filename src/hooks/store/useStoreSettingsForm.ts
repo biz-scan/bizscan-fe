@@ -153,26 +153,22 @@ export function useStoreSettingsForm(storeId: number | null) {
   const onSave = () => {
     if (!isFormValid || !isDirty || !storeId || isPatchPending) return;
 
-    try {
-      const data: UpdateStoreRequest = {
-        name: form.storeName,
-        address: form.location,
-        category: CATEGORY_MAP[form.bizType],
-        categoryDetail: DETAIL_MAP[form.subCategory],
-        signature: form.menuName,
-        price: PRICE_MAP[form.avgPrice],
-        target: TARGET_MAP[form.targetCustomers],
-        painPoint: PAIN_MAP[form.painPoint],
-      };
+    const data: UpdateStoreRequest = {
+      name: form.storeName,
+      address: form.location,
+      category: CATEGORY_MAP[form.bizType],
+      categoryDetail: DETAIL_MAP[form.subCategory],
+      signature: form.menuName,
+      price: PRICE_MAP[form.avgPrice],
+      target: TARGET_MAP[form.targetCustomers],
+      painPoint: PAIN_MAP[form.painPoint],
+    };
 
-      const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
-        0,
-        3
-      );
-      patchAll({ storeId, data, tags });
-    } catch (e) {
-      console.error('저장 중 오류 발생:', e);
-    }
+    const tags = Array.from(new Set(form.features.map((f) => TAG_MAP[f]).filter(Boolean))).slice(
+      0,
+      3
+    );
+    patchAll({ storeId, data, tags });
   };
 
   return {

@@ -5,7 +5,7 @@ import useAuthStore from '@/store/useAuthStore';
 export default function ProtectedRoute() {
   const { user, isAuthenticated } = useAuthStore();
   const location = useLocation();
-  console.log(user);
+
   if (!isAuthenticated) {
     return <Navigate to="/auth" replace />;
   }

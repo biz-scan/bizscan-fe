@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import LogoutIcon from '@/assets/icons/Arrow/logout.svg?react';
 import Simbol from '@/assets/icons/Logo/Simbol.svg?react';
 import FieldLabel from '@/components/common/FieldLabel';
 import LogoutDialog from '@/components/ProfilePage/LogoutDialog';
@@ -33,10 +34,8 @@ export default function ProfilePage() {
 
   const nicknameChanged = finalNickname !== originNickname;
 
-  const hasPasswordInput =
-    currentPassword.trim().length > 0 || newPassword.trim().length > 0;
-  const isPasswordComplete =
-    currentPassword.trim().length > 0 && newPassword.trim().length > 0;
+  const hasPasswordInput = currentPassword.trim().length > 0 || newPassword.trim().length > 0;
+  const isPasswordComplete = currentPassword.trim().length > 0 && newPassword.trim().length > 0;
   const isPasswordValid = !hasPasswordInput || isPasswordComplete;
 
   const canSave =
@@ -157,7 +156,12 @@ export default function ProfilePage() {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout} />
+          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout}>
+            <Button variant="outline" className="gap-2">
+              로그아웃
+              <LogoutIcon />
+            </Button>
+          </LogoutDialog>
         </div>
       </div>
     </div>
