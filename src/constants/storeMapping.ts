@@ -84,7 +84,7 @@ export const TARGET_REVERSE_MAP: Record<TargetAudience, string> = {
 export const PAIN_MAP: Record<string, PainPoint> = {
   '신규 손님이 너무 안 와요 (모객)': 'CUSTOMER_ACQUISITION',
   '한 번 온 손님이 재방문을 안 해요 (단골 관리)': 'LOYALTY_MANAGEMENT',
-  '주변에 경쟁 가게가 너무 많이 생겼어요 ( 경쟁 우위)': 'COMPETITIVE_EDGE',
+  '주변에 경쟁 가게가 너무 많이 생겼어요 (경쟁 우위)': 'COMPETITIVE_EDGE',
   '매출은 좋은데 남는 게 없어요 (수익성 개선)': 'PROFIT_IMPROVEMENT',
   '메뉴/가격을 어떻게 정할지 모르겠어요 (상품 기획)': 'PRODUCT_PLANNING',
 };
