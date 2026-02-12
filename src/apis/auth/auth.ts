@@ -13,7 +13,7 @@ import type {
 
 /* 회원가입 */
 export async function signup(data: SignupRequest): Promise<SignupResponse> {
-  const res = await axiosInstance.post<SignupResponse>('/api/member/register', data);
+  const res = await axiosInstance.post<SignupResponse>('/api/members/register', data);
   return res.data;
 }
 
@@ -41,12 +41,12 @@ export async function refreshToken(): Promise<RefreshTokenResponse> {
 
 /* 내 정보 수정 -- 비밀번호 수정은 안되나보네요 */
 export async function updateMe(memberId: number, data: UpdateMeRequest): Promise<UpdateMeResponse> {
-  const res = await axiosInstance.patch<UpdateMeResponse>(`/api/member/${memberId}`, data);
+  const res = await axiosInstance.patch<UpdateMeResponse>(`/api/members/${memberId}`, data);
   return res.data;
 }
 
 /* 내 정보 조회 */
 export async function getMe(): Promise<GetMeResponse> {
-  const res = await axiosInstance.get<GetMeResponse>('/api/member/me');
+  const res = await axiosInstance.get<GetMeResponse>('/api/members/me');
   return res.data;
 }
