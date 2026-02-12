@@ -3,7 +3,7 @@ import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { tokenStorage } from '@/lib/tokenStorage';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  baseURL: '/',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -16,7 +16,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = tokenStorage.get();
-    if (token) {
+    // 리프레시 요청인 경우 Authorization 헤더를 추가하지 않음 (쿠키 사용)
+    if (token && !config.url?.includes('/tokens/reissue')) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -59,7 +60,12 @@ axiosInstance.interceptors.response.use(
     }
 
     // 인증이 필요 없는 엔드포인트는 리프레시 시도하지 않음
-    const skipRefreshUrls = ['/tokens/login', '/tokens/reissue', '/tokens/logout', '/members/register'];
+    const skipRefreshUrls = [
+      '/tokens/login',
+      '/tokens/reissue',
+      '/tokens/logout',
+      '/members/register',
+    ];
     if (skipRefreshUrls.some((url) => originalRequest.url?.includes(url))) {
       if (originalRequest.url?.includes('/tokens/reissue')) {
         tokenStorage.remove();
