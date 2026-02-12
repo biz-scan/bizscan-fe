@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const me = meResponse?.result as User | undefined;
   const memberId = me?.id;
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(me?.nickname ?? '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -157,7 +157,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <LogoutDialog nickname={finalNickname} onConfirm={handleLogout}>
+          <LogoutDialog nickname={finalNickname || me?.nickname || ''} onConfirm={handleLogout}>
             <Button variant="outline" className="gap-2">
               로그아웃
               <LogoutIcon />
