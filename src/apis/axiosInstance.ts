@@ -53,10 +53,18 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // refresh 엔드포인트 자체가 401이면 로그아웃
-    if (originalRequest.url?.includes('/tokens/reissue')) {
-      tokenStorage.remove();
-      window.location.href = '/auth';
+    // 토큰이 없으면 리프레시할 수 없으므로 그대로 에러 반환
+    if (!tokenStorage.get()) {
+      return Promise.reject(error);
+    }
+
+    // 인증이 필요 없는 엔드포인트는 리프레시 시도하지 않음
+    const skipRefreshUrls = ['/tokens/login', '/tokens/reissue', '/members/register'];
+    if (skipRefreshUrls.some((url) => originalRequest.url?.includes(url))) {
+      if (originalRequest.url?.includes('/tokens/reissue')) {
+        tokenStorage.remove();
+        window.location.href = '/auth';
+      }
       return Promise.reject(error);
     }
 
@@ -78,7 +86,7 @@ axiosInstance.interceptors.response.use(
     try {
       // refresh 토큰으로 새 access 토큰 발급
       const response = await axiosInstance.post('/api/tokens/reissue');
-      const { accessToken } = response.data.data;
+      const accessToken = response.headers['authorization']?.replace('Bearer ', '');
 
       tokenStorage.set(accessToken, tokenStorage.isPersisted());
       processQueue(null, accessToken);
