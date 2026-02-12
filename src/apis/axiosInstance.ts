@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use(
     }
 
     // 인증이 필요 없는 엔드포인트는 리프레시 시도하지 않음
-    const skipRefreshUrls = ['/tokens/login', '/tokens/reissue', '/members/register'];
+    const skipRefreshUrls = ['/tokens/login', '/tokens/reissue', '/tokens/logout', '/members/register'];
     if (skipRefreshUrls.some((url) => originalRequest.url?.includes(url))) {
       if (originalRequest.url?.includes('/tokens/reissue')) {
         tokenStorage.remove();
