@@ -96,7 +96,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   const Icon = active ? item.ActiveIcon : item.DefaultIcon;
 
                   return (
-                    <>
+                    <SidebarTooltip label={item.label}>
                       <div
                         className={clsx(
                           'flex items-center w-full h-full rounded-[8px] transition-colors duration-200',
@@ -121,9 +121,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                           </span>
                         </div>
                       </div>
-
-                      <SidebarTooltip label={item.label} />
-                    </>
+                    </SidebarTooltip>
                   );
                 }}
               </NavLink>
