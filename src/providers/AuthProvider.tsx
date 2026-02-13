@@ -39,11 +39,13 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           // 토큰 유효 → 인증 상태 유지
           setAuth(meRes.result, token, tokenStorage.isPersisted());
         } else {
-          // 토큰 무효 → refresh 시도
+          // 토큰 무효 → 기존 토큰 정리 후 refresh 시도
+          tokenStorage.remove();
           await tryRefreshToken();
         }
       } catch {
-        // getMe 실패 → refresh 시도
+        // getMe 실패 → 기존 토큰 정리 후 refresh 시도
+        tokenStorage.remove();
         await tryRefreshToken();
       } finally {
         setInitialized(true);
