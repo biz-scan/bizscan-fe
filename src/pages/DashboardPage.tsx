@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
+import ClickIcon from '@/assets/icons/Dashboard/click.svg?react';
+import LineDotIcon from '@/assets/icons/Dashboard/line_dot.svg?react';
+import DashboardIcon1 from '@/assets/icons/Dashboard/dashboard_1.svg?react';
+import DashboardIcon2 from '@/assets/icons/Dashboard/dashboard_2.svg?react';
+import DashboardIcon3 from '@/assets/icons/Dashboard/dashboard_3.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import { Button } from '@/components/ui/Button';
@@ -16,6 +21,39 @@ const SWOT_TITLES = {
   O: 'Opportunities',
   T: 'Threats',
 };
+
+const SIMILAR_STORES = [
+  {
+    id: 1,
+    rank: 1,
+    icon: DashboardIcon1,
+    title: '성수동의 한식 전문점',
+    similarity: 92,
+    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
+    solutionTitle: '성수동 직장인 회식 1타',
+    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
+  },
+  {
+    id: 2,
+    rank: 2,
+    icon: DashboardIcon2,
+    title: '성수동의 한식 전문점',
+    similarity: 92,
+    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
+    solutionTitle: '성수동 직장인 회식 1타',
+    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
+  },
+  {
+    id: 3,
+    rank: 3,
+    icon: DashboardIcon3,
+    title: '성수동의 한식 전문점',
+    similarity: 92,
+    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
+    solutionTitle: '성수동 직장인 회식 1타',
+    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
+  },
+];
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -172,6 +210,90 @@ export default function DashboardPage() {
             </p>
           </div>
         )}
+
+        {/* 추가 기능/*/}
+        <div className="mt-[clamp(60px,10vw,140px)] flex justify-center w-full overflow-hidden">
+          <LineIcon className="w-full h-auto text-transparent" />
+        </div>
+
+        <div className="mt-[clamp(60px,10vw,140px)] flex flex-col items-center w-full">
+          <div className="flex justify-center items-start gap-[10px] p-[12px] rounded-[12px] bg-grey-light shadow-normal">
+            <ClickIcon className="w-[40px] h-[40px]" />
+          </div>
+
+          <h3 className="mt-[24px] text-center text-h3 text-grey-darker">
+            나와 <span className="text-blue-dark">비슷한 AI 분석 결과</span>를 가진 가게들이에요!
+          </h3>
+
+          <div className="mt-[64px] grid grid-cols-1 lg:grid-cols-3 gap-[20px]">
+            {SIMILAR_STORES.map((store) => (
+              <div
+                key={store.id}
+                className="
+                  flex flex-col items-center
+                  w-full max-w-[440px] h-auto
+                  px-[30px] py-[35px]
+                  rounded-[20px] border border-blue-light-active
+                  bg-grey-light
+                  relative
+                "
+              >
+                <div className="absolute top-[-1px] left-[-1px] z-10">
+                  <div className="w-[80px] h-[80px] rounded-tl-[20px] rounded-br-[20px] bg-blue-light-active flex items-center justify-center text-white text-[40px]">
+                    {store.rank}
+                  </div>
+                </div>
+
+                <div className="mt-[37.5px] flex justify-center items-center w-[120px] h-[120px] p-[28px_31px] gap-[14px] rounded-[20px] bg-grey-light shadow-normal">
+                  <store.icon className="w-full h-full" />
+                </div>
+
+                <h4 className="mt-[28px] text-center text-h4 text-grey-darker">{store.title}</h4>
+
+                <div className="mt-[12px] flex items-center justify-center">
+                  <span className="text-center typo-p2-semibold bg-gra2-right bg-clip-text text-transparent">
+                    AI 분석 유사도
+                  </span>
+                  <div className="ml-[12px] flex px-[12px] py-[4px] justify-center items-center gap-[10px] rounded-[20px] border border-blue-normal">
+                    <span className="text-center typo-p2-semibold bg-gra2-right bg-clip-text text-transparent">
+                      {store.similarity}%
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-[28px] flex flex-wrap justify-center items-center gap-[8px] w-full">
+                  {store.tags.map((tag, index) => (
+                    <div key={index} className="px-[10px] py-[4px] rounded-[4px] bg-blue-light">
+                      <span className="text-blue-dark typo-p2-medium text-center block">{tag}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-[28px] w-full flex justify-center overflow-hidden">
+                  <LineDotIcon className="w-full h-auto" />
+                </div>
+
+                <div className="mt-[28px] w-full max-w-[221px] min-h-[48px] flex px-[24px] py-[10px] justify-center items-center gap-[10px] rounded-[8px] bg-gra2-right mx-auto">
+                  <span className="text-blue-light text-center typo-p1-bold whitespace-nowrap">
+                    {store.solutionTitle}
+                  </span>
+                </div>
+
+                <p className="mt-[16px] text-grey-dark text-center typo-p2-medium">
+                  {store.description}
+                </p>
+
+                <Button
+                  variant="outline"
+                  className="mt-[34px] w-full max-w-[252px] h-[44px] bg-grey-light border-grey-normal text-grey-dark gap-[4px] mx-auto"
+                >
+                  이 가게의 AI 분석 리포트 보기
+                  <ArrowGray className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div className="h-[clamp(40px,10vw,100px)]" />
       </div>
