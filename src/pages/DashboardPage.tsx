@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { getSimilarStores } from '@/apis/analysis/analysis';
+import { useAppQuery } from '@/apis/apiHooks';
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
-import LineIcon from '@/assets/icons/Line/Line.svg?react';
-import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import ClickIcon from '@/assets/icons/Dashboard/click.svg?react';
-import LineDotIcon from '@/assets/icons/Dashboard/line_dot.svg?react';
 import DashboardIcon1 from '@/assets/icons/Dashboard/dashboard_1.svg?react';
 import DashboardIcon2 from '@/assets/icons/Dashboard/dashboard_2.svg?react';
 import DashboardIcon3 from '@/assets/icons/Dashboard/dashboard_3.svg?react';
 import DashboardIconN from '@/assets/icons/Dashboard/dashboard_n.svg?react';
+import LineDotIcon from '@/assets/icons/Dashboard/line_dot.svg?react';
+import LineIcon from '@/assets/icons/Line/Line.svg?react';
+import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import { Button } from '@/components/ui/Button';
-import { useAppQuery } from '@/apis/apiHooks';
-import { getSimilarStores } from '@/apis/analysis/analysis';
 import { useActionPlans, useCatchphrase, useSwots } from '@/hooks/analysis';
 import useAuthStore from '@/store/useAuthStore';
 import type { GetSimilarStoresResponse } from '@/types/analysis.type';
