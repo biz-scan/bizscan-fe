@@ -295,7 +295,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        <div className="h-[clamp(40px,10vw,100px)]" />
+        <div className="h-[clamp(40px,10vw,240px)]" />
       </div>
     </main>
   );
