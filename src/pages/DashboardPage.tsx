@@ -12,8 +12,11 @@ import DashboardIcon3 from '@/assets/icons/Dashboard/dashboard_3.svg?react';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import SwotCard from '@/components/DashboardPage/SwotCard';
 import { Button } from '@/components/ui/Button';
+import { useAppQuery } from '@/apis/apiHooks';
+import { getSimilarStores } from '@/apis/analysis/analysis';
 import { useActionPlans, useCatchphrase, useSwots } from '@/hooks/analysis';
 import useAuthStore from '@/store/useAuthStore';
+import type { GetSimilarStoresResponse } from '@/types/analysis.type';
 
 const SWOT_TITLES = {
   S: 'Strengths',
@@ -22,38 +25,7 @@ const SWOT_TITLES = {
   T: 'Threats',
 };
 
-const SIMILAR_STORES = [
-  {
-    id: 1,
-    rank: 1,
-    icon: DashboardIcon1,
-    title: '성수동의 한식 전문점',
-    similarity: 92,
-    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
-    solutionTitle: '성수동 직장인 회식 1타',
-    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
-  },
-  {
-    id: 2,
-    rank: 2,
-    icon: DashboardIcon2,
-    title: '성수동의 한식 전문점',
-    similarity: 92,
-    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
-    solutionTitle: '성수동 직장인 회식 1타',
-    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
-  },
-  {
-    id: 3,
-    rank: 3,
-    icon: DashboardIcon3,
-    title: '성수동의 한식 전문점',
-    similarity: 92,
-    tags: ['#업종 유사', '#타겟 고객 유사', '#SWOT 강점 유사'],
-    solutionTitle: '성수동 직장인 회식 1타',
-    description: "퇴근길 직장인 타겟 '오늘의 메뉴' 할인 프로모션",
-  },
-];
+const DASHBOARD_ICONS = [DashboardIcon1, DashboardIcon2, DashboardIcon3];
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -96,6 +68,14 @@ export default function DashboardPage() {
   } = useActionPlans(storeId as number);
   const actionPlans = actionPlanResponse?.result || [];
   const mainSolution = actionPlans[0];
+
+  const { data: similarStoresResponse, isLoading: isSimilarLoading } =
+    useAppQuery<GetSimilarStoresResponse>(
+      ['similarStores', storeId],
+      () => getSimilarStores(storeId as number),
+      { enabled: !!storeId }
+    );
+  const similarStores = similarStoresResponse?.result || [];
 
   return (
     <main className="w-full min-h-screen bg-grey-light">
@@ -225,74 +205,98 @@ export default function DashboardPage() {
             나와 <span className="text-blue-dark">비슷한 AI 분석 결과</span>를 가진 가게들이에요!
           </h3>
 
-          <div className="mt-[64px] grid grid-cols-1 lg:grid-cols-3 gap-[20px]">
-            {SIMILAR_STORES.map((store) => (
-              <div
-                key={store.id}
-                className="
-                  flex flex-col items-center
-                  w-full max-w-[440px] h-auto
-                  px-[30px] py-[35px]
-                  rounded-[20px] border border-blue-light-active
-                  bg-grey-light
-                  relative
-                "
-              >
-                <div className="absolute top-[-1px] left-[-1px] z-10">
-                  <div className="w-[80px] h-[80px] rounded-tl-[20px] rounded-br-[20px] bg-blue-light-active flex items-center justify-center text-white text-[40px]">
-                    {store.rank}
-                  </div>
-                </div>
-
-                <div className="mt-[37.5px] flex justify-center items-center w-[120px] h-[120px] p-[28px_31px] gap-[14px] rounded-[20px] bg-grey-light shadow-normal">
-                  <store.icon className="w-full h-full" />
-                </div>
-
-                <h4 className="mt-[28px] text-center text-h4 text-grey-darker">{store.title}</h4>
-
-                <div className="mt-[12px] flex items-center justify-center">
-                  <span className="text-center typo-p2-semibold bg-gra2-right bg-clip-text text-transparent">
-                    AI 분석 유사도
-                  </span>
-                  <div className="ml-[12px] flex px-[12px] py-[4px] justify-center items-center gap-[10px] rounded-[20px] border border-blue-normal">
-                    <span className="text-center typo-p2-semibold bg-gra2-right bg-clip-text text-transparent">
-                      {store.similarity}%
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-[28px] flex flex-wrap justify-center items-center gap-[8px] w-full">
-                  {store.tags.map((tag, index) => (
-                    <div key={index} className="px-[10px] py-[4px] rounded-[4px] bg-blue-light">
-                      <span className="text-blue-dark typo-p2-medium text-center block">{tag}</span>
+          {isSimilarLoading ? (
+            <div className="mt-[64px] flex h-64 w-full items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          ) : similarStores.length > 0 ? (
+            <div className="mt-[64px] grid grid-cols-1 lg:grid-cols-3 gap-[20px]">
+              {similarStores.map((store, index) => {
+                const IconComponent = DASHBOARD_ICONS[index % DASHBOARD_ICONS.length];
+                return (
+                  <div
+                    key={store.storeId}
+                    className="
+                      relative flex h-auto w-full max-w-[440px]
+                      flex-col items-center rounded-[20px] border
+                      border-blue-light-active bg-grey-light px-[30px] py-[35px]
+                    "
+                  >
+                    <div className="absolute top-[-1px] left-[-1px] z-10">
+                      <div className="flex h-[80px] w-[80px] items-center justify-center rounded-br-[20px] rounded-tl-[20px] bg-blue-light-active text-[40px] text-white">
+                        {store.rank}
+                      </div>
                     </div>
-                  ))}
-                </div>
 
-                <div className="mt-[28px] w-full flex justify-center overflow-hidden">
-                  <LineDotIcon className="w-full h-auto" />
-                </div>
+                    <div className="mt-[37.5px] flex h-[120px] w-[120px] items-center justify-center gap-[14px] rounded-[20px] bg-grey-light p-[28px_31px] shadow-normal">
+                      <IconComponent className="h-full w-full" />
+                    </div>
 
-                <div className="mt-[28px] w-full max-w-[221px] min-h-[48px] flex px-[24px] py-[10px] justify-center items-center gap-[10px] rounded-[8px] bg-gra2-right mx-auto">
-                  <span className="text-blue-light text-center typo-p1-bold whitespace-nowrap">
-                    {store.solutionTitle}
-                  </span>
-                </div>
+                    <h4 className="mt-[28px] text-center text-h4 text-grey-darker">
+                      {store.storeTitle}
+                    </h4>
 
-                <p className="mt-[16px] text-grey-dark text-center typo-p2-medium">
-                  {store.description}
-                </p>
+                    <div className="mt-[12px] flex items-center justify-center">
+                      <span className="bg-gra2-right bg-clip-text text-center text-transparent typo-p2-semibold">
+                        AI 분석 유사도
+                      </span>
+                      <div className="ml-[12px] flex items-center justify-center gap-[10px] rounded-[20px] border border-blue-normal px-[12px] py-[4px]">
+                        <span className="bg-gra2-right bg-clip-text text-center text-transparent typo-p2-semibold">
+                          {store.similarityPercent}%
+                        </span>
+                      </div>
+                    </div>
 
-                <Button
-                  variant="outline"
-                  className="mt-[34px] w-full max-w-[252px] h-[44px] bg-grey-light border-grey-normal text-grey-dark gap-[4px] mx-auto"
-                >
-                  이 가게의 AI 분석 리포트 보기
-                  <ArrowGray className="w-4 h-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
+                    <div className="mt-[28px] flex w-full flex-wrap items-center justify-center gap-[8px]">
+                      {store.hashTags.map((tag, tagIndex) => (
+                        <div
+                          key={tagIndex}
+                          className="rounded-[4px] bg-blue-light px-[10px] py-[4px]"
+                        >
+                          <span className="block text-center text-blue-dark typo-p2-medium">
+                            {tag}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-[28px] flex w-full justify-center overflow-hidden">
+                      <LineDotIcon className="h-auto w-full" />
+                    </div>
+
+                    <div className="mx-auto mt-[28px] flex min-h-[48px] w-full max-w-[221px] items-center justify-center gap-[10px] rounded-[8px] bg-gra2-right px-[24px] py-[10px]">
+                      <span className="whitespace-nowrap text-center text-blue-light typo-p1-bold">
+                        {store.catchphrase}
+                      </span>
+                    </div>
+
+                    <p className="mt-[16px] text-center text-grey-dark typo-p2-medium">
+                      {store.actionPlanSummary}
+                    </p>
+
+                    <Button
+                      variant="outline"
+                      className="mx-auto mt-[34px] h-[44px] w-full max-w-[252px] gap-[4px] border-grey-normal bg-grey-light text-grey-dark"
+                      onClick={() =>
+                        navigate(`/report?storeId=${store.storeId}`, {
+                          state: { storeTitle: store.storeTitle },
+                        })
+                      }
+                    >
+                      이 가게의 AI 분석 리포트 보기
+                      <ArrowGray className="h-4 w-4" />
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-[64px] flex h-64 w-full items-center justify-center rounded-lg border-2 border-dashed border-grey-normal/20 bg-white/50">
+              <p className="text-grey-normal typo-p1-medium">
+                비슷한 가게 추천을 불러올 수 없습니다.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="h-[clamp(40px,10vw,100px)]" />

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import LineIcon from '@/assets/icons/Line/Line.svg?react';
 import SimbolLogo from '@/assets/icons/Logo/Simbol.svg?react';
@@ -18,9 +18,11 @@ const SWOT_TITLES = {
 
 export default function ReportPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const { user } = useAuthStore();
-  const storeId = user?.storeId;
+  const urlStoreId = searchParams.get('storeId');
+  const storeId = urlStoreId ? Number(urlStoreId) : user?.storeId;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,7 +31,9 @@ export default function ReportPage() {
   const selectedType = searchParams.get('type') as 'S' | 'W' | 'O' | 'T' | null;
 
   const handleCardClick = (type: 'S' | 'W' | 'O' | 'T') => {
-    setSearchParams({ type });
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('type', type);
+    setSearchParams(newSearchParams, { state: location.state });
   };
 
   // SWOT 목록 조회
