@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import useAuthStore from '@/store/useAuthStore';
 import { toast } from 'sonner';
 
 import ArrowWhite from '@/assets/icons/Arrow/white.svg?react';
@@ -16,7 +17,15 @@ import { usePostActionNote } from '@/hooks/note';
 
 export default function SolutionDetailPage() {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const { user } = useAuthStore();
+
+  const urlStoreId = searchParams.get('storeId');
+
   const navigate = useNavigate();
+
+  const isMyStorePlan = user && urlStoreId && Number(urlStoreId) === user.storeId;
+
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -155,16 +164,20 @@ export default function SolutionDetailPage() {
             )}
           </div>
 
-          <Button
-            variant="default"
-            size="lg"
-            className="mt-[52px] self-end flex items-center gap-[44px]"
-            onClick={handleAddToNote}
-            disabled={isAdding || isLoading}
-          >
-            <span className="typo-p1-bold">{isAdding ? '담는 중...' : '내 실행 노트에 담기'}</span>
-            <ArrowWhite className="w-[24px] h-[24px] flex-shrink-0" />
-          </Button>
+          {isMyStorePlan && (
+            <Button
+              variant="default"
+              size="lg"
+              className="mt-[52px] self-end flex items-center gap-[44px]"
+              onClick={handleAddToNote}
+              disabled={isAdding || isLoading}
+            >
+              <span className="typo-p1-bold">
+                {isAdding ? '담는 중...' : '내 실행 노트에 담기'}
+              </span>
+              <ArrowWhite className="w-[24px] h-[24px] flex-shrink-0" />
+            </Button>
+          )}
         </section>
 
         <div className="h-[clamp(100px,15vw,241px)]" />

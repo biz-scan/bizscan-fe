@@ -22,7 +22,7 @@ export default function ReportPage() {
 
   const { user } = useAuthStore();
   const urlStoreId = searchParams.get('storeId');
-  const storeId = urlStoreId ? Number(urlStoreId) : user?.storeId;
+  const storeId = urlStoreId ? Number(urlStoreId) : (user?.storeId ?? undefined);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -133,7 +133,6 @@ export default function ReportPage() {
                   <LoadingSpinner />
                 </div>
               ) : actionPlans.length > 0 ? (
-                /* 데이터가 있을 때 */
                 <div className="flex flex-col animate-in fade-in duration-500">
                   {actionPlans.map((item) => (
                     <SolutionCard
@@ -141,6 +140,7 @@ export default function ReportPage() {
                       id={String(item.actionPlanId)}
                       title={item.title}
                       tags={item.tags.map((t) => t.content)}
+                      storeId={storeId}
                     />
                   ))}
                 </div>

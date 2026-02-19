@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-
 import ArrowGray from '@/assets/icons/Arrow/gray.svg?react';
 import { Button } from '@/components/ui/Button';
 
@@ -7,17 +6,19 @@ interface SolutionCardProps {
   id: string;
   title: string;
   tags: string[];
+  storeId?: number;
 }
 
-export default function SolutionCard({ id, title, tags }: SolutionCardProps) {
+export default function SolutionCard({ id, title, tags, storeId }: SolutionCardProps) {
   const navigate = useNavigate();
 
   const handleDetailClick = () => {
-    navigate(`/solution/${id}`);
+    const queryString = storeId ? `?storeId=${storeId}` : '';
+    navigate(`/solution/${id}${queryString}`);
   };
 
   return (
-    <div className="w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-[0_4px_20px_0_rgba(49,49,49,0.08)] px-[clamp(20px,5vw,48px)] py-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+    <div className="w-full max-w-[1348px] mx-auto rounded-[20px] bg-grey-light shadow-normal px-[clamp(20px,5vw,48px)] py-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
       <div className="flex flex-col gap-[16px]">
         <p className="typo-lead-semibold text-grey-darker">{title}</p>
 
