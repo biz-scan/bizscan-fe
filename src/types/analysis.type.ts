@@ -80,13 +80,7 @@ export interface SimilarStore {
   storeId: number;
 }
 
-export interface GetSimilarStoresResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: SimilarStore[];
-}
-
+export type GetSimilarStoresResponse = CommonResponse<SimilarStore[]>;
 export type PostAnalysisResponse = CommonResponse<AnalysisRequestResult>;
 export type GetAnalysisStatusResponse = CommonResponse<AnalysisStatusInfo>;
 export type GetSwotsResponse = CommonResponse<SwotItem[]>;
