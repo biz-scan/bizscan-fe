@@ -70,6 +70,17 @@ export interface ActionPlanDetailResult {
   actionDetails: ActionDetail[];
 }
 
+export interface SimilarStore {
+  rank: number;
+  storeTitle: string;
+  similarityPercent: number;
+  hashTags: string[];
+  catchphrase: string;
+  actionPlanSummary: string;
+  storeId: number;
+}
+
+export type GetSimilarStoresResponse = CommonResponse<SimilarStore[]>;
 export type PostAnalysisResponse = CommonResponse<AnalysisRequestResult>;
 export type GetAnalysisStatusResponse = CommonResponse<AnalysisStatusInfo>;
 export type GetSwotsResponse = CommonResponse<SwotItem[]>;

@@ -8,6 +8,7 @@ import type {
   GetSwotsResponse,
   PostAnalysisRequest,
   PostAnalysisResponse,
+  GetSimilarStoresResponse,
 } from '@/types/analysis.type';
 
 // 매장 AI 분석 요청
@@ -72,6 +73,14 @@ export const getActionPlanDetail = async (actionPlanId: number) => {
   if (!actionPlanId) return null;
   const response = await axiosInstance.get<GetActionPlanDetailResponse>(
     `/api/analysis/action-plans/${actionPlanId}`
+  );
+  return response.data;
+};
+
+// 유사 매장 추천 조회
+export const getSimilarStores = async (storeId: number) => {
+  const response = await axiosInstance.get<GetSimilarStoresResponse>(
+    `/api/ai-vector/recommend/${storeId}`
   );
   return response.data;
 };
